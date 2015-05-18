@@ -1,0 +1,31 @@
+{
+  "name": "Uniformity",
+  "version": "0.0.0",
+  "description": "First attempt at creating a dynamic website with a MEAN stack. 'npm install -g node-gyp' may be needed",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "Uniformity",
+    "CMS"
+  ],
+  "author": "Matthew Davis - Apocist <apocist@yahoo.com> (http://inverseinnovations.com/)",
+  "license": "LGPL",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "http://inverseinnovations.com",
+  "dependencies": {
+    "body-parser": "^1.12.4",
+    "express": "^4.12.3",
+    "mongoose": "^4.0.2",
+    "mongoose-auto-increment": "^4.0.0",
+    "mongoose-schema-extend": "^0.1.7",
+    "swig": "^1.4.2"
+  }
+}
