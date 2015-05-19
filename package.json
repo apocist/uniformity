@@ -22,7 +22,7 @@
   "homepage": "http://inverseinnovations.com",
   "dependencies": {
     "body-parser": "^1.12.4",
-	"bson-ext": "^0.1.7"
+	"bson-ext": "^0.1.7",
     "express": "^4.12.3",
     "mongoose": "^4.0.2",
     "mongoose-auto-increment": "^4.0.0",
