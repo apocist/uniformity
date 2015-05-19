@@ -22,7 +22,7 @@ $ npm install
 
 ## Usage
 
-**NOTE** It is very important a Mongo Database is running before starting the uniformity service.
+**NOTE** It is very important that a Mongo Database is running before starting the uniformity service.
 
 ```sh
 $ node server
