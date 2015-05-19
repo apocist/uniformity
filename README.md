@@ -5,7 +5,7 @@ After pulling the package from Github.
 ```sh
 $ npm install
 ```
-
+**NOTE** For future commits, any *minor* version updates may require a `npm install`. Until v1, all updates will not be considered backwards-compatible.
 ## Dependencies
 
 #####Included
@@ -19,6 +19,7 @@ $ npm install
 
 #####Needed to install seperately
 - [Mongo Database](https://www.mongodb.org/)
+- [node-gyp](https://www.npmjs.com/package/node-gyp) (see notes)
 
 ## Usage
 
