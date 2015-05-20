@@ -9,8 +9,9 @@ var mongoose = require('mongoose'),
 
 var RoutableSchema = new Schema({
 	name: String,
+	hid: { type : Number, required : false, unique : false },
 	route: { type : Schema.ObjectId, ref : 'Route' },
-	created : { type : Date, default : Date.now },
+	created : { type : Date, default : Date.now }
 },
 {
 	collection: 'routes'//TODO need to prevent this from creating a collection

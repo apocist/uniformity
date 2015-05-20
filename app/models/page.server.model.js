@@ -1,9 +1,10 @@
+//noinspection JSUnusedGlobalSymbols
 var mongoose = require('mongoose'),
 	extend = require('mongoose-schema-extend'),
 	routable = mongoose.model('Routable').schema;
 	
 var PageSchema = routable.extend({
-	content: String,
+	content: String
 },
 {
 	collection: 'pages'

@@ -8,7 +8,7 @@ exports.error404 = function(req, res) {
 	if (req.accepts('html')) {
 		var template_data = {
 			url: req.url
-		}
+		};
 
 		res.render('404', template_data);
 		return;
@@ -47,7 +47,7 @@ exports.routeByID = function(req, res, next) {
 	}
 	if(!isNaN(url)){
 		Route.findOne({
-				_id: url
+				hid: url
 			}, 
 			function(err, route) {
 				exports.getObj(req, res, next, err, route);
@@ -76,4 +76,4 @@ exports.getObj = function(req, res, next, err, route) {
 		}else{return next();}
 	}
 	else{return next(err);}
-}
+};

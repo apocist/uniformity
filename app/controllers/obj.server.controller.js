@@ -29,7 +29,7 @@ exports.create = function(req, res, next) {
 								}
 								else {
 									var route = new Route({
-										_id: obj.hid,
+										hid: obj.hid,
 										url: url,
 										type: obj.constructor.modelName,
 										object: obj._id
