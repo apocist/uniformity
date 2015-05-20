@@ -4,6 +4,7 @@ var config = require('./config/config'),
 	mongoose = require('./config/mongoose'),
 	express = require('./config/express');
 
+//noinspection JSUnusedGlobalSymbols
 var db = mongoose(),
 	app = express();
 	

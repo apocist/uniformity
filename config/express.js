@@ -1,3 +1,4 @@
+//noinspection JSUnusedGlobalSymbols
 var config = require('./config'),
 	express = require('express'),
 	bodyParser = require('body-parser'),
