@@ -1,11 +1,15 @@
-var obj = require('../controllers/obj.server.controller');
+var routable = require('../controllers/routable.server.controller');
 var routing = require('../controllers/route.server.controller');
 
 module.exports = function(app) {
-	app.route('/create').post(obj.create);//works for creating page in POST
-	app.route('/list/:obj').post(obj.create).get(obj.list);//works for both creating in POST and listings obj in public
-	app.route('*').all(routing.routeByURL);//gets a route by friendly url
-	app.route('*').all(routing.routeByID);//gets a route by hid
+	//noinspection JSUnresolvedFunction
+	app.route('/routable')
+		.post(routable.create)//works for creating routable in POST
+		.delete(routable.remove);//works for deleting routable in DELETE
+	app.route('/list/:obj').get(routable.list);//works for listings obj in public
+	app.route('*')
+		.all(routing.routeByURL)//gets a route by friendly url
+		.all(routing.routeByID);//gets a route by hid
 
 	app.use(routing.error404);
 

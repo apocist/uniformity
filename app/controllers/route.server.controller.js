@@ -16,7 +16,7 @@ exports.error404 = function(req, res) {
 
 	// respond with json
 	if (req.accepts('json')) {
-		res.send({ error: 'Not found' });
+		res.json({ error: 'Not found' });
 		return;
 	}
 
