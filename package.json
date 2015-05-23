@@ -4,7 +4,7 @@
   "description": "First attempt at creating a dynamic website with a MEAN stack. 'npm install -g node-gyp' may be needed",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Warning: no tests setup yet\" && exit 0"
   },
   "repository": {
     "type": "git",
