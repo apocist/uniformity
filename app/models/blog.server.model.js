@@ -12,5 +12,14 @@ var BlogSchema = routable.extend({
 }
 );
 
+BlogSchema.post('remove', function(results, next) {
+	console.log("additional cleanup");//TODO remove from parent list
+	next();
+});
+BlogSchema.post('findOneAndRemove', function(results, next) {
+	console.log("additional cleanup");//TODO remove from parent list
+	next();
+});
+
 BlogSchema.statics.controller = "blog.server.controller";
 mongoose.model('Blog', BlogSchema);

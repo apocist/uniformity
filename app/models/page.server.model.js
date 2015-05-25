@@ -11,5 +11,7 @@ var PageSchema = routable.extend({
 }
 );
 
+
+
 PageSchema.statics.controller = "page.server.controller";
 mongoose.model('Page', PageSchema);
