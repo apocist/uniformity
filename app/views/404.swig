@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{% extends 'base.swig' %}
 
 {% block title %}File not found{% endblock %}
 

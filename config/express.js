@@ -13,10 +13,10 @@ module.exports = function() {
 
 	app.use(bodyParser.json());
 	
-	app.engine('html', swig.renderFile);
+	app.engine('swig', swig.renderFile);
 	
     app.set('views', './app/views');
-	app.set('view engine', 'html');
+	app.set('view engine', 'swig');
 
 	// Swig will cache templates for you, but you can disable
 	// that and use Express's caching instead, if you like:
