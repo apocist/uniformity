@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
 	Route = mongoose.model('Route');
-//TODO need to let each routable model define how to Delete/Create themselves(override or create a delete function)
+//maybe handle with pre and post hooks
+
 //creates a routable object
 exports.create = function(req, res) {
 	if(req.body.type){//Type is case sensitive
@@ -39,7 +40,7 @@ exports.create = function(req, res) {
 												else {res.json({error: "Error Creating Route"});}
 											});
 										}
-										else{
+										else{//all good
 											res.json(obj);
 										}
 									});
@@ -62,23 +63,10 @@ exports.remove = function(req, res) {
 			var objModel = mongoose.model(req.body.type);
 			if (objModel.schema.statics.routable) {//makes sure this is a routable obj
 				objModel
-					.findOneAndRemove({hid :req.body.hid})
-					.populate('route')
-					.exec(function(err, obj) {
+					.findOneAndRemove({hid :req.body.hid}, function(err) {
 						if (err) {res.json({success: false, error: "Error Searching Obj"});}
-						else if (obj) {
-							if(obj.route) {
-								obj.route.remove(function (err) {
-										if (err) {
-											res.json({success: true, route: false, error: "Error Searching Route"});
-										}
-										else {
-											res.json({success: true, route: true});
-										}
-									}
-								);
-							}
-							else{res.json({success: true, route: false});}
+						else{
+							res.json({success: true});
 						}
 					});
 			}else {	res.json({success: false, error: "Type not routable"});}
@@ -100,7 +88,7 @@ exports.list = function(req, res, next) {
 	}else{next();}
 };
 
-exports.getObjByHid = function(hid, objType, next) {//req, res, next, err, route) {
+/*exports.getObjByHid = function(hid, objType, next) {//req, res, next, err, route) {
 	if(mongoose.modelNames().indexOf(objType) >= 0){
 		var obj = mongoose.model(objType);
 		obj.findOne({
@@ -111,5 +99,5 @@ exports.getObjByHid = function(hid, objType, next) {//req, res, next, err, route
 				return next(err, objData);
 			}
 		);
-	}else{return next();}//TODO make error
-};
+	}else{return next();}
+};*/
