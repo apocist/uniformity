@@ -1,4 +1,6 @@
 # uniformity
+
+[![Join the chat at https://gitter.im/apocist/uniformity](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/apocist/uniformity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 First attempts at a CMS
 ## Install
 After pulling the package from Github.
