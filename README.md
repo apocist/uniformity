@@ -1,13 +1,17 @@
-# uniformity
+# uniformity [![Join the chat at https://gitter.im/apocist/uniformity](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/apocist/uniformity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Join the chat at https://gitter.im/apocist/uniformity](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/apocist/uniformity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 First attempts at a CMS
+
 ## Install
+
 After pulling the package from Github.
+
 ```sh
 $ npm install
 ```
-**NOTE** For future commits, any *minor* version updates may require a `npm install`. Until v1, all updates will not be considered backwards-compatible.
+
+**NOTE**: Any *minor* version updates may require a `npm install` to acquire the latest libraries. During Alpha stages, updates will not be considered backwards-compatible.
+
 ## Dependencies
 
 #####Included
@@ -25,16 +29,18 @@ $ npm install
 
 ## Usage
 
-**NOTE** It is very important that a Mongo Database is running before starting the uniformity service.
+**NOTE**: A Mongo Database is required before starting the uniformity service.
 
 ```sh
-$ node server
+$ npm start
 ```
 
-Depending on the setting configured, service will state that it is running on the set port.
+The service will then state it is running on the port configured in `/config/env/development.js`.
 
 ## Notes
+
 It has been known that on Windows platforms, it may be necessary to install [node-gyp](https://www.npmjs.com/package/node-gyp) globally with:
+
 ```sh
 $ npm install -g node-gyp
 ```
