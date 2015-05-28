@@ -2,11 +2,13 @@ var routable = require('../controllers/routable.server.controller');
 var routing = require('../controllers/route.server.controller');
 
 module.exports = function(app) {
-	//noinspection JSUnresolvedFunction
-	app.route('/routable')
+	//noinspection JSUnresolvedFunction,JSCheckFunctionSignatures
+	app.route('/routable/:type')
 		.post(routable.create)//works for creating routable in POST
+		.put(routable.update)//works for creating routable in POST
 		.delete(routable.remove);//works for deleting routable in DELETE
-	app.route('/list/:obj').get(routable.list);//works for listings obj in public
+	app.route('/routable/:type/list').get(routable.listByType);//works for listings objs
+	app.route('/routable/:type/get/:hid').get(routable.getObjByHid);//works for grabbing certain obj
 	app.route('*')
 		.all(routing.routeByURL)//gets a route by friendly url
 		.all(routing.routeByID);//gets a route by hid
