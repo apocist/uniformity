@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
 	
 
 var RoutableSchema = new Schema({
-	name: String,
+	name: { type : String, required : true},
 	hid: { type : Number, required : false, unique : false },
 	route: { type : Schema.ObjectId, ref : 'Route' },
 	created : { type : Date, default : Date.now },
