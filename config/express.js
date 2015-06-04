@@ -2,7 +2,8 @@
 var config = require('./config'),
 	express = require('express'),
 	bodyParser = require('body-parser'),
-	swig = require('swig');
+	swig = require('swig'),
+	vhost = require('vhost');
 	
 module.exports = function() {
     var app = express();
@@ -25,9 +26,12 @@ module.exports = function() {
 	swig.setDefaults({ cache: false });
 	// NOTE: You should always cache templates in a production environment.
 	// Don't leave both of these to `false` in production!
-	
-	app.use(express.static('./public'));
-	
+
+	//separate the static folders away from admin
+	app.use(vhost('admin.*.*', express.static('./static/admin')));
+	app.use(vhost('*.*', express.static('./static/public')));
+
+	require('../app/routes/admin.server.routes.js')(app);
     require('../app/routes/index.server.routes.js')(app);
 	require('../app/routes/main.server.routes.js')(app);
 
