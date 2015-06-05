@@ -85,7 +85,7 @@
                 className: 'page',
                 //attributes:{'style':'clear:both;padding:5px;margin-top:10px;'},
                 events: {
-                    'click span.delete': 'remove'
+                    'click span.delete_button': 'remove'
                 },
                 initialize: function(){
                     _.bindAll(this, 'render', 'unrender', 'remove'); // every function that uses 'this' as the current object should be in here
