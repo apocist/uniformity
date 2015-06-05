@@ -1,0 +1,37 @@
+
+#pagelist {
+    float: left;
+    clear: left;
+    width: 39%;
+}
+#pagelist .page {
+    clear: both;
+    padding: 5px;
+    margin-top: 10px;
+}
+#pagelist .page .page_data{
+    float: left;
+}
+#pagelist .page .url{
+    float: left;
+}
+#pagelist .page .content{
+    float: left;
+}
+#pagelist .page .delete_container {
+    float: right;
+    margin-top: -21px;
+    margin-right: -10px;
+    background-color: #FFF;
+    border: 1px solid #AAA;
+}
+#pagelist .page .delete_container .delete_button {
+    cursor: pointer;
+    color: #F00;
+    font-family: sans-serif;
+    line-height: 0.5;
+}
+#creator {
+    width: 59%;
+    float: right;
+}
