@@ -49,6 +49,16 @@ RoutableSchema.post('remove', function(results, next) {
 	next();
 });
 
+RoutableSchema.statics.formschema = {
+	name: {
+		type : 'TextField',
+		tooltip : 'Title'
+	},
+	url: {
+		type : 'TextField',
+		tooltip : 'Route Url'
+	}
+};
 RoutableSchema.statics.routable = true;
 RoutableSchema.statics.controller = "SOMETHING.server.controller";//to be set by routable model
 RoutableSchema.plugin(autoIncrement.plugin, { model: 'Route', field: 'hid', startAt: 100 });

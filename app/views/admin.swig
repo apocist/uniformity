@@ -11,7 +11,7 @@
     <script >
         $(document).ready(function(){
             //var routablePanel =
-                    new RoutablePanel();
+                    new RoutablePanel({{ formSchema|json|raw }});
         });
     </script>
 {% endblock %}

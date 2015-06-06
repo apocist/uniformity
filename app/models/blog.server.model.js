@@ -21,5 +21,15 @@ BlogSchema.post('findOneAndRemove', function(results, next) {
 	next();
 });
 
+BlogSchema.statics.formschema = {
+	content: {
+		type : 'TextField',
+		tooltip : 'Blog Content'
+	},
+	posted: {
+		type : 'DateField',
+		tooltip : 'Date Posted'
+	}
+};
 BlogSchema.statics.controller = "blog.server.controller";
 mongoose.model('Blog', BlogSchema);

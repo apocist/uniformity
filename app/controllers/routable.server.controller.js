@@ -119,3 +119,26 @@ exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
 		}else{res.json({error: "Type not routable"});}
 	}else{res.json({error: "Type not a Model"});}
 };
+
+exports.getRoutableFormSchema = function() {
+	var formSchema = {
+		routable: mongoose.model('Routable').schema.statics.formschema,
+		routables: {}
+	};
+	for(var key in mongoose.models) {
+		if (mongoose.models.hasOwnProperty(key)) {
+			if(mongoose.models[key].schema.statics.routable && mongoose.models[key].modelName != 'Routable'){
+				Object.defineProperty(formSchema.routables, mongoose.models[key].modelName, {
+					value: {
+						modelName: mongoose.models[key].modelName,
+						formSchema: mongoose.models[key].schema.statics.formschema
+					},
+					writable: true,
+					enumerable: true,
+					configurable: true
+				});
+			}
+		}
+	}
+	return formSchema;
+};

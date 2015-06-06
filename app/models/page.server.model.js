@@ -12,6 +12,11 @@ var PageSchema = routable.extend({
 );
 
 
-
+PageSchema.statics.formschema = {
+	content: {
+		type : 'TextField',
+		tooltip : 'Page Content'
+	}
+};
 PageSchema.statics.controller = "page.server.controller";
 mongoose.model('Page', PageSchema);

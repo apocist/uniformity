@@ -1,5 +1,5 @@
-var RoutablePanel = function(){
-
+var RoutablePanel = function(formSchema){
+	//formSchema will be an object that lists off all the routables and their possible form setup
 	var Routable = Backbone.Model.extend({
 		url: '/routable/Page',
 		defaults: {
