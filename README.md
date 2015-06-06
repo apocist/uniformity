@@ -21,7 +21,8 @@ $ npm install
 - [mongoose](https://www.npmjs.com/package/mongoose)
 - [mongoose-auto-increment](https://www.npmjs.com/package/mongoose-auto-increment)
 - [mongoose-schema-extend](https://www.npmjs.com/package/mongoose-schema-extend)
-- [swig](https://www.npmjs.com/package/exprswigess)
+- [swig](https://www.npmjs.com/package/swig)
+- [vhost](https://www.npmjs.com/package/vhost)
 
 #####Needed to install seperately
 - [Mongo Database](https://www.mongodb.org/)
