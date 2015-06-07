@@ -7,7 +7,7 @@
   {% block head %}
   {% endblock %}
 </head>
-<body>
+<body {% block attributes %}{% endblock %}>
   {% block content %}{% endblock %}
 </body>
 </html>
