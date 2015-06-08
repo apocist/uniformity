@@ -62,7 +62,7 @@
                                             <a href="#">
                                                 <div class="pull-left">
                                                     <!-- User Image -->
-                                                    <img src="dist/img/user2-160x160.jpg" class="img-circle"
+                                                    <img src="/img/user2-160x160.jpg" class="img-circle"
                                                          alt="User Image"/>
                                                 </div>
                                                 <!-- Message title and timestamp -->
@@ -149,14 +149,14 @@
                             <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
-                                <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                                <img src="/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs">Alexander Pierce</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
-                                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                                    <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
 
                                     <p>
                                         Alexander Pierce - Web Developer
@@ -203,7 +203,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                        <img src="/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
                     </div>
                     <div class="pull-left info">
                         <p>Alexander Pierce</p>
@@ -261,7 +261,19 @@
             <!-- Main content -->
             <section class="content">
 
-                <!-- Your Page Content Here -->
+                <button id="refresh" style="float:left;">Refresh</button>
+
+                <div id="pagelist"></div>
+
+                <form id="creator">
+                    <fieldset>
+                        <legend>New Page</legend>
+                        <input type="text" name="name" placeholder="Page Name" required/>
+                        <input type="text" name="content" placeholder="Page Content" required/>
+                        <input type="text" name="url" placeholder="Route Url" required/>
+                        <input type="button" id="post_routable" value="Create Page"/>
+                    </fieldset>
+                </form>
 
             </section>
             <!-- /.content -->
@@ -275,7 +287,7 @@
                 Anything you want
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2015 <a href="https://github.com/apocist/uniformity">Uniformity</a> Open Source Project.</strong> All rights reserved.
         </footer>
 
         <!-- Control Sidebar -->
@@ -354,18 +366,6 @@
              immediately after the control sidebar -->
         <div class='control-sidebar-bg'></div>
     </div><!-- ./wrapper -->
-
-    <button id="refresh" style="float:left;">Refresh</button>
-    <div id="pagelist"></div>
-    <form id="creator">
-        <fieldset>
-            <legend>New Page</legend>
-            <input type="text" name="name" placeholder="Page Name" required/>
-            <input type="text" name="content" placeholder="Page Content" required/>
-            <input type="text" name="url" placeholder="Route Url" required/>
-            <input type="button" id="post_routable" value="Create Page"/>
-        </fieldset>
-    </form>
 
     <!-- Add Scripts to the Bottom of the Page to load faster -->
 
