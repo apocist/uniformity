@@ -1,7 +1,9 @@
 var RoutablePanel = function(formSchema){
 	//formSchema will be an object that lists off all the routables and their possible form setup
 	var Routable = Backbone.Model.extend({
-		url: '/routable/Page',
+		url: function () {
+			return '/routable/' + this.collection.modelName;
+		},
 		defaults: {
 			name: '',
 			content: '',
@@ -9,7 +11,7 @@ var RoutablePanel = function(formSchema){
 		},
 		create: function (collection) {
 			var self = this;
-
+			self.collection = collection;
 			this.fetch({
 				type: 'POST',
 				data: self.attributes,
@@ -52,10 +54,15 @@ var RoutablePanel = function(formSchema){
 
 	var RoutableCollection = Backbone.Collection.extend({
 		model: Routable,
-		url: '/routable/Page/list',
+		modelName: '',//dynamic
+		url: function () {
+			return '/routable/' + this.modelName + '/list';
+		},
+		initialize: function (models,options) {
+			this.modelName = (options||{}).modelName || "Page";
+		},
 		refresh: function () {
 			var self = this;
-
 			this.fetch({
 				reset: true,
 				success: function (collection, response, options) {
@@ -65,7 +72,7 @@ var RoutablePanel = function(formSchema){
 					}
 				},
 				error: function (collection, response, options) {
-					console.log("fetch error");
+					console.log("fetch error",response);
 				}
 			});
 		}
@@ -86,7 +93,6 @@ var RoutablePanel = function(formSchema){
 			this.model.bind('remove', this.unrender);
 		},
 		remove: function () {
-			//this.model.destroy();
 			this.model.remove();
 		},
 		render: function () {
@@ -113,10 +119,10 @@ var RoutablePanel = function(formSchema){
 			'click button#refresh': 'refresh',
 			'click input#post_routable': 'create'
 		},
-		initialize: function () {
+		initialize: function (options) {
 			_.bindAll(this, 'render', 'appendRoutable'); // every function that uses 'this' as the current object should be in here
 
-			this.collection = new RoutableCollection();
+			this.collection = new RoutableCollection([],{modelName: (options||{}).modelName});
 			this.collection.bind('add', this.appendRoutable); // collection event binder
 			this.collection.bind('reset', this.clear); // collection event binder
 
@@ -136,20 +142,18 @@ var RoutablePanel = function(formSchema){
 			$('div#pagelist', this.el).empty();
 		},
 		create: function () {
-			console.log("creating routable");
-			//var page = new Page();
 			var arr = $('form#creator', this.el).serializeArray();
 			var data = _(arr).reduce(function (acc, field) {
 				acc[field.name] = field.value;
 				return acc;
 			}, {});
 			new Routable(data).create(this.collection);
-			console.log("created?");
 			//$('#name').val('');$('#content').val('');$('#url').val('');
+			//TODO clear the form
 		},
 		refresh: function () {
 			this.collection.refresh();
 		}
 	});
-	return new RoutableCollectionView();
+	return new RoutableCollectionView({modelName: 'Page'});
 };
