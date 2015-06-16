@@ -17,9 +17,7 @@ var RoutablePanel = function(formSchema){
 				data: self.attributes,
 				success: function (response, options) {
 					if (!response.error) {
-						//routable was saved
 						console.log(response);
-						//console.log(collection.models);
 						collection.add(response);
 					}
 					else {
@@ -122,7 +120,7 @@ var RoutablePanel = function(formSchema){
 		initialize: function (options) {
 			_.bindAll(this, 'render', 'appendRoutable'); // every function that uses 'this' as the current object should be in here
 
-			this.collection = new RoutableCollection([],{modelName: (options||{}).modelName});
+			this.collection = new RoutableCollection([], options);
 			this.collection.bind('add', this.appendRoutable); // collection event binder
 			this.collection.bind('reset', this.clear); // collection event binder
 
@@ -155,5 +153,5 @@ var RoutablePanel = function(formSchema){
 			this.collection.refresh();
 		}
 	});
-	return new RoutableCollectionView({modelName: 'Page'});
+	return new RoutableCollectionView({modelName: 'Blog'});
 };
