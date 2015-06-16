@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block content %}
+    <div id="routabletypelist"></div>
     <button id="refresh" style="float:left;">Refresh</button>
     <div id="pagelist"></div>
     <form id="creator">
