@@ -1,4 +1,29 @@
 
+#routabletypelist .routabletype {
+    float: left;
+    width: 75px;
+    margin: 2px;
+    text-align: center;
+    background-color: #CCC;
+    border: 1px solid;
+}
+#routabletypelist .routabletype:hover {
+    background-color: #DDD;
+}
+#routabletypelist .routabletype:active {
+    background-color: #EEE;
+}
+#routabletypelist .routabletype[data-routeTypeSelection='selected'] {
+    background-color: #666;
+    color: #EEE;
+}
+#routabletypelist .routabletype[data-routeTypeSelection='selected']:hover {
+    background-color: #999;
+    color: #FFF;
+}
+#routabletypelist .routabletype[data-routeTypeSelection='selected']:active {
+    background-color: #BBB;
+}
 #pagelist {
     float: left;
     clear: left;

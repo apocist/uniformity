@@ -1,5 +1,5 @@
 var RoutablePanel = function(formSchema){
-	formSchema = $.parseJSON( formSchema );
+	formSchema = $.parseJSON( formSchema );//TODO will make this it's own API call later
 	//formSchema will be an object that lists off all the routables and their possible form setup
 	var Routable = Backbone.Model.extend({
 		url: function () {
@@ -55,13 +55,13 @@ var RoutablePanel = function(formSchema){
 		url: '',
 		initialize: function (options) {
 			//this.set(options);
+			//console.log("creating "+(options||{}).modelName);
 			this.modelName = (options||{}).modelName;
 			//this.forumSchema = (options||{}).forumSchema;
-			this.routableCollection = new RoutableCollection([], {modelName: this.modelName});
+			this.routableCollection = new RoutableCollectionView({modelName: this.modelName});
 		},
 		refreshType: function () {
-			console.log("refreshing RoutableType "+this.modelName);
-			this.routableCollection.refresh();//TODO this is not performing the render
+			this.routableCollection.refresh();
 		}
 	});
 
@@ -95,14 +95,14 @@ var RoutablePanel = function(formSchema){
 		model: RoutableType,
 		forumSchema: '',//dynamic
 		url: '',
-		initialize: function (schema) {
+		initialize: function (models, schema) {
 			this.forumSchema = schema;
 		},
 		init: function () {
 			for(var routable in this.forumSchema.routables){
-				//console.log(this.forumSchema.routables[routable]);
 				this.add(new RoutableType(this.forumSchema.routables[routable]))
 			}
+			//this.first().refresh();//Load the first model
 		}
 	});
 
@@ -145,8 +145,8 @@ var RoutablePanel = function(formSchema){
 		el: $('body'), // el attaches to existing element
 		elList: 'div#pagelist',
 		events: {
-			'click button#refresh': 'refresh',
-			'click input#post_routable': 'create'
+			//'click button#refresh': 'refresh',
+			'click input#post_routable': 'create'//TODO need this to be instance based
 		},
 		initialize: function (options) {
 			_.bindAll(this, 'render', 'loadCollection', 'appendRoutable', 'clear', 'create', 'refresh'); // every function that uses 'this' as the current object should be in here
@@ -161,7 +161,7 @@ var RoutablePanel = function(formSchema){
 			this.collection.bind('add', this.appendRoutable); // collection event binder
 			this.collection.bind('reset', this.clear); // collection event binder
 
-			//this.refresh();//TODO makes last Collection render
+			//this.refresh();//TODO makes all Collections render(need to atleast render one)
 
 		},
 		render: function () {
@@ -193,14 +193,15 @@ var RoutablePanel = function(formSchema){
 	var RoutableTypeView = Backbone.View.extend({
 		tagName: 'div', // name of tag to be created
 		className: 'routabletype',
-		attributes:{'style':'border: 1px solid;width: 75px;text-align: center;float: left;margin: 2px;'},
+		//attributes:{'style':'border: 1px solid;width: 75px;text-align: center;float: left;margin: 2px;'},
 		events: {
-			'click': 'refreshType'
+			'click': 'selectType'
 		},
 		initialize: function () {
-			_.bindAll(this, 'render', 'unrender', 'refreshType'); // every function that uses 'this' as the current object should be in here
+			_.bindAll(this, 'render', 'unrender', 'refreshType', 'selectType', 'unselectTypes'); // every function that uses 'this' as the current object should be in here
 
 			this.model.bind('change', this.render);
+
 		},
 		render: function () {
 			$(this.el).html(
@@ -211,9 +212,21 @@ var RoutablePanel = function(formSchema){
 		unrender: function () {
 			$(this.el).remove();
 		},
+		selectType: function () {
+			this.unselectTypes();
+			$(this.el).attr("data-routeTypeSelection", "selected");
+			this.refreshType();
+		},
+		unselectTypes: function () {//Should be in RoutableTypeCollectionView, but need a good way to access it
+			$('[data-routeTypeSelection]').each(function(index, value) {
+				$(this).removeAttr('data-routeTypeSelection');
+			});
+		},
 		refreshType: function () {
-			console.log("refreshType clicked");
 			this.model.refreshType();
+		},
+		test: function () {
+			console.log("testing");
 		}
 	});
 	var RoutableTypeCollectionView = Backbone.View.extend({
@@ -222,7 +235,7 @@ var RoutablePanel = function(formSchema){
 		initialize: function (schema) {
 			_.bindAll(this, 'render', 'appendRoutableType', 'clear');// every function that uses 'this' as the current object should be in here
 
-			this.collection = new RoutableTypeCollection(schema);
+			this.collection = new RoutableTypeCollection([],schema);
 			this.collection.bind('add', this.appendRoutableType);
 
 			this.collection.init();
