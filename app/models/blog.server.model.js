@@ -23,11 +23,13 @@ BlogSchema.post('findOneAndRemove', function(results, next) {
 
 BlogSchema.statics.formschema = {
 	content: {
-		type : 'TextField',
+		title: 'Blog Content',
+		type : 'string',
 		tooltip : 'Blog Content'
 	},
 	posted: {
-		type : 'DateField',
+		title: 'Date Posted',
+		type : 'string',
 		tooltip : 'Date Posted'
 	}
 };

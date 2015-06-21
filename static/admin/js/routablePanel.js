@@ -97,9 +97,11 @@ var RoutablePanel = function(formSchema){
 		url: '',
 		initialize: function (models, schema) {
 			this.forumSchema = schema;
+
 		},
 		init: function () {
 			for(var routable in this.forumSchema.routables){
+				console.log(this.forumSchema.routables[routable]);
 				this.add(new RoutableType(this.forumSchema.routables[routable]))
 			}
 			//this.first().refresh();//Load the first model
