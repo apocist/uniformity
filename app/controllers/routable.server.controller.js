@@ -120,18 +120,22 @@ exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
 	}else{res.json({error: "Type not a Model"});}
 };
 
-exports.getRoutableFormSchema = function() {
-	var formSchema = {
-		routable: mongoose.model('Routable').schema.statics.formschema,
-		routables: {}
-	};
+exports.getRoutableFormSchema = function() {//TODO make this an api call
+	var standardProperties = mongoose.model('Routable').schema.statics.formschema;
+	var formSchema = {};
 	for(var key in mongoose.models) {
 		if (mongoose.models.hasOwnProperty(key)) {
 			if(mongoose.models[key].schema.statics.routable && mongoose.models[key].modelName != 'Routable'){
-				Object.defineProperty(formSchema.routables, mongoose.models[key].modelName, {
+				var routeSchema = JSON.parse(JSON.stringify(standardProperties));//Clone object
+				for (var property in mongoose.models[key].schema.statics.formschema) {//Combine schemas
+					if (mongoose.models[key].schema.statics.formschema.hasOwnProperty(property)) {
+						routeSchema[property] = mongoose.models[key].schema.statics.formschema[property];
+					}
+				}
+				Object.defineProperty(formSchema, mongoose.models[key].modelName, {
 					value: {
 						modelName: mongoose.models[key].modelName,
-						formSchema: mongoose.models[key].schema.statics.formschema
+						formSchema: routeSchema
 					},
 					writable: true,
 					enumerable: true,
