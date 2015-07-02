@@ -53,13 +53,13 @@ RoutableSchema.statics.formschema = {
 	name: {
 		title : 'Name',
 		type : 'string',
-		tooltip : 'Title',
+		placeholder : 'Title',
 		required : true
 	},
 	url: {
 		title : 'Route URL',
 		type : 'string',
-		tooltip : 'Route Url'
+		placeholder : 'Route Url'
 	}
 };
 RoutableSchema.statics.routable = true;

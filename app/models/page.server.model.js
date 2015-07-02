@@ -16,7 +16,7 @@ PageSchema.statics.formschema = {
 	content: {
 		title : 'Page Content',
 		type : 'string',
-		tooltip : 'Page Content'
+		placeholder : 'Page Content'
 	}
 };
 PageSchema.statics.controller = "page.server.controller";

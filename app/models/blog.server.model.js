@@ -25,12 +25,12 @@ BlogSchema.statics.formschema = {
 	content: {
 		title: 'Blog Content',
 		type : 'string',
-		tooltip : 'Blog Content'
+		placeholder : 'Blog Content'
 	},
 	posted: {
 		title: 'Date Posted',
 		type : 'string',
-		tooltip : 'Date Posted'
+		placeholder : 'Date Posted'
 	}
 };
 BlogSchema.statics.controller = "blog.server.controller";

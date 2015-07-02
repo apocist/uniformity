@@ -13,10 +13,15 @@
     <script type="text/javascript" src="/js/jsonform/dep/jsv.js"></script>{#https://github.com/garycourt/JSV#}
     <script type="text/javascript" src="/js/jsonform/jsonform.js"></script>
     <script type="text/javascript" src="/js/routablePanel.js"></script>
+    <script type="text/javascript" src="/js/jsonFormCreator.js"></script>
     <script >
         $(document).ready(function(){
             //var routablePanel =
-                    new RoutablePanel({{ formSchema|json|raw }});
+                new RoutablePanel({{ formSchema|json|raw }});
+
+                //this will be done in RoutablePanel
+                var formSchema = $.parseJSON( {{ formSchema|json|raw }} );//
+                jsonFormCreator($('form'),formSchema['Blog'].formSchema);
         });
     </script>
 {% endblock %}
@@ -39,7 +44,7 @@
 
     <div id="res" class="alert" style="clear:both;"></div>
     <form id="jsonform"></form>
-    <script type="text/javascript">
+    {#<script type="text/javascript">
         $('form').jsonForm({
             schema: {
                 name: {
@@ -52,7 +57,7 @@
                     title: 'Age'
                 }
             },
-            "form": [
+            form: [
                 {
                     "key": "name",
                     "placeholder": "your Name"
@@ -75,6 +80,6 @@
                 }
             }
         });
-        </script>
+    </script>#}
 
 {% endblock %}
