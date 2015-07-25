@@ -16,6 +16,7 @@ PageSchema.statics.formschema = {
 	content: {
 		title : 'Page Content',
 		type : 'string',
+		formtype: 'textarea',
 		placeholder : 'Page Content'
 	}
 };

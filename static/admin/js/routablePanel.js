@@ -1,6 +1,9 @@
 var RoutablePanel = function(formSchema){
 	formSchema = $.parseJSON( formSchema );//TODO will make this it's own API call later
 	//formSchema will be an object that lists off all the routables and their possible form setup
+
+
+
 	var Routable = Backbone.Model.extend({
 		url: function () {
 			return '/routable/' + this.collection.modelName;
@@ -72,7 +75,7 @@ var RoutablePanel = function(formSchema){
 			return '/routable/' + this.modelName + '/list';
 		},
 		initialize: function (models,options) {
-			this.modelName = (options||{}).modelName || "Page";
+			this.modelName = (options||{}).modelName || "Page";//Todo Unknown
 		},
 		refresh: function () {
 			var self = this;
@@ -149,6 +152,7 @@ var RoutablePanel = function(formSchema){
 		events: {
 			//'click button#refresh': 'refresh',
 			'click input#post_routable': 'create'//TODO need this to be instance based
+			//'click input.btn_primary': 'create'//TODO need rename
 		},
 		initialize: function (options) {
 			_.bindAll(this, 'render', 'loadCollection', 'appendRoutable', 'clear', 'create', 'refresh'); // every function that uses 'this' as the current object should be in here
@@ -257,5 +261,12 @@ var RoutablePanel = function(formSchema){
 		}
 	});
 
+	//Load js if not already
+	if (typeof(jsonFormCreator) !== typeof(Function)) {
+		$.loadScript('/js/jsonFormCreator.js', function () {
+			jsonFormCreator($('#creator'), formSchema['Blog'].formSchema);
+		});
+	}
+	else{jsonFormCreator($('#creator'), formSchema['Blog'].formSchema);}
 	return new RoutableTypeCollectionView(formSchema);
 };

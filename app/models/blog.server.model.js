@@ -25,6 +25,7 @@ BlogSchema.statics.formschema = {
 	content: {
 		title: 'Blog Content',
 		type : 'string',
+		formtype: 'textarea',
 		placeholder : 'Blog Content'
 	},
 	posted: {

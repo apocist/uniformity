@@ -4,24 +4,25 @@
 
 {% block head %}
     <link rel="stylesheet" type="text/css" href="/css/admin.css">
-    <link rel="stylesheet" style="text/css" href="/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+
     {#<script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>#}{#1.8.2#}
     {#jsonform is incompatible with underscore 1.8, the jsonform-dev branch works with 1.8, but wait until required field is fixed#}
     <script type="text/javascript" src="http://documentcloud.github.io/underscore/underscore-min.js"></script>{#1.5.02#}
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="http://backbonejs.org/backbone-min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/jsonform/dep/jsv.js"></script>{#https://github.com/garycourt/JSV#}
     <script type="text/javascript" src="/js/jsonform/jsonform.js"></script>
     <script type="text/javascript" src="/js/routablePanel.js"></script>
-    <script type="text/javascript" src="/js/jsonFormCreator.js"></script>
+    {#<script type="text/javascript" src="/js/jsonFormCreator.js"></script>#}
     <script >
-        $(document).ready(function(){
-            //var routablePanel =
-                new RoutablePanel({{ formSchema|json|raw }});
 
-                //this will be done in RoutablePanel
-                var formSchema = $.parseJSON( {{ formSchema|json|raw }} );//
-                jsonFormCreator($('form'),formSchema['Blog'].formSchema);
+
+        $(document).ready(function(){
+
+            new RoutablePanel({{ formSchema|json|raw }});
+
         });
     </script>
 {% endblock %}
@@ -31,19 +32,18 @@
     {#<button id="refresh" style="float:left;">Refresh</button>#}
     <div id="pagelist"></div>
 
-    {#<form id="creator">
-        <fieldset>
-            <legend>New Page</legend>
-            <input type="text" name="name" placeholder="Page Name" required />
-            <input type="text" name="content" placeholder="Page Content" required />
-            <input type="text" name="url" placeholder="Route Url" required />
-            <input type="button" id="post_routable" value="Create Page" />
-        </fieldset>
-
-    </form>#}
+    <form id="creator">
+    {#<fieldset>
+        <legend>New Page</legend>
+        <input type="text" name="name" placeholder="Page Name" required />
+        <input type="text" name="content" placeholder="Page Content" required />
+        <input type="text" name="url" placeholder="Route Url" required />
+        <input type="button" id="post_routable" value="Create Page" />
+    </fieldset>#}
+    </form>
 
     <div id="res" class="alert" style="clear:both;"></div>
-    <form id="jsonform"></form>
+    {#<form id="jsonform"></form>#}
     {#<script type="text/javascript">
         $('form').jsonForm({
             schema: {
