@@ -31,6 +31,8 @@ BlogSchema.statics.formschema = {
 	posted: {
 		title: 'Date Posted',
 		type : 'string',
+		formtype: 'date',//TODO testing - only works in chrome
+		format: 'date',//TODO testing - only works in chrome
 		placeholder : 'Date Posted'
 	}
 };

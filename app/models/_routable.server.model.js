@@ -59,6 +59,8 @@ RoutableSchema.statics.formschema = {
 	url: {
 		title : 'Route URL',
 		type : 'string',
+		formtype: 'url',//TODO testing - only works in chrome
+		format: 'url',//TODO testing - only works in chrome
 		placeholder : 'Route Url'
 	}
 };

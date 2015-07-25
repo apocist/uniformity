@@ -4,9 +4,25 @@
  * @param formSchema the schema object provided by server
  */
 var jsonFormCreator = function(formElement, formSchema){
-	var formProperties = [//Form visual options to search for
+	var formProperties = [//Form visual options to search for to put in the form object
 		'formtype',
-		'placeholder'
+		'placeholder',
+		'step',
+		'aceMode',
+		'aceTheme',
+		'width',
+		'height'/*,
+		'inlinetitle',
+		'titleMap',
+		'imageWidth',
+		'imageHeight',
+		'imageButtonClass',
+		'imagePrefix',
+		'imageSuffix',
+		'imageSelectorColumn',
+		'imageSelectorTitle',
+		'expandable',
+		'items'*/
 	];
 
 	//Converts variables from schema to the form object
