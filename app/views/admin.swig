@@ -12,16 +12,15 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="http://backbonejs.org/backbone-min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/jsonform/dep/jsv.js"></script>{#https://github.com/garycourt/JSV#}
-    <script type="text/javascript" src="/js/jsonform/jsonform.js"></script>
     <script type="text/javascript" src="/js/routablePanel.js"></script>
-    {#<script type="text/javascript" src="/js/jsonFormCreator.js"></script>#}
     <script >
 
 
         $(document).ready(function(){
 
-            new RoutablePanel({{ formSchema|json|raw }});
+            //$.loadScriptsIfNeeded(typeof(RoutablePanel) === typeof(Function), '/js/routablePanel.js', function () {
+                new RoutablePanel({{ formSchema|json|raw }});
+            //});
 
         });
     </script>

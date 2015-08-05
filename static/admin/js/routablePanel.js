@@ -261,12 +261,9 @@ var RoutablePanel = function(formSchema){
 		}
 	});
 
-	//Load js if not already
-	if (typeof(jsonFormCreator) !== typeof(Function)) {
-		$.loadScript('/js/jsonFormCreator.js', function () {
-			jsonFormCreator($('#creator'), formSchema['Blog'].formSchema);
-		});
-	}
-	else{jsonFormCreator($('#creator'), formSchema['Blog'].formSchema);}
+	$.loadScriptsIfNeeded(typeof(jsonFormCreator) === typeof(Function), '/js/jsonFormCreator.js', function () {
+		new jsonFormCreator($('#creator'), formSchema['Blog'].formSchema);
+	});
+
 	return new RoutableTypeCollectionView(formSchema);
 };
