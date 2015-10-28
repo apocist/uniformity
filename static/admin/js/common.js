@@ -37,13 +37,18 @@ jQuery.loadScripts = function (urls, callback, callbackfail) {
  * Will only load script(s) if the needed function is not yet loaded
  * @function
  * @param boolean check if function is ready
- * @param url script url to load, may use Array of strings to load multiple scripts
+ * @param url script url to load, may use Array of strings to load multiple scripts(scripts always being loaded in order)
  * @param callback action to perform once loaded or if already loaded
  * @param callbackfail action to perform is script failed to load
  Example:
-	$.loadScriptIfNeeded($.fn.jsonForm !== "undefined", '/js/jsonform/jsonform.js', function () {
-		doSomethingOnceReady();
-	});
+	$.loadScriptIfNeeded(typeof(jsonForm) === typeof(Function), '/js/jsonform/jsonform.js',
+		function () {
+			doSomethingOnceReady();
+		},
+		function () {
+			console.log("Script not and unable to load");
+		}
+    );
  */
 jQuery.loadScriptsIfNeeded = function (boolean, url, callback, callbackfail) {
 	if(boolean) {//already loaded
