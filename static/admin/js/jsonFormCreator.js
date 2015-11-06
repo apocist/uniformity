@@ -3,6 +3,8 @@
  * @class
  */
 var jsonFormCreator = Class({
+	modelName: '',
+	modelInstance: '',
 	/** Form visual options to search for when generating form(buildForm) */
 	formProperties: [
 		'formtype',//converted
@@ -39,16 +41,23 @@ var jsonFormCreator = Class({
 	 * @param formElement the div to set html into
 	 * @param formSchema the schema object provided by server
 	 */
-	initialize: function(formElement, formSchema){
+	initialize: function(formElement, formSchemaObj){
 		var that = this;
 		$.loadScriptsIfNeeded($.fn.jsonForm, ['/js/jsonform/dep/jsv.js','/js/jsonform/jsonform.js'], function () {
-			that.formSchema = formSchema;
+			that.formSchema = formSchemaObj.formSchema;
+			if(formSchemaObj.hasOwnProperty('modelName')){
+				that.modelName = formSchemaObj.modelName;
+			}
+			if(formSchemaObj.hasOwnProperty('modelInstance')){
+				that.modelInstance = formSchemaObj.modelInstance;
+			}
 
 			that.buildForm();
 
 			that.addButtons();
 
 			that.finalize(formElement);
+			console.log(that);
 		});
 	},
 	/**
@@ -60,9 +69,10 @@ var jsonFormCreator = Class({
 		this.form[this.form.length] = {//TODO need more options
 			"title": "Submit",
 			"type": "button",
+			"htmlClass": "post_routable"+ (this.modelInstance ? "_"+this.modelInstance : ""),
 			"onClick": function (evt) {
 				evt.preventDefault();//stops from auto submitting
-				alert('Do something!');
+				//alert('Do something!');
 			}
 		};
 	},

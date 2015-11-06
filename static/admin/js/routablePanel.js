@@ -60,8 +60,9 @@ var RoutablePanel = function(formSchema){
 			//this.set(options);
 			//console.log("creating "+(options||{}).modelName);
 			this.modelName = (options||{}).modelName;
+			this.modelInstance = (options||{}).modelInstance;
 			//this.forumSchema = (options||{}).forumSchema;
-			this.routableCollection = new RoutableCollectionView({modelName: this.modelName});
+			this.routableCollection = new RoutableCollectionView({modelName: this.modelName, modelInstance: this.modelInstance});
 		},
 		refreshType: function () {
 			this.routableCollection.refresh();
@@ -149,17 +150,25 @@ var RoutablePanel = function(formSchema){
 	var RoutableCollectionView = Backbone.View.extend({
 		el: $('body'), // el attaches to existing element
 		elList: 'div#pagelist',
-		events: {
-			//'click button#refresh': 'refresh',
-			'click input#post_routable': 'create'//TODO need this to be instance based
-			//'click input.btn_primary': 'create'//TODO need rename
-		},
+		events: {},//events must set in initEvents ONLY
 		initialize: function (options) {
+			this.initEvents(options);
+
 			_.bindAll(this, 'render', 'loadCollection', 'appendRoutable', 'clear', 'create', 'refresh'); // every function that uses 'this' as the current object should be in here
 
 			this.loadCollection(options);
 
 			this.render();
+		},
+		initEvents: function (options) {
+			var that = this;
+			that.events = {};
+
+			//Prep the Submit button
+			var submitButton = 'click button.post_routable'+ ((options||{}).modelInstance ? '_'+(options||{}).modelInstance : '');
+			that.events[submitButton] = 'create';
+
+			this.delegateEvents(this.events);
 		},
 		loadCollection: function (options) {
 
@@ -262,7 +271,7 @@ var RoutablePanel = function(formSchema){
 	});
 
 	$.loadScriptsIfNeeded(typeof(jsonFormCreator) === typeof(Function), '/js/jsonFormCreator.js', function () {
-		new jsonFormCreator($('#creator'), formSchema['Blog'].formSchema);
+		new jsonFormCreator($('#creator'), formSchema['Blog']);
 	});
 
 	return new RoutableTypeCollectionView(formSchema);

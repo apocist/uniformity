@@ -155,6 +155,7 @@ exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
 };
 
 exports.getRoutableFormSchema = function() {//TODO make this an api call
+	var uuid = require('node-uuid');
 	var standardProperties = mongoose.model('Routable').schema.statics.formschema;
 	var formSchema = {};
 	for(var key in mongoose.models) {
@@ -169,6 +170,7 @@ exports.getRoutableFormSchema = function() {//TODO make this an api call
 				Object.defineProperty(formSchema, mongoose.models[key].modelName, {
 					value: {
 						modelName: mongoose.models[key].modelName,
+						modelInstance: uuid.v4(),
 						formSchema: routeSchema
 					},
 					writable: true,
