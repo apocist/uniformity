@@ -1,6 +1,9 @@
 var RoutablePanel = function(formSchema){
 	formSchema = $.parseJSON( formSchema );//TODO will make this it's own API call later
 	//formSchema will be an object that lists off all the routables and their possible form setup
+
+
+
 	var Routable = Backbone.Model.extend({
 		url: function () {
 			return '/routable/' + this.collection.modelName;
@@ -57,8 +60,9 @@ var RoutablePanel = function(formSchema){
 			//this.set(options);
 			//console.log("creating "+(options||{}).modelName);
 			this.modelName = (options||{}).modelName;
+			this.modelInstance = (options||{}).modelInstance;
 			//this.forumSchema = (options||{}).forumSchema;
-			this.routableCollection = new RoutableCollectionView({modelName: this.modelName});
+			this.routableCollection = new RoutableCollectionView({modelName: this.modelName, modelInstance: this.modelInstance});
 		},
 		refreshType: function () {
 			this.routableCollection.refresh();
@@ -72,7 +76,7 @@ var RoutablePanel = function(formSchema){
 			return '/routable/' + this.modelName + '/list';
 		},
 		initialize: function (models,options) {
-			this.modelName = (options||{}).modelName || "Page";
+			this.modelName = (options||{}).modelName || "Page";//Todo Unknown
 		},
 		refresh: function () {
 			var self = this;
@@ -97,10 +101,12 @@ var RoutablePanel = function(formSchema){
 		url: '',
 		initialize: function (models, schema) {
 			this.forumSchema = schema;
+
 		},
 		init: function () {
-			for(var routable in this.forumSchema.routables){
-				this.add(new RoutableType(this.forumSchema.routables[routable]))
+			for(var routable in this.forumSchema){
+				console.log(this.forumSchema[routable]);
+				this.add(new RoutableType(this.forumSchema[routable]))
 			}
 			//this.first().refresh();//Load the first model
 		}
@@ -144,16 +150,25 @@ var RoutablePanel = function(formSchema){
 	var RoutableCollectionView = Backbone.View.extend({
 		el: $('body'), // el attaches to existing element
 		elList: 'div#pagelist',
-		events: {
-			//'click button#refresh': 'refresh',
-			'click input#post_routable': 'create'//TODO need this to be instance based
-		},
+		events: {},//events must set in initEvents ONLY
 		initialize: function (options) {
+			this.initEvents(options);
+
 			_.bindAll(this, 'render', 'loadCollection', 'appendRoutable', 'clear', 'create', 'refresh'); // every function that uses 'this' as the current object should be in here
 
 			this.loadCollection(options);
 
 			this.render();
+		},
+		initEvents: function (options) {
+			var that = this;
+			that.events = {};
+
+			//Prep the Submit button
+			var submitButton = 'click button.post_routable'+ ((options||{}).modelInstance ? '_'+(options||{}).modelInstance : '');
+			that.events[submitButton] = 'create';
+
+			this.delegateEvents(this.events);
 		},
 		loadCollection: function (options) {
 
@@ -253,6 +268,10 @@ var RoutablePanel = function(formSchema){
 		clear: function () {
 			$(this.elList, this.el).empty();
 		}
+	});
+
+	$.loadScriptsIfNeeded(typeof(jsonFormCreator) === typeof(Function), '/js/jsonFormCreator.js', function () {
+		new jsonFormCreator($('#creator'), formSchema['Blog']);
 	});
 
 	return new RoutableTypeCollectionView(formSchema);

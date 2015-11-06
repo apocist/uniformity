@@ -14,8 +14,10 @@ var PageSchema = routable.extend({
 
 PageSchema.statics.formschema = {
 	content: {
-		type : 'TextField',
-		tooltip : 'Page Content'
+		title : 'Page Content',
+		type : 'string',
+		formtype: 'textarea',
+		placeholder : 'Page Content'
 	}
 };
 PageSchema.statics.controller = "page.server.controller";

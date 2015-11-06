@@ -23,12 +23,17 @@ BlogSchema.post('findOneAndRemove', function(results, next) {
 
 BlogSchema.statics.formschema = {
 	content: {
-		type : 'TextField',
-		tooltip : 'Blog Content'
+		title: 'Blog Content',
+		type : 'string',
+		formtype: 'textarea',
+		placeholder : 'Blog Content'
 	},
 	posted: {
-		type : 'DateField',
-		tooltip : 'Date Posted'
+		title: 'Date Posted',
+		type : 'string',
+		formtype: 'date',//TODO testing - only works in chrome
+		format: 'date',//TODO testing - only works in chrome
+		placeholder : 'Date Posted'
 	}
 };
 BlogSchema.statics.controller = "blog.server.controller";

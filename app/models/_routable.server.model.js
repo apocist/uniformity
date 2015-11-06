@@ -51,12 +51,17 @@ RoutableSchema.post('remove', function(results, next) {
 
 RoutableSchema.statics.formschema = {
 	name: {
-		type : 'TextField',
-		tooltip : 'Title'
+		title : 'Name',
+		type : 'string',
+		placeholder : 'Title',
+		required : true
 	},
 	url: {
-		type : 'TextField',
-		tooltip : 'Route Url'
+		title : 'Route URL',
+		type : 'string',
+		//formtype: 'url',//TODO testing - only works in chrome, also prevents normal strings
+		//format: 'url',//TODO testing - only works in chrome, also prevents normal strings
+		placeholder : 'Route Url'
 	}
 };
 RoutableSchema.statics.routable = true;

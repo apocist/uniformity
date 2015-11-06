@@ -2,7 +2,15 @@ var mongoose = require('mongoose'),
 	Route = mongoose.model('Route');
 //maybe handle with pre and post hooks
 
-//creates a routable object
+/**
+ * creates a routable object
+ * @param req.params.type Model Name
+ * @param req.body
+ * {
+ *  (all properties of model)
+ * }
+ * @param res
+ */
 exports.create = function(req, res) {
 	if(mongoose.modelNames().indexOf(req.params.type) >= 0){//if this model type exists
 		var objType = mongoose.model(req.params.type);
@@ -52,7 +60,16 @@ exports.create = function(req, res) {
 	}else{res.json({error: "Type is not a Model"});}
 };
 
-//updates a routable object
+/**
+ * updates a routable object
+ * @param req.params.type Model Name
+ * @param req.body
+ * {
+ *  hid,
+ *  (all properties of model)
+ * }
+ * @param res
+**/
 exports.update = function(req, res) {
 	if(req.body._id){//Type is case sensitive
 		if(mongoose.modelNames().indexOf(req.params.type) >= 0){//if this model type exists
@@ -71,6 +88,12 @@ exports.update = function(req, res) {
 
 /**
  * Deletes Routables and route and JSON returns results
+ * @param req.params.type Model Name
+ * @param req.body
+ * {
+ *  hid,
+ * }
+ * @param res
  */
 exports.remove = function(req, res) {
 	if(req.body.hid){//Type is case sensitive
@@ -92,6 +115,11 @@ exports.remove = function(req, res) {
 	}else{res.json({error: "No HID specified"});}
 };
 
+/**
+ * Outputs all routables of certain Model
+ * @param req.params.type Model Name
+ * @param res
+ */
 exports.listByType = function(req, res) {
 	if(mongoose.modelNames().indexOf(req.params.type) >= 0){//if this model type exists
 		var objType = mongoose.model(req.params.type);
@@ -102,6 +130,12 @@ exports.listByType = function(req, res) {
 	}else{res.json({error: req.params.obj+" is not a Model"});}
 };
 
+/**
+ * Outputs a single routable
+ * @param req.params.type Model Name
+ * @param req.params.hid Routable ID
+ * @param res
+ */
 exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
 	if(mongoose.modelNames().indexOf(req.params.type) >= 0){
 		var objModel = mongoose.model(req.params.type);
@@ -120,18 +154,24 @@ exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
 	}else{res.json({error: "Type not a Model"});}
 };
 
-exports.getRoutableFormSchema = function() {
-	var formSchema = {
-		routable: mongoose.model('Routable').schema.statics.formschema,
-		routables: {}
-	};
+exports.getRoutableFormSchema = function() {//TODO make this an api call
+	var uuid = require('node-uuid');
+	var standardProperties = mongoose.model('Routable').schema.statics.formschema;
+	var formSchema = {};
 	for(var key in mongoose.models) {
 		if (mongoose.models.hasOwnProperty(key)) {
 			if(mongoose.models[key].schema.statics.routable && mongoose.models[key].modelName != 'Routable'){
-				Object.defineProperty(formSchema.routables, mongoose.models[key].modelName, {
+				var routeSchema = JSON.parse(JSON.stringify(standardProperties));//Clone object
+				for (var property in mongoose.models[key].schema.statics.formschema) {//Combine schemas
+					if (mongoose.models[key].schema.statics.formschema.hasOwnProperty(property)) {
+						routeSchema[property] = mongoose.models[key].schema.statics.formschema[property];
+					}
+				}
+				Object.defineProperty(formSchema, mongoose.models[key].modelName, {
 					value: {
 						modelName: mongoose.models[key].modelName,
-						formSchema: mongoose.models[key].schema.statics.formschema
+						modelInstance: uuid.v4(),
+						formSchema: routeSchema
 					},
 					writable: true,
 					enumerable: true,

@@ -1,4 +1,4 @@
-# uniformity [![Join the chat at https://gitter.im/apocist/uniformity](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/apocist/uniformity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# uniformity [![Build Status](https://travis-ci.org/apocist/uniformity.svg?branch=master)](https://travis-ci.org/apocist/uniformity) [![Join the chat at https://gitter.im/apocist/uniformity](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/apocist/uniformity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 First attempts at a CMS
 
@@ -21,10 +21,11 @@ $ npm install
 - [mongoose](https://www.npmjs.com/package/mongoose)
 - [mongoose-auto-increment](https://www.npmjs.com/package/mongoose-auto-increment)
 - [mongoose-schema-extend](https://www.npmjs.com/package/mongoose-schema-extend)
+- [node-uuid](https://www.npmjs.com/package/node-uuid)
 - [swig](https://www.npmjs.com/package/swig)
 - [vhost](https://www.npmjs.com/package/vhost)
 
-#####Needed to install seperately
+#####Needed to install separately
 - [Mongo Database](https://www.mongodb.org/)
 - [node-gyp](https://www.npmjs.com/package/node-gyp) (see notes)
 
