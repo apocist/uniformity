@@ -1,8 +1,8 @@
-# uniformity [![Build Status](https://travis-ci.org/apocist/uniformity.svg?branch=master)](https://travis-ci.org/apocist/uniformity) [![Join the chat at https://gitter.im/apocist/uniformity](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/apocist/uniformity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# uniformity [![GitHub version](https://badge.fury.io/gh/apocist%2Funiformity.svg)](https://badge.fury.io/gh/apocist%2Funiformity) [![Build Status](https://travis-ci.org/apocist/uniformity.svg?branch=master)](https://travis-ci.org/apocist/uniformity) [![Join the chat at https://gitter.im/apocist/uniformity](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/apocist/uniformity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 First attempts at a CMS
 
-## Install
+## Install 
 
 After pulling the package from Github. 
 
