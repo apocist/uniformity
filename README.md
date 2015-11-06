@@ -4,7 +4,7 @@ First attempts at a CMS
 
 ## Install
 
-After pulling the package from Github.
+After pulling the package from Github. 
 
 ```sh
 $ npm install
