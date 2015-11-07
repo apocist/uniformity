@@ -154,10 +154,14 @@ exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
 	}else{res.json({error: "Type not a Model"});}
 };
 
-exports.getRoutableFormSchema = function() {//TODO make this an api call
+/**
+ * Outputs all Routable Model's modelSchema and formSchema
+ * @return object
+ */
+exports.getRoutableModelSchemas = function() {//TODO make this an api call
 	var uuid = require('node-uuid');
 	var standardProperties = mongoose.model('Routable').schema.statics.formschema;
-	var formSchema = {};
+	var modelSchemas = {};
 	for(var key in mongoose.models) {
 		if (mongoose.models.hasOwnProperty(key)) {
 			if(mongoose.models[key].schema.statics.routable && mongoose.models[key].modelName != 'Routable'){
@@ -167,10 +171,11 @@ exports.getRoutableFormSchema = function() {//TODO make this an api call
 						routeSchema[property] = mongoose.models[key].schema.statics.formschema[property];
 					}
 				}
-				Object.defineProperty(formSchema, mongoose.models[key].modelName, {
+				Object.defineProperty(modelSchemas, mongoose.models[key].modelName, {
 					value: {
 						modelName: mongoose.models[key].modelName,
 						modelInstance: uuid.v4(),
+						objectType: 'modelSchema',
 						formSchema: routeSchema
 					},
 					writable: true,
@@ -180,5 +185,5 @@ exports.getRoutableFormSchema = function() {//TODO make this an api call
 			}
 		}
 	}
-	return formSchema;
+	return modelSchemas;
 };
