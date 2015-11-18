@@ -155,7 +155,7 @@ exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
 };
 
 /**
- * Outputs all Routable Model's modelSchema and formSchema
+ * Outputs all Routable Models' modelSchema and formSchema
  * @return object
  */
 exports.getRoutableModelSchemas = function() {//TODO make this an api call

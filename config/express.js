@@ -32,10 +32,7 @@ module.exports = function() {
 	app.use(vhost('*.*', express.static('./static/public')));
 
 	require('../app/routes/admin.server.routes.js')(app);
-    require('../app/routes/index.server.routes.js')(app);
 	require('../app/routes/main.server.routes.js')(app);
-
-    
 
     return app;
 };
