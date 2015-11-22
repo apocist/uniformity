@@ -69,7 +69,7 @@ var jsonFormCreator = Class({
 		this.form[this.form.length] = {//TODO need more options
 			"title": "Submit",
 			"type": "button",
-			"htmlClass": "post_routable"+ (this.modelInstance ? "_"+this.modelInstance : ""),
+			"htmlClass": "post_routable"+ (this.modelInstance ? "_"+this.modelInstance : ""),//TODO may not be a routable...should rename or give option to define name
 			"onClick": function (evt) {
 				evt.preventDefault();//stops from auto submitting
 				//alert('Do something!');
@@ -99,10 +99,14 @@ var jsonFormCreator = Class({
 			}
 		}
 	},
-	finalize: function(formElement) {
+	finalize: function(formElement) {//FIXME the jsonForm doesnt rest, only adds to the existing form
+		formElement.empty();//clear html
+		//formElement.append("<form id='"+this.modelInstance+"'>");
+		//$('#'+this.modelInstance).jsonForm({
 		formElement.jsonForm({
 			"schema": this.formSchema,
 			"form": this.form,
+			"prefix": this.modelInstance
 			/*onSubmit: function (errors, values) {//TODO need to supply own onSubmit
 			 if (errors) {
 			 console.log(errors);

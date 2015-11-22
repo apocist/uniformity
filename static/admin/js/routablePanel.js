@@ -21,11 +21,11 @@ var RoutablePanel = function(formSchema){
 				data: self.attributes,
 				success: function (response, options) {
 					if (!response.error) {
-						console.log(response);
+						console.log(response);//TODO
 						collection.add(response);
 					}
 					else {
-						console.log(response);
+						console.log(response);//TODO
 					}
 				},
 				error: function (collection, response, options) {
@@ -44,7 +44,7 @@ var RoutablePanel = function(formSchema){
 						self.destroy();
 					}
 					else {
-						console.log(response);
+						console.log(response);//TODO
 					}
 				},
 				error: function (collection, response, options) {
@@ -84,7 +84,7 @@ var RoutablePanel = function(formSchema){
 				reset: true,
 				success: function (collection, response, options) {
 					for (var i = 0, len = response.length; i < len; i++) {
-						console.log(response[i]);
+						//console.log(response[i]);//TODO
 						self.add(new Routable(response[i]))
 					}
 				},
@@ -105,7 +105,7 @@ var RoutablePanel = function(formSchema){
 		},
 		init: function () {
 			for(var routable in this.forumSchema){
-				console.log(this.forumSchema[routable]);
+				//console.log(this.forumSchema[routable]);//TODO
 				this.add(new RoutableType(this.forumSchema[routable]))
 			}
 			//this.first().refresh();//Load the first model
@@ -227,10 +227,18 @@ var RoutablePanel = function(formSchema){
 		unrender: function () {
 			$(this.el).remove();
 		},
+		/**
+		 * Switch between Routable Types to display. This will remove the current list then display a new list.
+		 */
 		selectType: function () {
 			this.unselectTypes();
 			$(this.el).attr("data-routeTypeSelection", "selected");
 			this.refreshType();
+			//TODO this is where the new creator needs to be loaded
+			var that = this;
+			$.loadScriptsIfNeeded(typeof(jsonFormCreator) === typeof(Function), '/js/jsonFormCreator.js', function () {
+				new jsonFormCreator($('#creator'), that.model.attributes);//FIXME doesnt load the form...bad modelName
+			});
 		},
 		unselectTypes: function () {//Should be in RoutableTypeCollectionView, but need a good way to access it
 			$('[data-routeTypeSelection]').each(function(index, value) {
@@ -270,9 +278,10 @@ var RoutablePanel = function(formSchema){
 		}
 	});
 
-	$.loadScriptsIfNeeded(typeof(jsonFormCreator) === typeof(Function), '/js/jsonFormCreator.js', function () {
+	/*$.loadScriptsIfNeeded(typeof(jsonFormCreator) === typeof(Function), '/js/jsonFormCreator.js', function () {
 		new jsonFormCreator($('#creator'), formSchema['Blog']);
-	});
+		console.log(formSchema['Blog']);
+	});*/
 
 	return new RoutableTypeCollectionView(formSchema);
 };
