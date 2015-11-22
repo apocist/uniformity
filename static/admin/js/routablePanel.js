@@ -237,7 +237,7 @@ var RoutablePanel = function(formSchema){
 			//TODO this is where the new creator needs to be loaded
 			var that = this;
 			$.loadScriptsIfNeeded(typeof(jsonFormCreator) === typeof(Function), '/js/jsonFormCreator.js', function () {
-				new jsonFormCreator($('#creator'), that.model.attributes);//FIXME doesnt load the form...bad modelName
+				new jsonFormCreator($('#creator'), that.model.attributes);
 			});
 		},
 		unselectTypes: function () {//Should be in RoutableTypeCollectionView, but need a good way to access it
