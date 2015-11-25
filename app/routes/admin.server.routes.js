@@ -9,11 +9,22 @@ module.exports = function(app) {
 	adminRoute.get('/', adminController.render);
 	adminRoute.route('/routable/:type')
 		.post(routable.create)//works for creating routable in POST
-		.put(routable.update)//works for creating routable in POST
-		.delete(routable.remove);//works for deleting routable in DELETE
-	adminRoute.route('/routable/:type/list').get(routable.listByType);//works for listings objs
-	adminRoute.route('/routable/:type/get/:hid').get(routable.getObjByHid);//works for grabbing certain obj
+		.put(routable.update)//works for updating routable in PUT
+		.delete(routable.remove)//works for deleting routable in DELETE
+		.get(routable.listByType);//works for listings objs TODO for getting a list of objs
+	adminRoute.route('/routable/:type/list').get(routable.listByType);//works for listings objs //TODO to remove
+	adminRoute.route('/routable/:type/get/:hid').get(routable.getObjByHid);//works for grabbing certain obj //TODO to remove
+	adminRoute.route('/routable/:type/:hid').get(routable.getObjByHid);//works for grabbing certain obj TODO new for getting single
 
+
+	//Setup CORS
+	var allowCrossDomain = function(req, res, next) {
+		res.header('Access-Control-Allow-Origin', '*');//TODO need to limit to main domain e.g. http://inin.pw:1337
+		res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+		res.header('Access-Control-Allow-Headers', 'Content-Type');
+		next();
+	}
+	app.use(allowCrossDomain);
 	app.use(vhost('admin.*.*',adminRoute));//admin.something.com
 
 
