@@ -20,7 +20,7 @@ var RoutableEditor = Class({
 		}
 	}),
 	RoutableView: Backbone.View.extend({
-		load: function(eleNameTheme, callback) {//TODO should create the needed field
+		load: function(callback) {//TODO should create the needed field
 			var that = this;
 			that.model.fetch({
 				success: function (routable) {
@@ -39,14 +39,14 @@ var RoutableEditor = Class({
 			baseUrl: (options||{}).baseUrl
 		});
 		that.routableForm = new that.RoutableView({
-			el: (options||{}).formEl,//such as $('#testForm')
+			el: (options||{}).el,//such as $('#content')
 			model: that.routable
 		});
 	},
-	load: function(eleNameTheme) {//TODO should create the needed ford and input field
+	load: function() {//TODO should create the needed form and input field
 		var that = this;
-		that.routableForm.load(eleNameTheme,  function () {
-			that.routableForm.populate(eleNameTheme);//TODO will need to be separate as only 1 field at a time will display
+		that.routableForm.load(function () {
+			that.routableForm.populate(that.routable.routableType);//TODO will need to be separate as only 1 field at a time will display
 		});
 	},
 	save: function() {//FIXME static atm
@@ -69,35 +69,75 @@ var RoutableEditor = Class({
 //Additional functions to Views
 _.extend(Backbone.View.prototype, {
 	//Parses the form into model attributes to SAVE
-	parse: function(objName) {
+	parse: function(routableType) {
 		var self = this,
-			_recurse_form = function(object, objName) {
-				_.each(object, function(v,k) {
-					if (v instanceof Object) {
-						object[k] = _recurse_form(v, objName + '[' + k + '_attributes]');
-					} else {
-						object[k] = self.$('[name="'+ objName + '[' + k + ']"]').val();
-					}
+		_recurse_form = function(object) {
+			if(routableType) {
+				_.each(object, function (v, k) {
+					object[k] = self.$('[data-var="' + k + '"][data-type="' + routableType + '"]').val();
 				});
-				return object;
-			};
-		this.model.attributes = _recurse_form(this.model.attributes, objName);
+			} else {//Be carful not to parse unwanted fields
+				_.each(object, function (v, k) {
+					object[k] = self.$('[data-var="' + k + '"]').val();
+				});
+			}
+			return object;
+		};
+		this.model.attributes = _recurse_form(this.model.attributes);
 	},
 
 	//Displays the currently fetched model in a form
-	populate: function(objName) {
+	populate: function(routableType) {
+		var self = this,
+		_recurse_obj = function(object) {
+			if(routableType){
+				_.each(object, function (v,k) {
+					if(_.isString(v)) {
+						self.$('[data-var="' + k + '"][data-type="' + routableType + '"]').val(v);
+					}
+				});
+			} else {//Shouldn't be used multiple times
+				_.each(object, function (v,k) {
+					if(_.isString(v)) {
+						self.$('[data-var="' + k + '"]').val(v);
+					}
+				});
+			}
+		};
+		_recurse_obj(this.model.attributes);
+		console.log('Populated');//TODO
+	}
+	/*
+	 parse: function(objName) {
+		var self = this,
+		_recurse_form = function(object, objName) {
+			_.each(object, function(v,k) {
+				if (v instanceof Object) {
+					object[k] = _recurse_form(v, objName + '[' + k + '_attributes]');
+				} else {
+					object[k] = self.$('[name="'+ objName + '[' + k + ']"]').val();
+				}
+			});
+			return object;
+		 };
+		 this.model.attributes = _recurse_form(this.model.attributes, objName);
+	 }
+	populate: function(objName, routableType) {
 		var self = this,
 			_recurse_obj = function(object, objName) {
 				_.each(object, function (v,k) {
 					if (v instanceof Object) {
 						_recurse_obj(v, objName + '[' + k + '_attributes]');
 					} else if (_.isString(v)) {
-						self.$('[name="' + objName + '[' + k + ']"]').val(v);
+						if(routableType){
+							self.$('[name="' + objName + '[' + k + ']"][data-type="' + routableType + '"]').val(v);
+						} else{//Shouldn't be used multiple times
+							self.$('[name="' + objName + '[' + k + ']"]').val(v);
+						}
 					}
 				});
 			};
 		_recurse_obj(this.model.attributes, objName);
-		console.log('Populated');//TODO
-	}
+	}*/
 });
 
