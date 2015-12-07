@@ -1,6 +1,6 @@
 var RoutableEditor = Class({
 	routable: null,//current Model
-	routableForm: null,//current Form
+	routableFields: [],//array of views
 
 	RoutableModel: Backbone.Model.extend({
 		baseUrl: '',
@@ -20,13 +20,35 @@ var RoutableEditor = Class({
 		}
 	}),
 	RoutableView: Backbone.View.extend({
-		load: function(callback) {//TODO should create the needed field
+		//TODO need to add events to detect on Enter press and leaving input focus
+		el: null,
+		origEl: null,
+		data_var: '',
+
+		initialize: function(options){
+			this.origEl = (options||{}).origEl;
+			this.data_var = this.origEl.getAttribute("data-var");
+			this.generateForm();
+		},
+		generateForm: function() {
+			var that = this;
+			that.el = $('<input type=text" />').insertAfter($(that.origEl));
+			$(that.el).attr( "data-type", that.model.routableType );
+			$(that.el).attr( "data-var", that.data_var );
+		},
+		load: function(callback) {
 			var that = this;
 			that.model.fetch({
 				success: function (routable) {
+					console.log('view loaded!');
 					callback();
 				}
 			});
+		},
+		populate: function() {
+			var that = this;
+			that.el.val(this.model.attributes[that.data_var]);
+
 		}
 	}),
 
@@ -38,20 +60,32 @@ var RoutableEditor = Class({
 			routableType: (options||{}).routableType,
 			baseUrl: (options||{}).baseUrl
 		});
-		that.routableForm = new that.RoutableView({
-			el: (options||{}).el,//such as $('#content')
-			model: that.routable
+		//console.log('Type is '+that.routable.routableType);
+		$('[data-type="' + that.routable.routableType + '"]').not("input").each(function(){
+			var thatEl  = this;
+			//console.log('create for '+ thatEl.getAttribute("data-var"));
+			that.routableFields.push(
+					new that.RoutableView({
+						origEl: thatEl,
+						model: that.routable
+					})
+			);
 		});
+		//console.log(that.routableFields);
 	},
-	load: function() {//TODO should create the needed form and input field
+	loadAll: function() {//TODO should create the needed form and input field
 		var that = this;
-		that.routableForm.load(function () {
-			that.routableForm.populate(that.routable.routableType);//TODO will need to be separate as only 1 field at a time will display
+		//console.log(that.routableFields);
+		_.each(that.routableFields, function (view) {
+			//console.log(view);
+			view.load(function () {
+				view.populate(that.routable.routableType);//TODO will need to be separate as only 1 field at a time will display
+			});
 		});
 	},
 	save: function() {//FIXME static atm
 		var that = this;
-		//TODO that.routableForm.parse('varname');
+		//TODO that.routableorm.parse('varname');
 		var routableDetails = {
 			id: 0,//remove id for a new entry
 			name: '',
@@ -84,7 +118,7 @@ _.extend(Backbone.View.prototype, {
 			return object;
 		};
 		this.model.attributes = _recurse_form(this.model.attributes);
-	},
+	}/*,
 
 	//Displays the currently fetched model in a form
 	populate: function(routableType) {
@@ -105,8 +139,8 @@ _.extend(Backbone.View.prototype, {
 			}
 		};
 		_recurse_obj(this.model.attributes);
-		console.log('Populated');//TODO
-	}
+		console.log('Populated');
+	}*/
 	/*
 	 parse: function(objName) {
 		var self = this,

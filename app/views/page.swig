@@ -15,7 +15,7 @@
                 baseUrl: 'http://admin.inin.pw:1337',
                 el: $('#page_container'),//The div containing the elements for Page
             });
-            editor.load();//maybe should set to only load a single field
+            editor.loadAll();//maybe should set to only load a single field
         });
         //TODO when initilzing RoutableEditor, the input fields need to be generated
     </script>
@@ -25,10 +25,10 @@
 
 {% block content %}
     <div id="page_container">
-        <h1 data-type="Page" data-var="name">{{ name }}</h1><input type="text" name="name" data-type="Page" data-var="name"/><br/>
+        <h1 data-type="Page" data-var="name">{{ name }}</h1>
         <br/>
         <div id="content" data-type="Page" data-var="content">
             {{ content }}
-        </div><input type="text" name="content" data-type="Page" data-var="content"/>
+        </div>
     </div>
 {% endblock %}
