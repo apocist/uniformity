@@ -12,7 +12,7 @@ var RoutableEditor = Class({
 		},
 		routableType: '',
 		urlRoot: function () {
-			return this.baseUrl + '/routable/' + this.routableType;
+			return this.baseUrl + '/routable/' + this.routableType; //TODO 'may' not always be a routable..later might be a generic object
 		},
 		initialize: function (options) {
 			this.baseUrl = (options||{}).baseUrl;
@@ -20,31 +20,36 @@ var RoutableEditor = Class({
 		}
 	}),
 	RoutableView: Backbone.View.extend({
-		//TODO need to add events to detect on Enter press and leaving input focus
 		el: '<input>',//type="text"
-		attributes: {//Must always reassign this as a new object when init
+		attributes: {//Must always reassign this as a new object when init(make new reference)
 			"type": "text",
 			"data-type": null,
 			"data-var": null
 		},
-		css: {//Must always reassign this as a new object when init
+		css: {//Must always reassign this as a new object when init(make new reference)
 			"display": "block"
 		},
 		origEl: null,
 		visibleState: false,
 
 		initialize: function(options){
-			_.bindAll(this, 'render', 'toggleVisible');
+			_.bindAll(this, 'render', 'toggleVisible', 'hide', 'show');
 			var that = this;
 			that.origEl = (options||{}).origEl;
 			that.attributes = {
-				"type": "text",//TODO find out what this 'should' be
+				"type": "text", //TODO find out what this 'should' be per variable
 				"data-type": that.model.routableType,
 				"data-var": that.origEl.getAttribute("data-var")
 			};
-			that.css = {
-				"display": "none"
-			};
+			that.css = $(that.origEl).getCss([//Copies the current calculated css to appear more seamless
+				'font-size',
+				'font-weight',
+				'-webkit-margin-before',
+				'-webkit-margin-after',
+				'-webkit-margin-start',
+				'-webkit-margin-end'
+			]);
+			that.css.display = "none";
 			that.visibleState = false;
 
 			that.render();
@@ -53,9 +58,14 @@ var RoutableEditor = Class({
 		initEvents: function() {
 			var that = this;
 			$(that.origEl).click(that.toggleVisible);//Clicking the Display Element will allow editing it
-			$(that.el).focusout(that.toggleVisible);
+			$(that.el).focusout(that.hide).keypress(function (key) {//Leaving the edit field or pressing 'Enter' will hide it //TODO (and later save)
+				if (key.which == 13) {
+					that.hide();
+					return false;//doesn't already, but prevents submit
+				}
+			});
 		},
-		render: function(focus) {//TODO check what happens when rendered a second time(duplicate element, or just move?)
+		render: function(focus) {
 			var that = this;
 			$(that.el).attr(that.attributes);
 			$(that.el).css(that.css);
@@ -64,23 +74,33 @@ var RoutableEditor = Class({
 				$(that.el).focus();
 			}
 		},
+		//does not show/hide that.el in case additional changes want to be made to the properties beforehand to render later
 		toggleVisible: function() {
 			var that = this;
 			if(that.visibleState){
-				that.css.display = "none";
-				that.visibleState = false;
-				that.render();
+				that.hide();
 			} else {
-				that.css.display = "block";
-				that.visibleState = true;
-				that.render(true);
+				that.show();
 			}
+		},
+		hide: function() {
+			var that = this;
+			that.css.display = "none";
+			that.visibleState = false;
+			that.render();
+			$(that.origEl).show();
+		},
+		show: function() {
+			var that = this;
+			that.css.display = "block";
+			that.visibleState = true;
+			$(that.origEl).hide();
+			that.render(true);
 		},
 		load: function(callback) {
 			var that = this;
 			that.model.fetch({
 				success: function (routable) {
-					console.log('view loaded!');
 					callback();
 				}
 			});
@@ -100,10 +120,8 @@ var RoutableEditor = Class({
 			routableType: (options||{}).routableType,
 			baseUrl: (options||{}).baseUrl
 		});
-		//console.log('Type is '+that.routable.routableType);
 		$('[data-type="' + that.routable.routableType + '"]').not("input").each(function(){
 			var thatEl  = this;
-			//console.log('create for '+ thatEl.getAttribute("data-var"));
 			that.routableFields.push(
 					new that.RoutableView({
 						origEl: thatEl,
@@ -111,13 +129,10 @@ var RoutableEditor = Class({
 					})
 			);
 		});
-		//console.log(that.routableFields);
 	},
 	loadAll: function() {//TODO should create the needed form and input field
 		var that = this;
-		//console.log(that.routableFields);
 		_.each(that.routableFields, function (view) {
-			//console.log(view);
 			view.load(function () {
 				view.populate(that.routable.routableType);//TODO will need to be separate as only 1 field at a time will display
 			});
@@ -139,6 +154,51 @@ var RoutableEditor = Class({
 		});
 	 }
 });
+/**
+ * Modified from http://upshots.org/javascript/jquery-copy-style-copycss
+ */
+(function($){
+
+	$.fn.getCss = function(whitelist){
+		var dom = this.get(0);
+		var style;
+		var returns = {};
+		if(window.getComputedStyle){
+			var camelize = function(a,b){
+				return b.toUpperCase();
+			}
+			style = window.getComputedStyle(dom, null);
+			if(whitelist){
+				for(var i=0;i<whitelist.length;i++){
+					if(style.hasOwnProperty(whitelist[i])){
+						var prop = whitelist[i];
+						var camel = prop.replace(/\-([a-z])/g, camelize);
+						var val = style[prop];
+						returns[camel] = val;
+					}
+				}
+			} else {
+				for(var i=0;i<style.length;i++){
+					var prop = style[i];
+					var camel = prop.replace(/\-([a-z])/g, camelize);
+					var val = style.getPropertyValue(prop);
+					returns[camel] = val;
+				}
+			}
+			return returns;
+		}
+		if(dom.currentStyle){
+			style = dom.currentStyle;
+			for(var prop in style){
+				returns[prop] = style[prop];
+			}
+			return returns;
+		}
+		return this.css();
+	}
+})(jQuery);
+
+
 
 //Additional functions to Views
 _.extend(Backbone.View.prototype, {

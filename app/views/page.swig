@@ -10,14 +10,13 @@
     <script type="text/javascript">
         $(document).ready(function() {
             var editor = new RoutableEditor({
-                id: 136,//dynmic page/item id
-                routableType: 'Page',
+                id: {{ hid }},
+                routableType: '{{ __t }}',
                 baseUrl: 'http://admin.inin.pw:1337',
-                el: $('#page_container'),//The div containing the elements for Page
+                el: $('#page_container')//The div containing the elements for Page
             });
-            editor.loadAll();//maybe should set to only load a single field
+            editor.loadAll();
         });
-        //TODO when initilzing RoutableEditor, the input fields need to be generated
     </script>
 {% endblock %}
 
