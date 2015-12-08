@@ -21,20 +21,60 @@ var RoutableEditor = Class({
 	}),
 	RoutableView: Backbone.View.extend({
 		//TODO need to add events to detect on Enter press and leaving input focus
-		el: null,
+		el: '<input>',//type="text"
+		attributes: {//Must always reassign this as a new object when init
+			"type": "text",
+			"data-type": null,
+			"data-var": null
+		},
+		css: {//Must always reassign this as a new object when init
+			"display": "block"
+		},
 		origEl: null,
-		data_var: '',
+		visibleState: false,
 
 		initialize: function(options){
-			this.origEl = (options||{}).origEl;
-			this.data_var = this.origEl.getAttribute("data-var");
-			this.generateForm();
-		},
-		generateForm: function() {
+			_.bindAll(this, 'render', 'toggleVisible');
 			var that = this;
-			that.el = $('<input type=text" />').insertAfter($(that.origEl));
-			$(that.el).attr( "data-type", that.model.routableType );
-			$(that.el).attr( "data-var", that.data_var );
+			that.origEl = (options||{}).origEl;
+			that.attributes = {
+				"type": "text",//TODO find out what this 'should' be
+				"data-type": that.model.routableType,
+				"data-var": that.origEl.getAttribute("data-var")
+			};
+			that.css = {
+				"display": "none"
+			};
+			that.visibleState = false;
+
+			that.render();
+			that.initEvents();
+		},
+		initEvents: function() {
+			var that = this;
+			$(that.origEl).click(that.toggleVisible);//Clicking the Display Element will allow editing it
+			$(that.el).focusout(that.toggleVisible);
+		},
+		render: function(focus) {//TODO check what happens when rendered a second time(duplicate element, or just move?)
+			var that = this;
+			$(that.el).attr(that.attributes);
+			$(that.el).css(that.css);
+			that.el = $(that.el).insertAfter($(that.origEl));
+			if(focus){
+				$(that.el).focus();
+			}
+		},
+		toggleVisible: function() {
+			var that = this;
+			if(that.visibleState){
+				that.css.display = "none";
+				that.visibleState = false;
+				that.render();
+			} else {
+				that.css.display = "block";
+				that.visibleState = true;
+				that.render(true);
+			}
 		},
 		load: function(callback) {
 			var that = this;
@@ -47,7 +87,7 @@ var RoutableEditor = Class({
 		},
 		populate: function() {
 			var that = this;
-			that.el.val(this.model.attributes[that.data_var]);
+			that.el.val(that.model.attributes[that.attributes['data-var']]);
 
 		}
 	}),
