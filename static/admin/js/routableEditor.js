@@ -42,12 +42,14 @@ var RoutableEditor = Class({
 				"data-var": that.origEl.getAttribute("data-var")
 			};
 			that.css = $(that.origEl).getCss([//Copies the current calculated css to appear more seamless
+				//'margin', //doesn't work properly with firefox
+				"margin-top",
+				"margin-bottom",
+				"margin-left",
+				"margin-right",
+				'padding',
 				'font-size',
-				'font-weight',
-				'-webkit-margin-before',
-				'-webkit-margin-after',
-				'-webkit-margin-start',
-				'-webkit-margin-end'
+				'font-weight'
 			]);
 			that.css.display = "none";
 			that.visibleState = false;
@@ -158,7 +160,6 @@ var RoutableEditor = Class({
  * Modified from http://upshots.org/javascript/jquery-copy-style-copycss
  */
 (function($){
-
 	$.fn.getCss = function(whitelist){
 		var dom = this.get(0);
 		var style;
@@ -166,11 +167,12 @@ var RoutableEditor = Class({
 		if(window.getComputedStyle){
 			var camelize = function(a,b){
 				return b.toUpperCase();
-			}
+			};
 			style = window.getComputedStyle(dom, null);
 			if(whitelist){
 				for(var i=0;i<whitelist.length;i++){
-					if(style.hasOwnProperty(whitelist[i])){
+					//if(style.hasOwnProperty(whitelist[i])){ //does not grab base styles from Firefox
+					if (typeof style[whitelist[i]] !== 'undefined') {
 						var prop = whitelist[i];
 						var camel = prop.replace(/\-([a-z])/g, camelize);
 						var val = style[prop];
