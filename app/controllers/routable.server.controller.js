@@ -71,6 +71,7 @@ exports.create = function(req, res) {
  * @param res
 **/
 exports.update = function(req, res) {
+	console.log('accepting a PUT');
 	if(req.body._id){//Type is case sensitive
 		if(mongoose.modelNames().indexOf(req.params.type) >= 0){//if this model type exists
 			var objModel = mongoose.model(req.params.type);

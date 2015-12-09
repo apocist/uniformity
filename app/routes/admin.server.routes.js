@@ -7,14 +7,19 @@ module.exports = function(app) {
 	var adminRoute = express.Router();
 
 	adminRoute.get('/', adminController.render);
-	adminRoute.route('/routable/:type')
-		.post(routable.create)//works for creating routable in POST
-		.put(routable.update)//works for updating routable in PUT
-		.delete(routable.remove)//works for deleting routable in DELETE
-		.get(routable.listByType);//works for listings objs TODO for getting a list of objs
+
 	adminRoute.route('/routable/:type/list').get(routable.listByType);//works for listings objs //TODO to remove
-	adminRoute.route('/routable/:type/get/:hid').get(routable.getObjByHid);//works for grabbing certain obj //TODO to remove
+	adminRoute.route('/routable/:type/get/:hid')
+			.put(routable.update)//works for updating routable in PUT
+			.delete(routable.remove)//works for deleting routable in DELETE
+			.get(routable.getObjByHid);//works for grabbing certain obj //TODO to remove
 	adminRoute.route('/routable/:type/:hid').get(routable.getObjByHid);//works for grabbing certain obj TODO new for getting single
+	adminRoute.route('/routable/:type')
+			.post(routable.create)//works for creating routable in POST
+			.put(routable.update)//works for updating routable in PUT
+			.delete(routable.remove)//works for deleting routable in DELETE
+			.get(routable.listByType);//works for listings objs TODO for getting a list of objs
+
 
 
 	//Setup CORS

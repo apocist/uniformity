@@ -42,15 +42,32 @@ var RoutableEditor = Class({
 				"data-var": that.origEl.getAttribute("data-var")
 			};
 			that.css = $(that.origEl).getCss([//Copies the current calculated css to appear more seamless
-				//'margin', //doesn't work properly with firefox
-				"margin-top",
-				"margin-bottom",
-				"margin-left",
-				"margin-right",
-				'padding',
-				'font-size',
-				'font-weight'
+					'position',
+					'top',
+					'bottom',
+					'left',
+					'bottom',
+					'float',
+					'width',
+					'margin-top',
+					'margin-bottom',
+					'margin-left',
+					'margin-right',
+					'padding-top',
+					'padding-bottom',
+					'padding-left',
+					'padding-right',
+					'font-family',
+					'font-size',
+					'font-style',
+					'font-weight',
+					'text-decoration',
+					'text-align',
+
+					'color',
+					'background-color'
 			]);
+			//text-transform should be none
 			that.css.display = "none";
 			that.visibleState = false;
 
@@ -87,6 +104,7 @@ var RoutableEditor = Class({
 		},
 		hide: function() {
 			var that = this;
+			that.save();
 			that.css.display = "none";
 			that.visibleState = false;
 			that.render();
@@ -106,6 +124,12 @@ var RoutableEditor = Class({
 					callback();
 				}
 			});
+		},
+		save: function() {//FIXME static atm
+			var that = this;
+			//TODO that.routableorm.parse('varname');
+			that.model.attributes[that.attributes['data-var']] = $(that.el).val();
+			that.model.save();
 		},
 		populate: function() {
 			var that = this;
@@ -139,22 +163,7 @@ var RoutableEditor = Class({
 				view.populate(that.routable.routableType);//TODO will need to be separate as only 1 field at a time will display
 			});
 		});
-	},
-	save: function() {//FIXME static atm
-		var that = this;
-		//TODO that.routableorm.parse('varname');
-		var routableDetails = {
-			id: 0,//remove id for a new entry
-			name: '',
-			content: '',
-			url: ''
-		};
-		that.routable.save(routableDetails, {
-			success: function (routable) {
-				console.log(routable);
-			}
-		});
-	 }
+	}
 });
 /**
  * Modified from http://upshots.org/javascript/jquery-copy-style-copycss
