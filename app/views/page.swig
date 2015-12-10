@@ -12,10 +12,10 @@
             var editor = new RoutableEditor({
                 id: {{ hid }},
                 routableType: '{{ __t }}',
-                baseUrl: 'http://admin.inin.pw:1337',
-                el: $('#page_container')//The div containing the elements for Page
+                baseUrl: 'http://admin.inin.pw:1337'
+                //el: $('#page_container')//The div containing the elements for Page
             });
-            editor.loadAll();
+            editor.load();
         });
     </script>
 {% endblock %}

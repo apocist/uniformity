@@ -8,17 +8,20 @@ module.exports = function(app) {
 
 	adminRoute.get('/', adminController.render);
 
-	adminRoute.route('/routable/:type/list').get(routable.listByType);//works for listings objs //TODO to remove
-	adminRoute.route('/routable/:type/get/:hid')
+	adminRoute.route('/routable/:type/list').get(routable.listByType);//works for listings objs //FIXME Deprecated
+	adminRoute.route('/routable/:type/get/:hid')//FIXME Deprecated
+			.put(routable.update)//works for updating routable in PUT //FIXME Deprecated
+			.delete(routable.remove)//works for deleting routable in DELETE //FIXME Deprecated
+			.get(routable.getObjByHid);//works for grabbing certain obj //FIXME Deprecated
+	adminRoute.route('/routable/:type/:hid')
+			.get(routable.getObjByHid)//works for grabbing certain obj
 			.put(routable.update)//works for updating routable in PUT
-			.delete(routable.remove)//works for deleting routable in DELETE
-			.get(routable.getObjByHid);//works for grabbing certain obj //TODO to remove
-	adminRoute.route('/routable/:type/:hid').get(routable.getObjByHid);//works for grabbing certain obj TODO new for getting single
+			.delete(routable.remove);//works for deleting routable in DELETE
 	adminRoute.route('/routable/:type')
 			.post(routable.create)//works for creating routable in POST
 			.put(routable.update)//works for updating routable in PUT
 			.delete(routable.remove)//works for deleting routable in DELETE
-			.get(routable.listByType);//works for listings objs TODO for getting a list of objs
+			.get(routable.listByType);//works for listings objs
 
 
 

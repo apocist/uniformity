@@ -21,6 +21,7 @@ var RoutableEditor = Class({
 	}),
 	RoutableView: Backbone.View.extend({
 		el: '<input>',//type="text"
+		aliasEl: null,
 		attributes: {//Must always reassign this as a new object when init(make new reference)
 			"type": "text",
 			"data-type": null,
@@ -29,19 +30,19 @@ var RoutableEditor = Class({
 		css: {//Must always reassign this as a new object when init(make new reference)
 			"display": "block"
 		},
-		origEl: null,
 		visibleState: false,
+		previousVal: null,
 
 		initialize: function(options){
 			_.bindAll(this, 'render', 'toggleVisible', 'hide', 'show');
 			var that = this;
-			that.origEl = (options||{}).origEl;
+			that.aliasEl = (options||{}).aliasEl;
 			that.attributes = {
 				"type": "text", //TODO find out what this 'should' be per variable
 				"data-type": that.model.routableType,
-				"data-var": that.origEl.getAttribute("data-var")
+				"data-var": that.aliasEl.getAttribute("data-var")
 			};
-			that.css = $(that.origEl).getCss([//Copies the current calculated css to appear more seamless
+			that.css = $(that.aliasEl).getCss([//Copies the current calculated css to appear more seamless
 					'position',
 					'top',
 					'bottom',
@@ -74,9 +75,12 @@ var RoutableEditor = Class({
 			that.render();
 			that.initEvents();
 		},
+		/**
+		 * Sets the events on the DOM, should only run once
+		 */
 		initEvents: function() {
 			var that = this;
-			$(that.origEl).click(that.toggleVisible);//Clicking the Display Element will allow editing it
+			$(that.aliasEl).click(that.toggleVisible);//Clicking the Display Element will allow editing it
 			$(that.el).focusout(that.hide).keypress(function (key) {//Leaving the edit field or pressing 'Enter' will hide it //TODO (and later save)
 				if (key.which == 13) {
 					that.hide();
@@ -84,16 +88,21 @@ var RoutableEditor = Class({
 				}
 			});
 		},
+		/**
+		 * Direct set the Field properties in the DOM, can be standalone and run when needed
+		 */
 		render: function(focus) {
 			var that = this;
 			$(that.el).attr(that.attributes);
 			$(that.el).css(that.css);
-			that.el = $(that.el).insertAfter($(that.origEl));
+			that.el = $(that.el).insertAfter($(that.aliasEl));
 			if(focus){
 				$(that.el).focus();
 			}
 		},
-		//does not show/hide that.el in case additional changes want to be made to the properties beforehand to render later
+		/**
+		 * Toggles between Show/Hide functions
+		 */
 		toggleVisible: function() {
 			var that = this;
 			if(that.visibleState){
@@ -102,22 +111,29 @@ var RoutableEditor = Class({
 				that.show();
 			}
 		},
+		/**
+		 * Hide this Field and show it's Alias Element
+		 * Attempt to save if there are changes
+		 */
 		hide: function() {
 			var that = this;
 			that.save();
 			that.css.display = "none";
 			that.visibleState = false;
 			that.render();
-			$(that.origEl).show();
+			$(that.aliasEl).show();
 		},
+		/**
+		 * Show this Field and hide it's Alias Element
+		 */
 		show: function() {
 			var that = this;
 			that.css.display = "block";
 			that.visibleState = true;
-			$(that.origEl).hide();
+			$(that.aliasEl).hide();
 			that.render(true);
 		},
-		load: function(callback) {
+		load: function(callback) {//TODO maybe should use the RoutableEditor 'load' to populate all
 			var that = this;
 			that.model.fetch({
 				success: function (routable) {
@@ -125,16 +141,35 @@ var RoutableEditor = Class({
 				}
 			});
 		},
-		save: function() {//FIXME static atm
+		/**
+		 * Save and possible changes to this field
+		 */
+		save: function() {
 			var that = this;
-			//TODO that.routableorm.parse('varname');
-			that.model.attributes[that.attributes['data-var']] = $(that.el).val();
-			that.model.save();
+			var newVal =  $(that.el).val();//Hold the possible new Value
+			if(that.model.attributes[that.attributes['data-var']] != newVal){//Check for differences
+				that.previousVal = that.model.attributes[that.attributes['data-var']];//Preserve the previous value just in case
+				that.model.attributes[that.attributes['data-var']] = newVal;//Update the Model
+				$(that.aliasEl).html(newVal);//Update the DOM
+				that.model.save(null, {
+					success: function (model, response) {},
+					error: function (model, response) {
+						console.log("error",response);
+						//TODO add flashbag to DOM
+						//Reset to previous values
+						that.model.attributes[that.attributes['data-var']] = that.previousVal;
+						that.populate();
+					}
+				});
+			}
 		},
+		/**
+		 * Update the DOM with current Model (display and field)
+		 */
 		populate: function() {
 			var that = this;
 			that.el.val(that.model.attributes[that.attributes['data-var']]);
-
+			$(that.aliasEl).html(that.model.attributes[that.attributes['data-var']]);
 		}
 	}),
 
@@ -147,21 +182,26 @@ var RoutableEditor = Class({
 			baseUrl: (options||{}).baseUrl
 		});
 		$('[data-type="' + that.routable.routableType + '"]').not("input").each(function(){
-			var thatEl  = this;
+			var aliasEl  = this;
 			that.routableFields.push(
 					new that.RoutableView({
-						origEl: thatEl,
+						aliasEl: aliasEl,
 						model: that.routable
 					})
 			);
 		});
 	},
-	loadAll: function() {//TODO should create the needed form and input field
+	/**
+	 * Fetch new Model and populate the DOM with all fields
+	 */
+	load: function() {
 		var that = this;
-		_.each(that.routableFields, function (view) {
-			view.load(function () {
-				view.populate(that.routable.routableType);//TODO will need to be separate as only 1 field at a time will display
-			});
+		that.routable.fetch({
+			success: function (routable) {
+				_.each(that.routableFields, function (view) {
+					view.populate();
+				});
+			}
 		});
 	}
 });
