@@ -40,7 +40,7 @@ var RoutableEditor = Class({
 			that.parentClass = (options||{}).parentClass;
 			that.aliasEl = (options||{}).aliasEl;
 			that.attributes = {
-				"type": "text", //TODO find out what this 'should' be per variable
+				"type": "text", //TODO find out what this 'should' be per variable (like a WYSIWYG editor)
 				"data-type": that.model.routableType,
 				"data-var": that.aliasEl.getAttribute("data-var")
 			};
@@ -83,7 +83,7 @@ var RoutableEditor = Class({
 		initEvents: function() {
 			var that = this;
 			$(that.aliasEl).click(that.toggleVisible);//Clicking the Display Element will allow editing it
-			$(that.el).focusout(that.hide).keypress(function (key) {//Leaving the edit field or pressing 'Enter' will hide it //TODO (and later save)
+			$(that.el).focusout(that.hide).keypress(function (key) {//Leaving the edit field or pressing 'Enter' will hide it
 				if (key.which == 13) {
 					that.hide();
 					return false;//doesn't already, but prevents submit
