@@ -20,6 +20,7 @@ var RoutableEditor = Class({
 		}
 	}),
 	RoutableView: Backbone.View.extend({
+		parentClass: null,
 		el: '<input>',//type="text"
 		aliasEl: null,
 		attributes: {//Must always reassign this as a new object when init(make new reference)
@@ -36,6 +37,7 @@ var RoutableEditor = Class({
 		initialize: function(options){
 			_.bindAll(this, 'render', 'toggleVisible', 'hide', 'show');
 			var that = this;
+			that.parentClass = (options||{}).parentClass;
 			that.aliasEl = (options||{}).aliasEl;
 			that.attributes = {
 				"type": "text", //TODO find out what this 'should' be per variable
@@ -133,13 +135,12 @@ var RoutableEditor = Class({
 			$(that.aliasEl).hide();
 			that.render(true);
 		},
-		load: function(callback) {//TODO maybe should use the RoutableEditor 'load' to populate all
+		/**
+		 * Performs Load of the Model and populates every field(view) related
+		 */
+		load: function() {
 			var that = this;
-			that.model.fetch({
-				success: function (routable) {
-					callback();
-				}
-			});
+			that.parentClass.load();
 		},
 		/**
 		 * Save and possible changes to this field
@@ -185,6 +186,7 @@ var RoutableEditor = Class({
 			var aliasEl  = this;
 			that.routableFields.push(
 					new that.RoutableView({
+						parentClass: that,
 						aliasEl: aliasEl,
 						model: that.routable
 					})
