@@ -1,32 +1,29 @@
-var RoutableEditor = Class({
-	routable: null,//current Model
-	routableFields: [],//array of views
+var ContentEditor = Class({
+	contentModel: null,//current Model
+	editableFields: [],//array of views
 
-	RoutableModel: Backbone.Model.extend({
-		baseUrl: '',
-		//All Routes should have these three values
-		defaults: {
-			name: '',
-			content: '',
-			url: ''
-		},
-		routableType: '',
+	ContentModel: Backbone.Model.extend({
+		baseUrl: null,
+		type: null,
+		subType: null,
 		urlRoot: function () {
-			return this.baseUrl + '/routable/' + this.routableType; //TODO 'may' not always be a routable..later might be a generic object
+			return (this.baseUrl ? this.baseUrl : '') + (this.type ? '/' + this.type : '') +(this.subType ? '/' + this.subType : '');
 		},
 		initialize: function (options) {
 			this.baseUrl = (options||{}).baseUrl;
-			this.routableType = (options||{}).routableType;
+			this.type = (options||{}).type;
+			this.subType = (options||{}).subType;
 		}
 	}),
-	RoutableView: Backbone.View.extend({
+	ContentView: Backbone.View.extend({
 		parentClass: null,
-		el: '<input>',//type="text"
+		el: '<input>',
 		aliasEl: null,
 		attributes: {//Must always reassign this as a new object when init(make new reference)
 			"type": "text",
 			"data-type": null,
-			"data-var": null
+			"data-subType": null,
+			"data-var": null//Needs to be assigned
 		},
 		css: {//Must always reassign this as a new object when init(make new reference)
 			"display": "block"
@@ -41,7 +38,8 @@ var RoutableEditor = Class({
 			that.aliasEl = (options||{}).aliasEl;
 			that.attributes = {
 				"type": "text", //TODO find out what this 'should' be per variable (like a WYSIWYG editor)
-				"data-type": that.model.routableType,
+				"data-type": that.model.type,
+				"data-subtype": that.model.subType,
 				"data-var": that.aliasEl.getAttribute("data-var")
 			};
 			that.css = $(that.aliasEl).getCss([//Copies the current calculated css to appear more seamless
@@ -177,18 +175,19 @@ var RoutableEditor = Class({
 	initialize: function(options){
 		var that = this;
 
-		that.routable = new that.RoutableModel({
+		that.contentModel = new that.ContentModel({
 			id: (options||{}).id,
-			routableType: (options||{}).routableType,
+			type: (options||{}).type,
+			subType: (options||{}).subType,
 			baseUrl: (options||{}).baseUrl
 		});
-		$('[data-type="' + that.routable.routableType + '"]').not("input").each(function(){
+		$((that.contentModel.type ? '[data-type="' + that.contentModel.type + '"]' : '') + ( that.contentModel.subType ?'[data-subtype="' + that.contentModel.subType + '"]' : '')).not("input").each(function(){
 			var aliasEl  = this;
-			that.routableFields.push(
-					new that.RoutableView({
+			that.editableFields.push(
+					new that.ContentView({
 						parentClass: that,
 						aliasEl: aliasEl,
-						model: that.routable
+						model: that.contentModel
 					})
 			);
 		});
@@ -198,9 +197,9 @@ var RoutableEditor = Class({
 	 */
 	load: function() {
 		var that = this;
-		that.routable.fetch({
-			success: function (routable) {
-				_.each(that.routableFields, function (view) {
+		that.contentModel.fetch({
+			success: function (contentModel) {
+				_.each(that.editableFields, function (view) {
 					view.populate();
 				});
 			}

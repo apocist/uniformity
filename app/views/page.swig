@@ -6,14 +6,14 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="http://backbonejs.org/backbone-min.js"></script>
     <script type="text/javascript" src="http://admin.inin.pw:1337/js/common.js"></script>
-    <script type="text/javascript" src="http://admin.inin.pw:1337/js/routableEditor.js"></script>
+    <script type="text/javascript" src="http://admin.inin.pw:1337/js/contentEditor.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            var editor = new RoutableEditor({
+            var editor = new ContentEditor({
                 id: {{ hid }},
-                routableType: '{{ __t }}',
+                type: 'routable',
+                subType: '{{ __t }}',
                 baseUrl: 'http://admin.inin.pw:1337'
-                //el: $('#page_container')//The div containing the elements for Page
             });
             editor.load();
         });
@@ -24,9 +24,9 @@
 
 {% block content %}
     <div id="page_container">
-        <h1 data-type="Page" data-var="name">{{ name }}</h1>
+        <h1 data-type="routable" data-subtype="Page" data-var="name">{{ name }}</h1>
         <br/>
-        <div id="content" data-type="Page" data-var="content">
+        <div id="content" data-type="routable" data-subtype="Page" data-var="content">
             {{ content }}
         </div>
     </div>
