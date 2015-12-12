@@ -5,13 +5,15 @@ var express = require('express');
 module.exports = function(app) {
 	//Anyone may run GETs
 	var apiRoute = express.Router();
+	apiRoute.use('/routable', apiRoute);
 
-	apiRoute.route('/routable/:type/:hid').get(routable.getObjByHid);//works for grabbing certain obj
-	apiRoute.route('/routable/:type').get(routable.listByType);//works for listings objs
+	apiRoute.route('/:subType/:hid').get(routable.getObjByHid);//works for grabbing certain obj
+	apiRoute.route('/:subType').get(routable.listBySubType);//works for listings objs
 
 
 	//Only authenticated may make changes
 	var secureApiRoute = express.Router();
+
 
 	// Will authenticated every request
 	secureApiRoute.use(function(req, res, next) {
@@ -22,10 +24,12 @@ module.exports = function(app) {
 		//res.json({error: "Not Authenticated"});
 	});
 
-	secureApiRoute.route('/routable/:type/:hid')
+	secureApiRoute.use('/routable', secureApiRoute);
+
+	secureApiRoute.route('/:subType/:hid')
 			.put(routable.update)//works for updating routable in PUT
 			.delete(routable.remove);//works for deleting routable in DELETE
-	secureApiRoute.route('/routable/:type')
+	secureApiRoute.route('/:subType')
 			.post(routable.create)//works for creating routable in POST
 			.put(routable.update)//works for updating routable in PUT
 			.delete(routable.remove);//works for deleting routable in DELETE
@@ -42,18 +46,6 @@ module.exports = function(app) {
 	//app.use(vhost('*.*',apiRoute));//something.com
 	app.use('/api', apiRoute);
 	app.use('/api', secureApiRoute);
-
-/*
- secureApiRoute.route('/routable/:type/:hid')
- .get(routable.getObjByHid)//works for grabbing certain obj
- .put(routable.update)//works for updating routable in PUT
- .delete(routable.remove);//works for deleting routable in DELETE
- secureApiRoute.route('/routable/:type')
- .post(routable.create)//works for creating routable in POST
- .put(routable.update)//works for updating routable in PUT
- .delete(routable.remove)//works for deleting routable in DELETE
- .get(routable.listByType);//works for listings objs
- */
 
 
 	/*app.get('*', function(req, res, next){

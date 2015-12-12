@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 
 /**
  * creates a routable object
- * @param req.params.type Model Name
+ * @param req.params.subType Model Name
  * @param req.body
  * {
  *  (all properties of model)
@@ -12,8 +12,8 @@ var mongoose = require('mongoose'),
  * @param res
  */
 exports.create = function(req, res) {
-	if(mongoose.modelNames().indexOf(req.params.type) >= 0){//if this model type exists
-		var objType = mongoose.model(req.params.type);
+	if(mongoose.modelNames().indexOf(req.params.subType) >= 0){//if this model subType exists
+		var objType = mongoose.model(req.params.subType);
 		var obj = new objType(req.body);
 		if (obj.schema.statics.routable) {//makes sure this is a routable obj
 			var url;
@@ -62,7 +62,7 @@ exports.create = function(req, res) {
 
 /**
  * updates a routable object
- * @param req.params.type Model Name
+ * @param req.params.subType Model Name
  * @param req.body
  * {
  *  hid,
@@ -72,8 +72,8 @@ exports.create = function(req, res) {
 **/
 exports.update = function(req, res) {
 	if(req.body._id){//Type is case sensitive
-		if(mongoose.modelNames().indexOf(req.params.type) >= 0){//if this model type exists
-			var objModel = mongoose.model(req.params.type);
+		if(mongoose.modelNames().indexOf(req.params.subType) >= 0){//if this model subType exists
+			var objModel = mongoose.model(req.params.subType);
 			var obj = new objModel(req.body);
 			if (obj.schema.statics.routable) {//makes sure this is a routable obj
 				objModel.findByIdAndUpdate(obj._id, obj, function(err) {
@@ -88,7 +88,7 @@ exports.update = function(req, res) {
 
 /**
  * Deletes Routables and route and JSON returns results
- * @param req.params.type Model Name
+ * @param req.params.subType Model Name
  * @param req.body
  * {
  *  hid,
@@ -97,8 +97,8 @@ exports.update = function(req, res) {
  */
 exports.remove = function(req, res) {
 	if(req.body.hid){//Type is case sensitive
-		if(mongoose.modelNames().indexOf(req.params.type) >= 0){
-			var objModel = mongoose.model(req.params.type);
+		if(mongoose.modelNames().indexOf(req.params.subType) >= 0){
+			var objModel = mongoose.model(req.params.subType);
 			if (objModel.schema.statics.routable) {//makes sure this is a routable obj
 				objModel.findOneAndRemove({
 						hid :req.body.hid
@@ -117,12 +117,12 @@ exports.remove = function(req, res) {
 
 /**
  * Outputs all routables of certain Model
- * @param req.params.type Model Name
+ * @param req.params.subType Model Name
  * @param res
  */
-exports.listByType = function(req, res) {
-	if(mongoose.modelNames().indexOf(req.params.type) >= 0){//if this model type exists
-		var objType = mongoose.model(req.params.type);
+exports.listBySubType = function(req, res) {
+	if(mongoose.modelNames().indexOf(req.params.subType) >= 0){//if this model subType exists
+		var objType = mongoose.model(req.params.subType);
 		objType.find({}, function(err, objs) {
 			if(err) {res.json({error: err});}
 			else {res.json(objs);}
@@ -132,13 +132,13 @@ exports.listByType = function(req, res) {
 
 /**
  * Outputs a single routable
- * @param req.params.type Model Name
+ * @param req.params.subType Model Name
  * @param req.params.hid Routable ID
  * @param res
  */
 exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
-	if(mongoose.modelNames().indexOf(req.params.type) >= 0){
-		var objModel = mongoose.model(req.params.type);
+	if(mongoose.modelNames().indexOf(req.params.subType) >= 0){
+		var objModel = mongoose.model(req.params.subType);
 		if (objModel.schema.statics.routable) {//makes sure this is a routable obj
 			objModel.findOne({
 					hid: req.params.hid
