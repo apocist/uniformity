@@ -3,11 +3,11 @@ var ContentEditor = Class({
 	editableFields: [],//array of views
 
 	ContentModel: Backbone.Model.extend({
-		baseUrl: null,
+		baseUrl: '/api',
 		type: null,
 		subType: null,
 		urlRoot: function () {
-			return (this.baseUrl ? this.baseUrl : '') + (this.type ? '/' + this.type : '') +(this.subType ? '/' + this.subType : '');
+			return (this.baseUrl ? this.baseUrl : '/api') + (this.type ? '/' + this.type : '') +(this.subType ? '/' + this.subType : '');
 		},
 		initialize: function (options) {
 			this.baseUrl = (options||{}).baseUrl;
@@ -151,16 +151,23 @@ var ContentEditor = Class({
 				that.model.attributes[that.attributes['data-var']] = newVal;//Update the Model
 				$(that.aliasEl).html(newVal);//Update the DOM
 				that.model.save(null, {
-					success: function (model, response) {},
+					success: function (model, response) {
+						if (response.error) {
+							that.saveError(that, response);
+						}
+					},
 					error: function (model, response) {
-						console.log("error",response);
-						//TODO add flashbag to DOM
-						//Reset to previous values
-						that.model.attributes[that.attributes['data-var']] = that.previousVal;
-						that.populate();
+						that.saveError(that, response);
 					}
 				});
 			}
+		},
+		saveError: function(ref, response) {
+			console.log("error",response);
+			//TODO add flashbag to DOM
+			//Reset to previous values
+			ref.model.attributes[ref.attributes['data-var']] = ref.previousVal;
+			ref.populate();
 		},
 		/**
 		 * Update the DOM with current Model (display and field)

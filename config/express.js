@@ -3,7 +3,7 @@ var config = require('./config'),
 	express = require('express'),
 	bodyParser = require('body-parser'),
 	swig = require('swig'),
-	vhost = require('vhost');
+	vhost = require('vhost');//TODO may not use this unless restricting to certain domain names
 	
 module.exports = function() {
     var app = express();
@@ -28,10 +28,10 @@ module.exports = function() {
 	// Don't leave both of these to `false` in production!
 
 	//separate the static folders away from admin
-	app.use(vhost('admin.*.*', express.static('./static/admin')));
+	//app.use(vhost('admin.*.*', express.static('./static/admin')));
 	app.use(vhost('*.*', express.static('./static/public')));
 
-	require('../app/routes/admin.server.routes.js')(app);
+	require('../app/routes/api.server.routes.js')(app);
 	require('../app/routes/main.server.routes.js')(app);
 
     return app;
