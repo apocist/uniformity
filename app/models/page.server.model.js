@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
 	routable = mongoose.model('Routable').schema;
 	
 var PageSchema = routable.extend({
+	subType: {type: String, default: 'Page', enums: ['Page']},
 	content: String
 },
 {

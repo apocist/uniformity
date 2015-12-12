@@ -32,7 +32,7 @@ exports.create = function(req, res) {
 					else{//no url exists, go ahead and make it
 						var route = new Route({
 							url: url,
-							type: obj.constructor.modelName,
+							routableType: obj.constructor.modelName,
 							object: obj._id
 						});
 						obj.route = route._id;

@@ -58,7 +58,7 @@ exports.routeByID = function(req, res, next) {
 
 exports.getObj = function(req, res, next, err, route) {
 	if (!err && route) {
-		var objType = route.type;
+		var objType = route.routableType;
 		var id = route.object;
 		
 		if(mongoose.modelNames().indexOf(objType) >= 0){

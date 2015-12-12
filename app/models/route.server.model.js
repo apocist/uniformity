@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 var RouteSchema = new Schema({
 	hid: { type : Number, required : true, unique : false },
 	url: String,
-	type: String,
+	routableType: String,
 	object: { type : Schema.ObjectId }
 },
 {

@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
 	routable = mongoose.model('Routable').schema;
 	
 var BlogSchema = routable.extend({
+	subType: {type: String, default: 'Blog', enums: ['Blog']},
 	content: String,
 	posted : { type : Date, default : Date.now }
 },

@@ -11,7 +11,7 @@
         $(document).ready(function() {
             var editor = new ContentEditor({
                 id: {{ hid }},
-                type: 'routable',
+                type: '{{ type }}',
                 subType: '{{ __t }}',
                 baseUrl: 'http://admin.inin.pw:1337'
             });
@@ -24,9 +24,9 @@
 
 {% block content %}
     <div id="page_container">
-        <h1 data-type="routable" data-subtype="Page" data-var="name">{{ name }}</h1>
+        <h1 data-type="routable" data-subType="Page" data-var="name">{{ name }}</h1>
         <br/>
-        <div id="content" data-type="routable" data-subtype="Page" data-var="content">
+        <div id="content" data-type="routable" data-subType="Page" data-var="content">
             {{ content }}
         </div>
     </div>

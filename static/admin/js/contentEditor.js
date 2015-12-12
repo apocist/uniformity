@@ -39,7 +39,7 @@ var ContentEditor = Class({
 			that.attributes = {
 				"type": "text", //TODO find out what this 'should' be per variable (like a WYSIWYG editor)
 				"data-type": that.model.type,
-				"data-subtype": that.model.subType,
+				"data-subType": that.model.subType,
 				"data-var": that.aliasEl.getAttribute("data-var")
 			};
 			that.css = $(that.aliasEl).getCss([//Copies the current calculated css to appear more seamless
@@ -181,7 +181,7 @@ var ContentEditor = Class({
 			subType: (options||{}).subType,
 			baseUrl: (options||{}).baseUrl
 		});
-		$((that.contentModel.type ? '[data-type="' + that.contentModel.type + '"]' : '') + ( that.contentModel.subType ?'[data-subtype="' + that.contentModel.subType + '"]' : '')).not("input").each(function(){
+		$((that.contentModel.type ? '[data-type="' + that.contentModel.type + '"]' : '') + ( that.contentModel.subType ?'[data-subType="' + that.contentModel.subType + '"]' : '')).not("input").each(function(){
 			var aliasEl  = this;
 			that.editableFields.push(
 					new that.ContentView({

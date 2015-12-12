@@ -8,6 +8,7 @@ var mongoose = require('mongoose'),
 	
 
 var RoutableSchema = new Schema({
+	type: {type: String, default: 'routable', enums: ['routable']},
 	name: { type : String, required : true},
 	hid: { type : Number, required : false, unique : false },
 	route: { type : Schema.ObjectId, ref : 'Route' },
