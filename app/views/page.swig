@@ -12,9 +12,12 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="http://backbonejs.org/backbone-min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/authController.js"></script>
     <script type="text/javascript" src="/js/contentEditor.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            window.authController = new authController({twitterButton: $('#twitterLogin')});
+
             var editor = new ContentEditor({
                 id: {{ hid }},
                 type: '{{ type }}',
@@ -35,5 +38,6 @@
         <div id="content" data-type="routable" data-subType="Page" data-var="content">
             {{ content }}
         </div>
+        <input id="twitterLogin" type="button" value="Twitter Login"/>
     </div>
 {% endblock %}

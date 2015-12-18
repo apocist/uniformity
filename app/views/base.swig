@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}My Site{% endblock %}</title>
+  <title>{% block title %}Uniformity{% endblock %}</title>
 
   {% block head %}
   {% endblock %}
