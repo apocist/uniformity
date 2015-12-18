@@ -10,9 +10,11 @@ After pulling the package from Github.
 $ npm install
 ```
 
+Configure your correct Twitter API settings in ./config/social/twitter.blank.js then rename to 'twitter.js'
+
 **NOTE**: Any *minor* version updates may require a `npm install` to acquire the latest libraries. During Alpha stages, updates will not be considered backwards-compatible.
 
-## Dependencies
+## Dependencies (need to update)
 
 #####Included
 - [body-parser](https://www.npmjs.com/package/body-parser)
