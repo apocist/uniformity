@@ -2,7 +2,7 @@ var express = require('express');
 var routes = {
 	routable: require('./api.routable.server.routes')
 };
-module.exports = function(app) {
+module.exports = function(app, passport) {
 	//Setup CORS for only Reading externally
 	var allowCrossDomain = function(req, res, next) {
 		res.header('Access-Control-Allow-Origin', '*');

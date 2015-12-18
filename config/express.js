@@ -54,7 +54,7 @@ module.exports = function() {
 	require('../app/controllers/passport/init.server.controller')(passport);
 
 	require('../app/routes/auth.server.routes.js')(app, passport);
-	require('../app/routes/api.server.routes.js')(app);
+	require('../app/routes/api.server.routes.js')(app, passport);
 	require('../app/routes/main.server.routes.js')(app);
 
     return app;
