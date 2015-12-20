@@ -2,7 +2,8 @@ var TwitterStrategy  = require('passport-twitter').Strategy;
 //var User = require('../models/user');
 var twitterConfig = require('../../../config/social/twitter.js');
 var mongoose = require('mongoose'),
-	User = mongoose.model('User');
+	User = mongoose.model('User'),
+	Permission = mongoose.model('Permission');
 
 module.exports = function(passport) {
 
@@ -30,6 +31,7 @@ module.exports = function(passport) {
 						return done(null, user, 'User Found and Logged In'); // user found, return that user
 					} else {
 						// if there is no user, create them
+						//TODO new user functions need to be ran centerally(in the init possibly)
 						var newUser                 = new User();
 
 						// set all of the user data that we need
@@ -38,6 +40,15 @@ module.exports = function(passport) {
 						newUser.twitter.username = profile.username;
 						newUser.twitter.displayName = profile.displayName;
 						newUser.twitter.lastStatus = profile._json.status.text;
+
+						//TODO should only give master permissions if there are no users with them
+						var permission = new Permission();//TODO in the works of a Permissions Controller
+						permission.user = newUser;
+						permission.scope = 'master';
+						permission.permission = 255;
+						permission.save();
+
+						newUser.permissions.push(permission);
 
 						// save our user into the database
 						newUser.save(function(err) {

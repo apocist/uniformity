@@ -10,11 +10,14 @@ module.exports = function(passport){
 		done(null, user._id);
 	});
 
-	passport.deserializeUser(function(id, done) {
-		User.findById(id, function(err, user) {
-			//console.log('deserializing user:',user);
-			done(err, user);
-		});
+	passport.deserializeUser(function(id, done) {//TODO may need to sanitize the data to prevent anything unneeded to pass to users
+		User
+			.findById(id)
+			.populate('permissions', 'scope permission')//don't need the user field
+			.exec (function(err, user) {
+				//console.log('deserializing user:',user);
+				done(err, user);
+			});
 	});
 
 	// Setting up Passport Strategies for Login and SignUp/Registration

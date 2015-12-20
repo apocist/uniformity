@@ -6,6 +6,7 @@ module.exports = function() {
 	var db = mongoose.connect(config.db);
 	autoIncrement.initialize(db);
 	require('../app/models/user.server.model');
+	require('../app/models/permission.server.model');
 	require('../app/models/route.server.model');
 	require('../app/models/_routable.server.model');
 	require('../app/models/page.server.model');

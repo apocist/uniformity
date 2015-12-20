@@ -2,6 +2,31 @@ var express = require('express');
 var routes = {
 	routable: require('./api.routable.server.routes')
 };
+
+function requirePermission(role) {//TODO in the works of a Permissions Controller
+	return function(req, res, next) {
+		var granted = false;
+		if(req.user){
+			if(req.user.permissions){
+				for (var i = 0; i < req.user.permissions.length; i++) {
+					if(req.user.permissions[i].scope == role && req.user.permissions[i].permission == 255){
+						granted = true;
+						break;
+					}
+				}
+
+				if(granted){
+					next();
+				}
+			}
+		}
+		if(!granted){
+			console.log('permission denied');
+			res.send(403);//TODO  a json return by default, also allow passing a fail function
+		}
+	}
+}
+
 module.exports = function(app, passport) {
 	//Setup CORS for only Reading externally
 	var allowCrossDomain = function(req, res, next) {
@@ -27,15 +52,7 @@ module.exports = function(app, passport) {
 				secureApiRoute = express.Router();
 
 				// Will authenticated every request
-				secureApiRoute.use(function(req, res, next) {
-
-					//TODO Authenticate the api request here
-
-					next();// If acceptable, continue
-					//res.json({error: "Not Authenticated"});
-				});
-
-				secureApiRoute.use(routes[route].secure());
+				secureApiRoute.use(requirePermission('master'), routes[route].secure());//FIXME example of requiring master permission
 
 				app.use('/api', secureApiRoute)
 			}
