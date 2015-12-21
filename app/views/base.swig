@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}Uniformity{% endblock %}</title>
+	<meta charset="utf-8">
+	<title>{% block title %}Uniformity{% endblock %}</title>
 
-  {% block head %}
-  {% endblock %}
+	{% block head %}
+	{% endblock %}
 </head>
 <body>
-  {% block content %}{% endblock %}
+	{% block content %}{% endblock %}
 </body>
 </html>
