@@ -6,7 +6,6 @@ var config = require('./config'),
 	vhost = require('vhost'),//TODO may not use this unless restricting to certain domain names
 	passport = require('passport'),
 	expressSession = require('express-session'),
-	flash = require('connect-flash'),//TODO may not be using
 	uuid = require('node-uuid');
 
 
@@ -46,12 +45,9 @@ module.exports = function() {
 	app.use(passport.initialize());
 	app.use(passport.session());
 
-	// Using the flash middleware provided by connect-flash to store messages in session
-	// and displaying in templates
-	app.use(flash());
 
 	// Initialize Passport
-	require('../app/controllers/passport/init.server.controller')(passport);
+	require('../app/controllers/auth/init.auth.server.controller')(passport);
 
 	require('../app/routes/auth.server.routes.js')(app, passport);
 	require('../app/routes/api.server.routes.js')(app, passport);

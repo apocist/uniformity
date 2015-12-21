@@ -1,4 +1,4 @@
-{% extends 'base.swig' %}
+{% extends '../base.swig' %}
 
 {% block head %}
     {#<script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>#}{#1.8.2#}

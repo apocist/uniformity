@@ -5,12 +5,12 @@ var config = require('./config'),
 module.exports = function() {
 	var db = mongoose.connect(config.db);
 	autoIncrement.initialize(db);
-	require('../app/models/user.server.model');
-	require('../app/models/permission.server.model');
-	require('../app/models/route.server.model');
-	require('../app/models/_routable.server.model');
-	require('../app/models/page.server.model');
-	require('../app/models/blog.server.model');
+	require('../app/models/auth/user.auth.server.model');
+	require('../app/models/auth/permission.auth.server.model');
+	require('../app/models/routable/route.server.model');
+	require('../app/models/routable/routable.server.model');
+	require('../app/models/routable/page.routable.server.model');
+	require('../app/models/routable/blog.routable.server.model');
 	
 	return db;
 };

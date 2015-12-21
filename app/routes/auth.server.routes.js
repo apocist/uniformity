@@ -16,7 +16,7 @@ module.exports = function(app, passport){
 	router.get('/login/twitter/callback', function(req, res, next) {
 		passport.authenticate('twitter', function(err, user, flash) {
 			if (err || !user){
-				return res.render('authStatus', {
+				return res.render('auth/authStatus', {
 					status: {
 						error: err,
 						flash: flash
@@ -25,13 +25,13 @@ module.exports = function(app, passport){
 			} else{
 				req.logIn(user, function(err) {
 					if (err) {
-						return res.render('authStatus', {
+						return res.render('auth/authStatus', {
 							status: {
 								error: err
 							}
 						});
 					} else {
-						return res.render('authStatus', {
+						return res.render('auth/authStatus', {
 							status: {
 								user: req.user,
 								flash: flash
