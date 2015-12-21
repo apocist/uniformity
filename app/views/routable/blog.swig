@@ -5,8 +5,8 @@
     <script type="text/javascript" src="http://admin.inin.pw:1337/js/underscore/underscore-1.5.2-min.js"></script>{#1.5.2#}
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="http://backbonejs.org/backbone-min.js"></script>
-    <script type="text/javascript" src="http://admin.inin.pw:1337/js/common.js"></script>
-    <script type="text/javascript" src="http://admin.inin.pw:1337/js/contentEditor.js"></script>
+    <script type="text/javascript" src="/site/js/common.js"></script>
+    <script type="text/javascript" src="/admin/js/contentEditor.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             var editor = new ContentEditor({

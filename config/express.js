@@ -33,8 +33,17 @@ module.exports = function() {
 	// Don't leave both of these to `false` in production!
 
 	//separate the static folders away from admin
-	//app.use(vhost('admin.*.*', express.static('./static/admin')));
 	app.use(vhost('*.*', express.static('./static/public')));
+	/*app.use('/public', function(req, res, next) {
+		if (env != 'development') {
+			var result = req.url.match(/^.+\.swig$/);
+			if (result) {
+				return res.status(403).end('403 Forbidden')
+			}
+		}
+		next();
+	});*/
+	app.use(vhost('*.*', express.static('./app/views')));
 
 	app.use(expressSession({
 		resave: false,
