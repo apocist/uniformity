@@ -21,5 +21,5 @@ PageSchema.statics.formschema = {
 		placeholder : 'Page Content'
 	}
 };
-PageSchema.statics.controller = "page.server.controller";
+PageSchema.statics.controller = "page.routable.server.controller";
 mongoose.model('Page', PageSchema);

@@ -37,5 +37,5 @@ BlogSchema.statics.formschema = {
 		placeholder : 'Date Posted'
 	}
 };
-BlogSchema.statics.controller = "blog.server.controller";
+BlogSchema.statics.controller = "blog.routable.server.controller";
 mongoose.model('Blog', BlogSchema);
