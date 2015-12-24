@@ -1,0 +1,14 @@
+body {
+	margin: 0;
+}
+#flash_message {
+    display: table;
+	border-radius: 15px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 3px 20px;
+    text-align: center;
+    color: #888;
+}
