@@ -1,11 +1,16 @@
 var authController = Class({
 
+	//Require flashController
 	twitterButton: null,
 	user: null,
 	isAuthenticated: false,
+	flashController: null,
 
 	initialize: function(options){
 		var that = this;
+
+		that.flashController = window.flashController;
+
 		that.twitterButton = (options||{}).twitterButton;
 		that.user = (options||{}).user;
 		that.isAuthenticated = (options||{}).isAuthenticated;
@@ -42,20 +47,18 @@ var authController = Class({
 		var that = this;
 		that.user = status.user;
 		that.isAuthenticated = true;
-		console.log(status.flash);
-		//TODO need to setup popup messages(passive ones that aren't intrusive)
+		that.flashController.successMessage(status.flash);
 	},
 	authFail: function(status) {
 		var that = this;
 		that.resetSession();
 		if(status.flash){
-			console.log(status.flash);
+			that.flashController.failMessage(status.flash);
 		} else if(status.error){
-			console.log(status.error);
+			that.flashController.failMessage(status.error);
 		} else {
-			console.log('Authentication failed');
+			that.flashController.failMessage('Authentication failed');
 		}
-		//TODO need to setup popup messages(passive ones that aren't intrusive)
 	}
 });
 
