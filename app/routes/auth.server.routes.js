@@ -4,9 +4,9 @@ var router = express.Router();
 module.exports = function(app, passport){
 
 	// handle logout
-	router.get('/signout', function(req, res) {
+	router.get('/logout', function(req, res) {
 		req.logout();
-		//res.redirect('/');//handle sign and notify via json api call
+		res.redirect('/auth/status');//handle sign and notify via json api call
 	});
 
 	// route for twitter authentication and login
@@ -15,43 +15,37 @@ module.exports = function(app, passport){
 	// handle the callback after twitter has authenticated the user
 	router.get('/login/twitter/callback', function(req, res, next) {
 		passport.authenticate('twitter', function(err, user, flash) {
-			if (err || !user){
-				return res.render('auth/authStatus', {
-					status: {
-						error: err,
-						flash: flash
-					}
-				});
-			} else{
+			var result =  {
+				status: {
+					error: err,
+					user: req.user,
+					flash: flash
+				}
+			};
+			if (!err && user){
 				req.logIn(user, function(err) {
-					if (err) {
-						return res.render('auth/authStatus', {
-							status: {
-								error: err
-							}
-						});
-					} else {
-						return res.render('auth/authStatus', {
-							status: {
-								user: req.user,
-								flash: flash
-							}
-						});
-					}
+					result.status.error = err;
+					result.status.user = req.user;
 				});
 			}
+			return res.render('auth/authStatus', result);
 		})(req, res, next);
 	});
 
-	/* Test API is detects login
-	* This seem to keep the session even through api calls without passing tokens
-	* TODO should replace with an Auth Status json call
-	* */
-	router.get('/apitest', function(req, res){
+	router.get('/status', function(req, res){
+		//Does not provide a flash message, as that initiates a popup.
 		if(req.isAuthenticated()){
-			res.json({status: "You are Authenticated"});
+			res.json({
+				status: {
+					user: req.user
+				}
+			});
 		} else {
-			res.json({status: "You are NOT Authenticated! GO AWAY!!!!!!"});
+			res.json({
+				status: {
+					user: null
+				}
+			});
 		}
 	});
 

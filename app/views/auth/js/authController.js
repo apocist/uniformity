@@ -47,7 +47,9 @@ var authController = Class({
 		var that = this;
 		that.user = status.user;
 		that.isAuthenticated = true;
-		that.flashController.successMessage(status.flash);
+		if(status.flash){
+			that.flashController.successMessage(status.flash);
+		}
 	},
 	authFail: function(status) {
 		var that = this;
@@ -56,8 +58,6 @@ var authController = Class({
 			that.flashController.failMessage(status.flash);
 		} else if(status.error){
 			that.flashController.failMessage(status.error);
-		} else {
-			that.flashController.failMessage('Authentication failed');
 		}
 	}
 });
