@@ -45,8 +45,7 @@ var flashController = Class({
 	},
 	displayMessage: function(){
 		var that = this;
-		//TODO display the message for XX amount of time(based on message length and min/max)
-
+		//TODO display the message for XX amount of time(based on message length and min/max
 		that.show();
 	},
 	setMessage: function(message){
@@ -65,7 +64,7 @@ var flashController = Class({
 	},
 	setFontColor: function(color){
 		var that = this;
-		color = that.hexToRgb(color);
+		color = that.colorHexToRgb(color);
 		$(that.flashElement).css({'color': 'rgb('+ color +')'});
 	},
 	colorHexToRgbArray: function(hex){
@@ -85,7 +84,6 @@ var flashController = Class({
 	},
 	colorDarkenLighten: function(hex){
 		var color = this.colorHexToRgbArray(hex);
-		console.log(this.colorLuminance(hex));
 		if(this.colorLuminance(hex) > 127){//if light, darken
 			for(var i = 0, len = color.length; i < len; i++) {
 				color[i] -= 64;
