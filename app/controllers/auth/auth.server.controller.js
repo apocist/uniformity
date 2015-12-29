@@ -6,7 +6,6 @@ module.exports = function(passport){
 
 	// Passport needs to be able to serialize and deserialize users to support persistent login sessions
 	passport.serializeUser(function(user, done) {
-		//console.log('serializing user: ');console.log(user);
 		done(null, user._id);
 	});
 
@@ -15,11 +14,11 @@ module.exports = function(passport){
 			.findById(id)
 			.populate('permissions', 'scope permission')//don't need the user field
 			.exec (function(err, user) {
-				//console.log('deserializing user:',user);
 				done(err, user);
 			});
 	});
 
+	//TODO check what socialConfigs exist before running each
 	// Setting up Passport Strategies for Login and SignUp/Registration
 	twitter(passport);
 

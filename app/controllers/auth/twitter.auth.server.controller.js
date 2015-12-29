@@ -1,9 +1,6 @@
-var TwitterStrategy  = require('passport-twitter').Strategy;
-//var User = require('../models/user');
-var twitterConfig = require('../../../config/social/twitter.js');
-var mongoose = require('mongoose'),
-	User = mongoose.model('User'),
-	Permission = mongoose.model('Permission');
+var TwitterStrategy  = require('passport-twitter').Strategy,
+	twitterConfig = require('../../../config/social/twitter.js'),
+	UserController = require('./user.auth.server.controller.js');
 
 module.exports = function(passport) {
 
@@ -13,13 +10,20 @@ module.exports = function(passport) {
 			callbackURL     : twitterConfig.callbackURL
 
 		},
+		/**
+		 *
+		 * @param token
+		 * @param tokenSecret
+		 * @param profile
+		 * @param done expecting a callback function of (err, user, flash)
+		 */
 		function(token, tokenSecret, profile, done) {
 
 			// make the code asynchronous
 			// User.findOne won't fire until we have all our data back from Twitter
 			process.nextTick(function() {
 
-				User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
+				UserController.findOne({ 'twitter.id' : profile.id }, function(err, user) {
 
 					// if there is an error, stop everything and return that
 					// ie an error connecting to the database
@@ -30,38 +34,23 @@ module.exports = function(passport) {
 					if (user) {
 						return done(null, user, 'User Found and Logged In'); // user found, return that user
 					} else {
-						// if there is no user, create them
-						//TODO new user functions need to be ran centerally(in the init possibly)
-						var newUser                 = new User();
-
-						// set all of the user data that we need
-						newUser.twitter.id          = profile.id;
-						newUser.twitter.token       = token;
-						newUser.twitter.username = profile.username;
-						newUser.twitter.displayName = profile.displayName;
-						newUser.twitter.lastStatus = profile._json.status.text;
-
-						//TODO should only give master permissions if there are no users with them
-						var permission = new Permission();//TODO in the works of a Permissions Controller
-						permission.user = newUser;
-						permission.scope = 'master';
-						permission.permission = 255;
-						permission.save();
-
-						newUser.permissions.push(permission);
-
-						// save our user into the database
-						newUser.save(function(err) {
+						var twitterProfile = {
+							'twitter': {
+								'id' :profile.id,
+								'token': token,
+								'username' : profile.username,
+								'displayName' : profile.displayName,
+								'lastStatus' : profile._json.status.text
+							}
+						};
+						UserController.create(twitterProfile, function(err, usr) {
 							if (err)
 								throw err;
-							return done(null, newUser, 'New User Registered');
+							return done(null, usr, 'New User Registered');
 						});
 					}
 				});
-
 			});
-
 		}
 	));
-
 };

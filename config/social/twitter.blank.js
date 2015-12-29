@@ -3,5 +3,5 @@
 module.exports = {
 	'apikey' : '<api key here>',
 	'apisecret' : '<api secret here>',
-	'callbackUrl' : ' http://<domain.com.here>/auth/login/twitter/callback'
+	'callbackURL' : ' http://<domain.com.here>/auth/login/twitter/callback'
 }
