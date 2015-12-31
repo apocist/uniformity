@@ -1,4 +1,4 @@
-var routing = require('../controllers/routable/route.server.controller');
+var routing = require('../controllers/route.server.controller.js');
 var index = require('../controllers/site/index.site.server.controller');
 var express = require('express');
 var vhost = require('vhost');

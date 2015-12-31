@@ -56,10 +56,10 @@ module.exports = function() {
 
 
 	// Initialize Passport
-	require('../app/controllers/auth/auth.server.controller.js')(passport);
+	require('../app/controllers/auth.server.controller.js')(passport);
 
 	require('../app/routes/auth.server.routes.js')(app, passport);
-	require('../app/routes/api/api.server.routes.js')(app, passport);
+	require('../app/routes/api.server.routes.js')(app, passport);
 	require('../app/routes/main.server.routes.js')(app);
 
     return app;

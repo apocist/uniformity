@@ -1,4 +1,4 @@
-var twitter = require('./twitter.auth.server.controller');
+var twitter = require('./auth/twitter.auth.server.controller.js');
 var mongoose = require('mongoose'),
 	User = mongoose.model('User');
 

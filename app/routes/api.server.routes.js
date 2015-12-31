@@ -1,6 +1,6 @@
 var express = require('express');
 var routes = {
-	routable: require('./routable.api.server.routes.js')
+	routable: require('./api/routable.api.server.routes.js')
 };
 
 function requirePermission(role) {//TODO in the works of a Permissions Controller

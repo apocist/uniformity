@@ -1,5 +1,5 @@
 // FIXME Deprecated
-var routable = require('../controllers/routable/routable.server.controller');
+var routable = require('routable.server.controller.js');
 
 exports.render = function(req, res) {
 	res.render('admin', {

@@ -68,7 +68,7 @@ exports.getObj = function(req, res, next, err, route) {
 				}, 
 				function(err, objData) {
 					if (!err && objData) {
-						require('./'+obj.controller).render(req, res, obj, objType, objData);
+						require('./routable/'+obj.controller).render(req, res, obj, objType, objData);
 					}
 					else{return next(err);}
 				}

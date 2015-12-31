@@ -1,4 +1,4 @@
-var routable = require('../../controllers/routable/routable.server.controller.js');
+var routable = require('../../controllers/routable.server.controller.js');
 var express = require('express');
 
 
