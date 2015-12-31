@@ -1,6 +1,6 @@
 var flashController = Class({
 
-	flashElement: '<div id="flash_message">',
+	flashElement: '<div id="flashMessage">',
 	timer: null,
 
 	initialize: function(options){

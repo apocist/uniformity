@@ -1,7 +1,7 @@
 body {
 	margin: 0;
 }
-#flash_message {
+#flashMessage {
 	position: absolute;
 	opacity: 0;
 	border-radius: 15px;
@@ -22,22 +22,22 @@ body {
 	transition: opacity 250ms ease-in;
 
 }
-#flash_message.visible {
+#flashMessage.visible {
 	opacity: 1;
 }
-#flash_message.success {
+#flashMessage.success {
 	background-color: rgba(0,255,0,0.7);
 	color: #888888
 }
-#flash_message.fail {
+#flashMessage.fail {
 	background-color: rgba(255,0,0,0.7);
 	color: #EEEEEE
 }
-#flash_message.alert {
+#flashMessage.alert {
 	background-color: rgba(255,136,0,0.7);
 	color: #888888
 }
-#flash_message.info {
+#flashMessage.info {
 	background-color: rgba(56, 202, 255, 0.7);
 	color: #000000
 }
