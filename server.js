@@ -4,10 +4,12 @@ var config = require('./config/config'),
 	mongoose = require('./config/mongoose'),
 	express = require('./config/express');
 
-//noinspection JSUnusedGlobalSymbols
-var db = mongoose(),
-	app = express();
+mongoose(function(d){
+	var db = d,
+		app = express();
+
+	app.listen(config.port);
+	module.exports = app;
+	console.log(process.env.NODE_ENV  + ' server running at http://localhost:' + config.port);
+});
 	
-app.listen(config.port);
-module.exports = app;
-console.log(process.env.NODE_ENV  + ' server running at http://localhost:' + config.port);

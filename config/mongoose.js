@@ -1,27 +1,21 @@
 var config = require('./config'),
 	mongoose = require('mongoose'),
-	autoIncrement = require('mongoose-auto-increment');
+	autoIncrement = require('mongoose-auto-increment'),
+	dir = require('node-dir');
 
-module.exports = function() {
+module.exports = function(callback) {
 	var db = mongoose.connect(config.db);
 	autoIncrement.initialize(db);
-	require('../app/models/auth/user.auth.server.model');
-	require('../app/models/auth/permission.auth.server.model');
-	require('../app/models/routable/route.server.model');
-	require('../app/models/routable/routable.server.model');
-	require('../app/models/routable/page.routable.server.model');
-	require('../app/models/routable/blog.routable.server.model');
-	
-	return db;
+
+	//models are loaded by parent directories first
+	//the required models need to be in a parent folder in order to be loaded first
+	dir.files(__dirname+'/../app/models/', function(err, files) {
+		if (err) throw err;
+		console.log('Models:');
+		console.log(files);
+		for(var filenNum in files) {
+			require(files[filenNum]);
+		}
+		callback(db);
+	});
 };
-
-/*
- var fs = require('fs')
-
- fs.readdirSync(models_path).forEach(function(file) {
- if (file.substring(-3) === '.js') {
- require(models_path + '/' + file);
- }
- });
-
- */
