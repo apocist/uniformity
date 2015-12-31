@@ -1,6 +1,7 @@
 var flashController = Class({
 
 	flashElement: '<div id="flash_message">',
+	timer: null,
 
 	initialize: function(options){
 		var that = this;
@@ -13,45 +14,60 @@ var flashController = Class({
 	},
 	hide: function(){
 		var that = this;
-		$(that.flashElement).hide();
+		//$(that.flashElement).hide();
+		$(that.flashElement).removeClass('visible');
 	},
 	show: function(){
 		var that = this;
-		$(that.flashElement).show();
+		//$(that.flashElement).show();
+		$(that.flashElement).addClass('visible');
+	},
+	removeTypes: function(){
+		var that = this;
+		$(that.flashElement).removeClass('success fail alert info');
 	},
 	successMessage: function(message){
 		var that = this;
+		that.removeTypes();
 		that.setMessage(message);
-		that.setBGColor('00FF00', 0.5);//TODO wouldn't just CSS work better?(and allow more customization..better switch later)
-		that.setFontColor('888888');
+		$(that.flashElement).addClass('success');
 
 		that.displayMessage();
 	},
 	failMessage: function(message){
 		var that = this;
+		that.removeTypes();
 		that.setMessage(message);
-		that.setBGColor('FF0000', 0.5);
-		that.setFontColor('EEEEEE');
+		$(that.flashElement).addClass('fail');
 
 		that.displayMessage();
 	},
 	alertMessage: function(message){
 		var that = this;
+		that.removeTypes();
 		that.setMessage(message);
-		that.setBGColor('FF8800', 0.5);
-		that.setFontColor('888888');
+		$(that.flashElement).addClass('alert');
+
+		that.displayMessage();
+	},
+	infoMessage: function(message){
+		var that = this;
+		that.removeTypes();
+		that.setMessage(message);
+		$(that.flashElement).addClass('info');
 
 		that.displayMessage();
 	},
 	displayMessage: function(){
 		var that = this;
-		//TODO display the message for XX amount of time(based on message length and min/max
+		clearTimeout(that.timer);
+		that.timer = setTimeout(function(){that.hide(); }, 3000);
 		that.show();
 	},
 	setMessage: function(message){
 		var that = this;
 		$(that.flashElement).html(message);
-	},
+	}/*,
 	setBGColor: function(hex, opacity){
 		var that = this;
 		opacity = opacity || 1;
@@ -96,5 +112,5 @@ var flashController = Class({
 			}
 		}
 		return color.join();
-	}
+	}*/
 });
