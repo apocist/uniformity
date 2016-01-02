@@ -1,5 +1,5 @@
-var routable = require('../../controllers/routable.server.controller.js');
-var express = require('express');
+var 	routable = require('../../controllers/routable.server.controller.js'),
+		express = require('express');
 
 
 exports.public = function(req, res, next) {

@@ -1,6 +1,6 @@
-var twitter = require('./auth/twitter.auth.server.controller.js');
-var mongoose = require('mongoose'),
-	User = mongoose.model('User');
+var 	twitter = require('./auth/twitter.auth.server.controller.js'),
+		mongoose = require('mongoose'),
+		User = mongoose.model('User');
 
 module.exports = function(passport){
 

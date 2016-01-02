@@ -1,6 +1,6 @@
-var TwitterStrategy  = require('passport-twitter').Strategy,
-	twitterConfig = require('../../../config/social/twitter.js'),
-	UserController = require('./user.auth.server.controller.js');
+var 	TwitterStrategy  = require('passport-twitter').Strategy,
+		twitterConfig = require('../../../config/social/twitter.js'),
+		UserController = require('./user.auth.server.controller.js');
 
 module.exports = function(passport) {
 

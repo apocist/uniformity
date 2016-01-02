@@ -2,9 +2,9 @@
 This is a non-existant object that is only meant to be extended from
 */
 
-var mongoose = require('mongoose'),
-	autoIncrement = require('mongoose-auto-increment'),
-	Schema = mongoose.Schema;
+var 	mongoose = require('mongoose'),
+		autoIncrement = require('mongoose-auto-increment'),
+		Schema = mongoose.Schema;
 	
 
 var RoutableSchema = new Schema({

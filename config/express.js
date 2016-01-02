@@ -1,5 +1,5 @@
 //noinspection JSUnusedGlobalSymbols
-var	bodyParser = require('body-parser'),
+var 	bodyParser = require('body-parser'),
 		config = require('./config'),
 		dir = require('../app/libs/node-dir-extend'),
 		express = require('express'),

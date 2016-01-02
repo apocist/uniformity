@@ -1,5 +1,5 @@
-var dir = require('node-dir'),
-	_ = require("underscore");
+var 	dir = require('node-dir'),
+		_ = require("underscore");
 
 //Extend to provide all the functions of node-dir
 _.extend(exports, dir);

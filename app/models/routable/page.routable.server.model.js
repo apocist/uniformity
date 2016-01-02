@@ -1,7 +1,7 @@
 //noinspection JSUnusedGlobalSymbols
-var mongoose = require('mongoose'),
-	extend = require('mongoose-schema-extend'),
-	routable = mongoose.model('Routable').schema;
+var 	mongoose = require('mongoose'),
+		extend = require('mongoose-schema-extend'),
+		routable = mongoose.model('Routable').schema;
 	
 var PageSchema = routable.extend({
 	subType: {type: String, default: 'Page', enums: ['Page']},

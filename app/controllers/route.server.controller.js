@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-	Route = mongoose.model('Route');
+var 	mongoose = require('mongoose');
+		Route = mongoose.model('Route');
 
 exports.error404 = function(req, res) {
 	res.status(404);

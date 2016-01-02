@@ -1,6 +1,6 @@
-var mongoose = require('mongoose'),
-	User = mongoose.model('User'),
-	Permission = mongoose.model('Permission');
+var 	mongoose = require('mongoose'),
+		User = mongoose.model('User'),
+		Permission = mongoose.model('Permission');
 
 /**
  * A simple alias for the User model function findOne

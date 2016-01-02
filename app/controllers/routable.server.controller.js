@@ -1,5 +1,5 @@
-var mongoose = require('mongoose'),
-	Route = mongoose.model('Route');
+var 	mongoose = require('mongoose'),
+		Route = mongoose.model('Route');
 //maybe handle with pre and post hooks
 
 /**

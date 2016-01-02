@@ -1,5 +1,5 @@
-var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+var 	mongoose = require('mongoose'),
+		Schema = mongoose.Schema;
 
 var RouteSchema = new Schema({
 	hid: { type : Number, required : true, unique : false },

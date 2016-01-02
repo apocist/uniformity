@@ -1,5 +1,5 @@
-var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+var 	mongoose = require('mongoose'),
+		Schema = mongoose.Schema;
 
 var PermissionSchema = new Schema({
 	user: { type : Schema.ObjectId, ref : 'User' },

@@ -1,7 +1,7 @@
-var routing = require('../controllers/route.server.controller.js');
-var index = require('../controllers/site/index.site.server.controller');
-var express = require('express');
-var vhost = require('vhost');
+var 	routing = require('../controllers/route.server.controller.js'),
+		index = require('../controllers/site/index.site.server.controller'),
+		express = require('express'),
+		vhost = require('vhost');
 
 module.exports = function(app) {
 	//noinspection JSUnresolvedFunction,JSCheckFunctionSignatures
