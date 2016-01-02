@@ -1,7 +1,7 @@
 var config = require('./config'),
 	mongoose = require('mongoose'),
 	autoIncrement = require('mongoose-auto-increment'),
-	dir = require('node-dir');
+	dir = require('../app/libs/node-dir-extend');
 
 module.exports = function(callback) {
 	var db = mongoose.connect(config.db);

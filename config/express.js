@@ -1,16 +1,17 @@
 //noinspection JSUnusedGlobalSymbols
-var config = require('./config'),
-	express = require('express'),
-	bodyParser = require('body-parser'),
-	swig = require('swig'),
-	vhost = require('vhost'),//TODO may not use this unless restricting to certain domain names
-	passport = require('passport'),
-	expressSession = require('express-session'),
-	uuid = require('node-uuid');
+var	bodyParser = require('body-parser'),
+		config = require('./config'),
+		dir = require('../app/libs/node-dir-extend'),
+		express = require('express'),
+		expressSession = require('express-session'),
+		passport = require('passport'),
+		swig = require('swig'),
+		uuid = require('node-uuid'),
+		vhost = require('vhost');//TODO may not use this unless restricting to certain domain names
 
 
 	
-module.exports = function() {
+module.exports = function(callback) {
     var app = express();
 
 	app.use(bodyParser.urlencoded({
@@ -58,9 +59,13 @@ module.exports = function() {
 	// Initialize Passport
 	require('../app/controllers/auth.server.controller.js')(passport);
 
-	require('../app/routes/auth.server.routes.js')(app, passport);
-	require('../app/routes/api.server.routes.js')(app, passport);
-	require('../app/routes/main.server.routes.js')(app);
 
-    return app;
+	//Includes all the files found directly in /app/routes , none in sub directories
+	dir.filesLocal(__dirname+'/../app/routes/',function(routes){
+		console.log('Routes:\n',routes);
+		for(var route in routes) {
+			require(routes[route])(app, passport);
+		}
+		callback(app);
+	});
 };

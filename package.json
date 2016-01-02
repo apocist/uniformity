@@ -35,6 +35,7 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.3",
     "swig": "^1.4.2",
+    "underscore": "^1.8.3",
     "vhost": "^3.0.2"
   }
 }
