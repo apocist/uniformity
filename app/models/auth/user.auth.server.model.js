@@ -12,8 +12,9 @@ var UserSchema = new Schema({
 	}
 },
 {
-	collection: 'user'
+	collection: 'auth.user'
 }
 );
 
+UserSchema.statics.objectParent = ['User', 'Auth', 'Site'];
 mongoose.model('User', UserSchema);

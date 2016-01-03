@@ -8,7 +8,7 @@ var PageSchema = routable.extend({
 	content: String
 },
 {
-	collection: 'pages'
+	collection: 'routable.page'
 }
 );
 
@@ -21,5 +21,6 @@ PageSchema.statics.formschema = {
 		placeholder : 'Page Content'
 	}
 };
+PageSchema.statics.objectParent = ['Page', 'Routable', 'Site'];
 PageSchema.statics.controller = "page.routable.server.controller";
 mongoose.model('Page', PageSchema);

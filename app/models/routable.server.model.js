@@ -16,7 +16,7 @@ var RoutableSchema = new Schema({
 	modified : { type : Date, default : Date.now }
 },
 {
-	collection: 'routes'//TODO need to prevent this from creating a collection
+	collection: 'route'//this object will never exist
 }
 );
 
@@ -66,6 +66,7 @@ RoutableSchema.statics.formschema = {
 	}
 };
 RoutableSchema.statics.routable = true;
+RoutableSchema.statics.objectParent = ['Routable', 'Site'];
 RoutableSchema.statics.controller = "SOMETHING.server.controller";//to be set by routable model
 RoutableSchema.plugin(autoIncrement.plugin, { model: 'Route', field: 'hid', startAt: 100 });
 mongoose.model('Routable', RoutableSchema);

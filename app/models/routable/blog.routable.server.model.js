@@ -9,7 +9,7 @@ var BlogSchema = routable.extend({
 	posted : { type : Date, default : Date.now }
 },
 {
-	collection: 'blogs'
+	collection: 'routable.blog'
 }
 );
 
@@ -37,5 +37,6 @@ BlogSchema.statics.formschema = {
 		placeholder : 'Date Posted'
 	}
 };
+BlogSchema.statics.objectParent = ['Blog', 'Routable', 'Site'];
 BlogSchema.statics.controller = "blog.routable.server.controller";
 mongoose.model('Blog', BlogSchema);

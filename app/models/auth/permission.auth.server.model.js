@@ -7,8 +7,9 @@ var PermissionSchema = new Schema({
 	permission: Number
 },
 {
-	collection: 'permission'
+	collection: 'auth.permission'
 }
 );
 
+PermissionSchema.statics.objectParent = ['Permission', 'Auth', 'Site'];
 mongoose.model('Permission', PermissionSchema);

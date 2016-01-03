@@ -8,8 +8,9 @@ var RouteSchema = new Schema({
 	object: { type : Schema.ObjectId }
 },
 {
-	collection: 'routes'
+	collection: 'route'
 }
 );
 
+RouteSchema.statics.objectParent = ['Routable', 'Site'];//yes, Routable has access to Route
 mongoose.model('Route', RouteSchema);
