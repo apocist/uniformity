@@ -12,9 +12,39 @@ var UserSchema = new Schema({
 	}
 },
 {
-	collection: 'auth.user'
+	collection: 'auth.user',
+	toObject: {
+		virtuals: true
+	},
+	toJSON: {
+		virtuals: true
+	}
 }
 );
 
+UserSchema.virtual('permissionsParsed').
+	get(function() {
+		return this.___permissionsParsed;
+	}).
+	set(function(v) {
+		this.___permissionsParsed = v;
+	});
+
+//Auto populate permissions
+UserSchema.pre('findOne', function(next) {this.populate('permissions', 'scope permission');next();});
+UserSchema.pre('findOneAndRemove', function(next) {this.populate('permissions', 'scope permission');next();});
+UserSchema.pre('remove', function(next) {this.populate('permissions', 'scope permission');next();});
+
+//Sort the Permissions for quick use, runs on Find
+UserSchema.post('init', function (doc) {
+	doc.permissionsParsed = {};
+	for(var perm in doc.permissions){
+		if(doc.permissions.hasOwnProperty(perm) && doc.permissions[perm].scope){
+			doc.permissionsParsed[doc.permissions[perm].scope] = doc.permissions[perm];
+		}
+	}
+});
+
 UserSchema.statics.objectParent = ['User', 'Auth', 'Site'];
+
 mongoose.model('User', UserSchema);

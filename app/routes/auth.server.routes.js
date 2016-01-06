@@ -14,7 +14,7 @@ module.exports = function(app, passport){
 
 	// handle the callback after twitter has authenticated the user
 	router.get('/login/twitter/callback', function(req, res, next) {
-		passport.authenticate('twitter', function(err, user, flash) {
+		passport.authenticate('twitter', function(err, user, flash) {//TODO remaining function should be centralized top be reused
 			var result =  {
 				status: {
 					error: err,
@@ -25,7 +25,7 @@ module.exports = function(app, passport){
 			if (!err && user){
 				req.logIn(user, function(err) {
 					result.status.error = err;
-					result.status.user = req.user;
+					result.status.user = req.user.toJSON();
 				});
 			}
 			return res.render('auth/authStatus', result);
@@ -37,7 +37,7 @@ module.exports = function(app, passport){
 		if(req.isAuthenticated()){
 			res.json({
 				status: {
-					user: req.user
+					user: req.user.toJSON()
 				}
 			});
 		} else {

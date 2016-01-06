@@ -18,8 +18,8 @@ exports.findOne = function(options, done) {
  * @param done expecting a callback function of (err, user)
  */
 exports.create = function(options, done) {
+	var that = this;
 
-	//TODO new user functions need to be ran centerally(in the init possibly)
 	var newUser                 = new User();
 
 	//add all the items from Object to this new object (merge)
@@ -39,7 +39,12 @@ exports.create = function(options, done) {
 	// save our user into the database
 	newUser.save(function(err) {
 		if (err)
-			throw err;
-		return done(null, newUser);
+			done(err, null);
+		that.findOne({'_id' : newUser.id},function(err, user) {
+			if (err)
+				done(err, null);
+			done(null, user);
+		});
+
 	});
 };
