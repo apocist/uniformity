@@ -8,17 +8,13 @@ exports.hasAccess = function(user, object, permissionNeeded, done) {//TODO need 
 		var found = false;
 		for(var parent in object.statics.objectParent) {//get each parent
 			//check if user has a permission for the parent
-			for(var permission in user.permissions){
-				if(user.permissions[permission].scope == parent){
-					found = true;
-					//user has some types of permissions for the object, time to check them
-					if(user.permissions[permission].permission >= permissionNeeded){//TODO need to do proper checks
-						done(true);
-					}
+			if(user.permissionsParsed.hasOwnProperty(object.statics.objectParent[parent])){
+				found = true;
+				if(user.permissionsParsed[object.statics.objectParent[parent]].permission >= permissionNeeded){//TODO need to do proper checks
+					done(true);
 				}
 				if(found){break;}
 			}
-			if(found){break;}
 		}
 	}
 };
