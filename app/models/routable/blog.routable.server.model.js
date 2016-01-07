@@ -37,6 +37,7 @@ BlogSchema.statics.formschema = {
 		placeholder : 'Date Posted'
 	}
 };
-BlogSchema.statics.objectParent = ['Blog', 'Routable', 'Site'];
+BlogSchema.statics.objectParent = ['Blog.Routable.Site', 'Routable.Site', 'Site'];
+BlogSchema.statics.defaultPermission = [0,0,0,0,0,0,1,1];//only Read All
 BlogSchema.statics.controller = "blog.routable.server.controller";
 mongoose.model('Blog', BlogSchema);

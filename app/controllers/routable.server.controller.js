@@ -1,5 +1,6 @@
 var 	mongoose = require('mongoose'),
-		Route = mongoose.model('Route');
+		Route = mongoose.model('Route'),
+		PermissionController = require('./auth/permission.auth.server.controller');
 //maybe handle with pre and post hooks
 
 /**
@@ -76,6 +77,10 @@ exports.update = function(req, res) {
 			var objModel = mongoose.model(req.params.subType);
 			var obj = new objModel(req.body);
 			if (obj.schema.statics.routable) {//makes sure this is a routable obj
+				//FIXME This is a
+				PermissionController.hasAccess(req.user, objModel, [PermissionController.access.updateAll, 'updateOwn'], function(bool){
+					console.log('permission is ', bool.valueOf())
+				});
 				objModel.findByIdAndUpdate(obj._id, obj, function(err) {
 						if (err) {res.json({error: err});}//Error Creating Route, Couldn't remove page"});}
 						else {res.json({success: true});}

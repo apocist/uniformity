@@ -30,7 +30,7 @@ exports.create = function(options, done) {
 	//TODO should only give master permissions if there are no users with them
 	var permission = new Permission();//TODO in the works of a Permissions Controller
 	permission.user = newUser;
-	permission.scope = 'master';
+	permission.scope = 'Site';
 	permission.permission = 255;
 	permission.save();
 

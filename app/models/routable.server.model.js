@@ -66,7 +66,8 @@ RoutableSchema.statics.formschema = {
 	}
 };
 RoutableSchema.statics.routable = true;
-RoutableSchema.statics.objectParent = ['Routable', 'Site'];
+RoutableSchema.statics.objectParent = ['Routable.Site', 'Site'];
+RoutableSchema.statics.defaultPermission = [0,0,0,0,0,0,1,1];//only Read All
 RoutableSchema.statics.controller = "SOMETHING.server.controller";//to be set by routable model
 RoutableSchema.plugin(autoIncrement.plugin, { model: 'Route', field: 'hid', startAt: 100 });
 mongoose.model('Routable', RoutableSchema);

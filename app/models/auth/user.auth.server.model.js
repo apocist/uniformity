@@ -45,6 +45,7 @@ UserSchema.post('init', function (doc) {
 	}
 });
 
-UserSchema.statics.objectParent = ['User', 'Auth', 'Site'];
-
+UserSchema.statics.objectParent = ['User.Auth.Site', 'Auth.Site', 'Site'];
+UserSchema.statics.defaultPermission = [0,0,0,0,0,1,1,1];//only Read All, Update Own TODO need details to prevent updating certain things like own permissions
+UserSchema.statics.controller = "user.auth.server.controller";
 mongoose.model('User', UserSchema);
