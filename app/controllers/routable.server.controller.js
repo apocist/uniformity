@@ -55,7 +55,7 @@ exports.create = function(req, res) {
 							});
 						}
 					});
-				} else {res.json({error: "Do not have Permission"});}
+				} else {res.json({error: "Do not have Create Permission"});}
 			});
 		}else{res.json({error: "Type not routable"});}
 	}else{res.json({error: "Type is not a Model"});}
@@ -83,7 +83,7 @@ exports.update = function(req, res) {
 							if (err) {res.json({error: err});}//Error Creating Route, Couldn't remove page"});}
 							else {res.json({success: true});}
 						});
-					} else {res.json({error: "Do not have Permission"});}
+					} else {res.json({error: "Do not have Update Permission"});}
 				});
 			}else{res.json({error: "Type not routable"});}
 		}else{res.json({error: "Type is not a Model"});}
@@ -112,7 +112,7 @@ exports.remove = function(req, res) {
 								res.json({success: true});
 							}
 						});
-					} else {res.json({error: "Do not have Permission"});}
+					} else {res.json({error: "Do not have Delete Permission"});}
 				});
 			}else{res.json({error: "Type not routable"});}
 		}else{res.json({error: "Type not a Model"});}
@@ -124,7 +124,7 @@ exports.remove = function(req, res) {
  * @param req.params.subType Model Name
  * @param res
  */
-exports.listBySubType = function(req, res) {
+exports.listBySubType = function(req, res) {//FIXME how to handle the listing of all models?
 	if(mongoose.modelNames().indexOf(req.params.subType) >= 0){//if this model subType exists
 		var objType = mongoose.model(req.params.subType);
 		objType.find({}, function(err, objs) {
@@ -144,16 +144,16 @@ exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
 	if(mongoose.modelNames().indexOf(req.params.subType) >= 0){
 		var objModel = mongoose.model(req.params.subType);
 		if (objModel.schema.statics.routable) {//makes sure this is a routable obj
-			objModel.findOne({
-					hid: req.params.hid
-				},
-				function (err, objData) {
-					if (err) {res.json({error: err});}
-					else{
-						res.json(objData);
-					}
-				}
-			);
+			PermissionController.hasAccess(req.user, objModel, [PermissionController.access.readAll], function(bool){
+				if(bool) {
+					objModel.findOne({hid: req.params.hid}, function (err, objData) {
+						if (err) {res.json({error: err});}
+						else{
+							res.json(objData);
+						}
+					});
+				} else {res.json({error: "Do not have Read Permission"});}
+			});
 		}else{res.json({error: "Type not routable"});}
 	}else{res.json({error: "Type not a Model"});}
 };
