@@ -14,18 +14,7 @@ Configure your correct Twitter API settings in ./config/social/twitter.blank.js 
 
 **NOTE**: Any *minor* version updates may require a `npm install` to acquire the latest libraries. During Alpha stages, updates will not be considered backwards-compatible.
 
-## Dependencies (need to update)
-
-#####Included
-- [body-parser](https://www.npmjs.com/package/body-parser)
-- [bson-ext](https://www.npmjs.com/package/bson-ext)
-- [express](https://www.npmjs.com/package/express)
-- [mongoose](https://www.npmjs.com/package/mongoose)
-- [mongoose-auto-increment](https://www.npmjs.com/package/mongoose-auto-increment)
-- [mongoose-schema-extend](https://www.npmjs.com/package/mongoose-schema-extend)
-- [node-uuid](https://www.npmjs.com/package/node-uuid)
-- [swig](https://www.npmjs.com/package/swig)
-- [vhost](https://www.npmjs.com/package/vhost)
+## Dependencies
 
 #####Needed to install separately
 - [Mongo Database](https://www.mongodb.org/)
