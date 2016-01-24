@@ -1,5 +1,6 @@
-var 	mongoose = require('mongoose');
-		Route = mongoose.model('Route');
+var 	mongoose = require('mongoose'),
+		Route = mongoose.model('Route'),
+		PermissionController = require('./auth/permission.auth.server.controller');
 
 exports.error404 = function(req, res) {
 	res.status(404);
@@ -68,7 +69,11 @@ exports.getObj = function(req, res, next, err, route) {
 				}, 
 				function(err, objData) {
 					if (!err && objData) {
-						require('./routable/'+obj.controller).render(req, res, obj, objType, objData);
+						PermissionController.hasAccess(req.user, objData, [PermissionController.access.readAll], function(bool){
+							if(bool) {
+								require('./routable/'+obj.controller).render(req, res, obj, objType, objData);
+							} else {exports.error404(req, res);}//TODO need no permission page or something
+						});
 					}
 					else{return next(err);}
 				}

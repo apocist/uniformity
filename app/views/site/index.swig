@@ -4,7 +4,7 @@
 	<script type="text/javascript" src="/js/underscore/underscore-1.5.2-min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="http://backbonejs.org/backbone-min.js"></script>
-	<script type="text/javascript" src="/js/common.js"></script>
+	<script type="text/javascript" src="/site/js/common.js"></script>
 	<script type="text/javascript">
 		//$(document).ready(function() {
 			var test = function(){

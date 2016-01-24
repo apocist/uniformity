@@ -23,8 +23,19 @@ exports.access = {
  * @param done callback currently returns true/false
  */
 exports.hasAccess = function(user, object, permissionsNeeded, done) {
+	var that = this;
 	var permission;
+	var skipPermissions = false;
+	console.log('checking permissions');
+	//TODO skip the checks on readAll if default is readAll (saves on processing power and speed)
+	if(permissionsNeeded.length == 1 && (permissionsNeeded[0] == 'readAll' || permissionsNeeded[0] == that.access.readAll) && object.schema.statics.defaultPermission){
+		if(object.schema.statics.defaultPermission[6] == 1){//if Model allows readAll by default
+			console.log('skipping permissions');
+			skipPermissions = true;
+		}
+	}
 	if(user && object.schema.statics.objectParent){
+		console.log('there is a user...');
 		//TODO Check if User has access to the specific object (may use the scope var of a hash object)
 		//Checks if user has has has access from Object Type then parent types
 		for(var parent in object.schema.statics.objectParent) {//get each parent
@@ -33,22 +44,29 @@ exports.hasAccess = function(user, object, permissionsNeeded, done) {
 				break;
 			}
 		}
-		//TODO allow specific object to set own default Permissions?
-		//Check if User can fallback to default permissions if none found
-		if(!permission && object.schema.statics.defaultPermission) {
-			permission = {
-				permission: that.permission2Raw(object.schema.statics.defaultPermission)
-				//TODO allow detailed default permissions
-			}
+
+	}
+	//TODO allow specific object to set own default Permissions?
+	//Check if User can fallback to default permissions if none found
+	if(!permission && object.schema.statics.defaultPermission) {
+		permission = {
+			permission: that.permission2Raw(object.schema.statics.defaultPermission)
+			//TODO allow detailed default permissions
 		}
 	}
-	if(permission){
-		that.comparePermissions(permission, permissionsNeeded, function(bool){
-			done(bool);
-		});
-	} else {
-		done(false);//no permission
+
+	if(skipPermissions){
+		done(skipPermissions);
+	} else{
+		if(permission){
+			that.comparePermissions(permission, permissionsNeeded, function(bool){
+				done(bool);
+			});
+		} else {
+			done(false);//no permission
+		}
 	}
+
 };
 
 /**

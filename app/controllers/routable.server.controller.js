@@ -17,46 +17,46 @@ exports.create = function(req, res) {
 		var objType = mongoose.model(req.params.subType);
 		var obj = new objType(req.body);
 		if (obj.schema.statics.routable) {//makes sure this is a routable obj
-			var url;
-			if(req.body.url){
-				url = req.body.url;//can add additional field "url"
-				if(url.charAt(0) != '/'){//make sure url starts with /
-					url = '/'+url;
-				}
-			}
-			Route.findOne({
-					url: url
-				},
-				function(err, routsearch) {
-					if (err) {res.json({error: "Error Checking Url"});}
-					else if(routsearch){res.json({error: "Url already exists"});}
-					else{//no url exists, go ahead and make it
-						var route = new Route({
-							url: url,
-							routableType: obj.constructor.modelName,
-							object: obj._id
-						});
-						obj.route = route._id;
-						obj.save(function(err) {
-							if (err) {res.json({error: "Error Creating Page"});}
-							else {
-								route.hid = obj.hid;
-								route.save(function (err) {
-									if (err) {
-										obj.remove(function(err) {
-											if (err) {res.json({error: "Error Creating Route, Couldn't remove page"});}
-											else {res.json({error: "Error Creating Route"});}
-										});
-									}
-									else{//all good
-										res.json(obj);
-									}
-								});
-							}
-						});
+			PermissionController.hasAccess(req.user, obj, [PermissionController.access.create], function(bool){//TODO maybe it should sue objType to avoid the user data first
+				if(bool) {
+					var url;
+					if(req.body.url){
+						url = req.body.url;//can add additional field "url"
+						if(url.charAt(0) != '/'){//make sure url starts with /
+							url = '/'+url;
+						}
 					}
-				}
-			);
+					Route.findOne({url: url}, function(err, routsearch) {
+						if(err) {res.json({error: "Error Checking Url"});}
+						else if(routsearch) {res.json({error: "Url already exists"});}
+						else {//no url exists, go ahead and make it
+							var route = new Route({
+								url: url,
+								routableType: obj.constructor.modelName,
+								object: obj._id
+							});
+							obj.route = route._id;
+							obj.save(function(err) {
+								if (err) {res.json({error: "Error Creating Routable"});}
+								else {
+									route.hid = obj.hid;
+									route.save(function (err) {
+										if (err) {
+											obj.remove(function(err) {
+												if (err) {res.json({error: "Error Creating Route, Couldn't remove errored Routable"});}
+												else {res.json({error: "Error Creating Route"});}
+											});
+										}
+										else{//all good
+											res.json(obj);
+										}
+									});
+								}
+							});
+						}
+					});
+				} else {res.json({error: "Do not have Permission"});}
+			});
 		}else{res.json({error: "Type not routable"});}
 	}else{res.json({error: "Type is not a Model"});}
 };
@@ -77,15 +77,14 @@ exports.update = function(req, res) {
 			var objModel = mongoose.model(req.params.subType);
 			var obj = new objModel(req.body);
 			if (obj.schema.statics.routable) {//makes sure this is a routable obj
-				//FIXME This is a
-				PermissionController.hasAccess(req.user, objModel, [PermissionController.access.updateAll, 'updateOwn'], function(bool){
-					console.log('permission is ', bool.valueOf())
+				PermissionController.hasAccess(req.user, objModel, [PermissionController.access.updateAll], function(bool){
+					if(bool) {
+						objModel.findByIdAndUpdate(obj._id, obj, function(err) {
+							if (err) {res.json({error: err});}//Error Creating Route, Couldn't remove page"});}
+							else {res.json({success: true});}
+						});
+					} else {res.json({error: "Do not have Permission"});}
 				});
-				objModel.findByIdAndUpdate(obj._id, obj, function(err) {
-						if (err) {res.json({error: err});}//Error Creating Route, Couldn't remove page"});}
-						else {res.json({success: true});}
-					}
-				);
 			}else{res.json({error: "Type not routable"});}
 		}else{res.json({error: "Type is not a Model"});}
 	}else{res.json({error: "No ID specified"});}
@@ -105,16 +104,16 @@ exports.remove = function(req, res) {
 		if(mongoose.modelNames().indexOf(req.params.subType) >= 0){
 			var objModel = mongoose.model(req.params.subType);
 			if (objModel.schema.statics.routable) {//makes sure this is a routable obj
-				objModel.findOneAndRemove({
-						hid :req.body.hid
-					},
-					function(err) {
-						if (err) {res.json({error: err});}
-						else{
-							res.json({success: true});
-						}
-					}
-				);
+				PermissionController.hasAccess(req.user, objModel, [PermissionController.access.deleteAll], function(bool){
+					if(bool) {
+						objModel.findOneAndRemove({hid :req.body.hid}, function(err) {
+							if (err) {res.json({error: err});}
+							else{
+								res.json({success: true});
+							}
+						});
+					} else {res.json({error: "Do not have Permission"});}
+				});
 			}else{res.json({error: "Type not routable"});}
 		}else{res.json({error: "Type not a Model"});}
 	}else{res.json({error: "No HID specified"});}
