@@ -17,6 +17,7 @@ exports.create = function(req, res) {
 		var objType = mongoose.model(req.params.subType);
 		var obj = new objType(req.body);
 		if (obj.schema.statics.routable) {//makes sure this is a routable obj
+			//TODO allow controller checks first
 			PermissionController.hasAccess(req.user, obj, [PermissionController.access.create], function(bool){//TODO maybe it should sue objType to avoid the user data first
 				if(bool) {
 					var url;
@@ -77,7 +78,8 @@ exports.update = function(req, res) {
 			var objModel = mongoose.model(req.params.subType);
 			var obj = new objModel(req.body);
 			if (obj.schema.statics.routable) {//makes sure this is a routable obj
-				PermissionController.hasAccess(req.user, objModel, [PermissionController.access.updateAll], function(bool){
+				//TODO allow controller checks first
+				PermissionController.hasAccess(req.user, objModel, [PermissionController.access.updateAll], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 					if(bool) {
 						objModel.findByIdAndUpdate(obj._id, obj, function(err) {
 							if (err) {res.json({error: err});}//Error Creating Route, Couldn't remove page"});}
@@ -104,7 +106,8 @@ exports.remove = function(req, res) {
 		if(mongoose.modelNames().indexOf(req.params.subType) >= 0){
 			var objModel = mongoose.model(req.params.subType);
 			if (objModel.schema.statics.routable) {//makes sure this is a routable obj
-				PermissionController.hasAccess(req.user, objModel, [PermissionController.access.deleteAll], function(bool){
+				//TODO allow controller checks first
+				PermissionController.hasAccess(req.user, objModel, [PermissionController.access.deleteAll], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 					if(bool) {
 						objModel.findOneAndRemove({hid :req.body.hid}, function(err) {
 							if (err) {res.json({error: err});}
@@ -144,7 +147,8 @@ exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
 	if(mongoose.modelNames().indexOf(req.params.subType) >= 0){
 		var objModel = mongoose.model(req.params.subType);
 		if (objModel.schema.statics.routable) {//makes sure this is a routable obj
-			PermissionController.hasAccess(req.user, objModel, [PermissionController.access.readAll], function(bool){
+			//TODO allow controller checks first
+			PermissionController.hasAccess(req.user, objModel, [PermissionController.access.readAll], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 				if(bool) {
 					objModel.findOne({hid: req.params.hid}, function (err, objData) {
 						if (err) {res.json({error: err});}

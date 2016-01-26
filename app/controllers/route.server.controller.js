@@ -25,11 +25,6 @@ exports.error404 = function(req, res) {
 	res.type('txt').send('Not found');
 };
 
-exports.read = function(req, res) {
-	console.log('parsing: ');
-	res.json(req.page);
-};
-
 exports.routeByURL = function(req, res, next){
 	var url = req.params[0];
 	Route.findOne({
