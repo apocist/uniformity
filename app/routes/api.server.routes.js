@@ -1,8 +1,5 @@
-var express = require('express');
-var routes = {
-	routable: require('./api/routable.api.server.routes.js')
-};
-
+var 	express = require('express'),
+		dir = require('../libs/node-dir-extend');
 
 module.exports = function(app, passport) {
 	//Setup CORS for only Reading externally
@@ -15,16 +12,18 @@ module.exports = function(app, passport) {
 	app.use(allowCrossDomain);
 
 	var apiRoute = null;
-	for(var route in routes) {
-		if(routes.hasOwnProperty(route)){
-				apiRoute = express.Router();
 
-				apiRoute.use(routes[route].routes());
+	//Includes all the files found directly in /app/routes , none in sub directories
+	dir.filesLocal(__dirname+'/api/',function(routes){
+		console.log('Api Paths:\n',routes);
+		for(var route in routes) {
+			apiRoute = express.Router();
 
-				app.use('/api', apiRoute);
+			apiRoute.use(require(routes[route]).routes());
+
+			app.use('/api', apiRoute);
 		}
-	}
-
+	});
 
 	/*app.get('*', function(req, res, next){
 		if(req.headers.host == 'some.sub.domain.com')  //if it's a sub-domain
