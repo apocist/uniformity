@@ -39,5 +39,5 @@ BlogSchema.statics.formschema = {
 };
 BlogSchema.statics.objectParent = ['Blog.Routable.Site', 'Routable.Site', 'Site'];
 BlogSchema.statics.defaultPermission = [0,0,0,0,0,0,1,1];//only Read All
-BlogSchema.statics.controller = "blog.routable.server.controller";
+//BlogSchema.statics.controller = "blog.routable.server.controller";//not needed, using as example
 mongoose.model('Blog', BlogSchema);

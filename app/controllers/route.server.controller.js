@@ -69,11 +69,18 @@ exports.getObj = function(req, res, next, err, route) {
 				}, 
 				function(err, objData) {
 					if (!err && objData) {
-						PermissionController.hasAccess(req.user, objData, [PermissionController.access.readAll], function(bool){
-							if(bool) {
-								require('./routable/'+obj.controller).render(req, res, obj, objType, objData);
-							} else {exports.error404(req, res);}//TODO need no permission page or something
-						});
+						var routableController;
+						if(obj.controller){routableController = require('./routable/'+obj.controller);}
+						//If controller contains special render functionality, do it
+						if(obj.controller && routableController.render){
+							require('./routable/'+obj.controller).render(req, res, obj, objData);
+						} else {//Otherwise, perform normal operations
+							PermissionController.hasAccess(req.user, objData, [PermissionController.access.readAll], function(bool){
+								if(bool) {
+									res.render('routable/'+objType, objData);
+								} else {exports.error404(req, res);}//TODO need no permission page or something
+							});
+						}
 					}
 					else{return next(err);}
 				}

@@ -29,7 +29,7 @@ module.exports = function(app, passport) {
 				secureApiRoute = express.Router();
 
 				// Will authenticated every request
-				secureApiRoute.use(/*requirePermission('Site'),*/ routes[route].secure());//TODO will detect permissions from within respective controllers
+				secureApiRoute.use(routes[route].secure());
 
 				app.use('/api', secureApiRoute)
 			}

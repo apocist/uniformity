@@ -23,5 +23,5 @@ PageSchema.statics.formschema = {
 };
 PageSchema.statics.objectParent = ['Page.Routable.Site', 'Routable.Site', 'Site'];
 PageSchema.statics.defaultPermission = [0,0,0,0,0,0,1,1];//only Read All
-PageSchema.statics.controller = "page.routable.server.controller";
+//PageSchema.statics.controller = "page.routable.server.controller";//not needed, using as example
 mongoose.model('Page', PageSchema);
