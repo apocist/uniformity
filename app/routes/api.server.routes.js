@@ -15,24 +15,13 @@ module.exports = function(app, passport) {
 	app.use(allowCrossDomain);
 
 	var apiRoute = null;
-	var secureApiRoute = null;
 	for(var route in routes) {
 		if(routes.hasOwnProperty(route)){
-			if(routes[route].hasOwnProperty('public')){
 				apiRoute = express.Router();
 
-				apiRoute.use(routes[route].public());
+				apiRoute.use(routes[route].routes());
 
 				app.use('/api', apiRoute);
-			}
-			if(routes[route].hasOwnProperty('secure')){
-				secureApiRoute = express.Router();
-
-				// Will authenticated every request
-				secureApiRoute.use(routes[route].secure());
-
-				app.use('/api', secureApiRoute)
-			}
 		}
 	}
 
