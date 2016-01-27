@@ -1,5 +1,5 @@
 {
-  "name": "Uniformity",
+  "name": "uniformity",
   "version": "0.5.0",
   "description": "First attempt at creating a dynamic website with a MEAN stack. 'npm install -g node-gyp' may be needed",
   "main": "server.js",
