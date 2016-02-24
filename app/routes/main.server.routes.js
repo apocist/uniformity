@@ -3,7 +3,7 @@ var 	routing = require('../controllers/route.server.controller.js'),
 		express = require('express'),
 		vhost = require('vhost');
 
-module.exports = function(app) {
+module.exports = function(app, passport, callback) {
 	//noinspection JSUnresolvedFunction,JSCheckFunctionSignatures
 	var mainRoute = express.Router();
 
@@ -17,7 +17,5 @@ module.exports = function(app) {
 	app.use(vhost('*.*',mainRoute));//something.com
 	app.use(routing.error404);//TODO this provides a 404 for admin as well, should it be separate?
 
-	
-
-	
+	callback();
 };

@@ -1,5 +1,6 @@
 //noinspection JSUnusedGlobalSymbols
-var 	bodyParser = require('body-parser'),
+var 	async = require('async'),
+		bodyParser = require('body-parser'),
 		config = require('./config'),
 		dir = require('../app/libs/node-dir-extend'),
 		express = require('express'),
@@ -63,9 +64,14 @@ module.exports = function(callback) {
 	//Includes all the files found directly in /app/routes , none in sub directories
 	dir.filesLocal(__dirname+'/../app/routes/',function(routes){
 		console.log('Routes:\n',routes);
-		for(var route in routes) {
+		/*for(var route in routes) {
 			require(routes[route])(app, passport);
-		}
-		callback(app);
+		}*/
+		async.each(routes, function(route, next){
+			require(route)(app, passport, next);
+		}, function(){
+			callback(app);
+		});
+
 	});
 };

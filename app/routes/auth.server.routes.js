@@ -1,7 +1,7 @@
 var 	express = require('express'),
 		router = express.Router();
 
-module.exports = function(app, passport){
+module.exports = function(app, passport, callback){
 
 	// handle logout
 	router.get('/logout', function(req, res) {
@@ -50,5 +50,5 @@ module.exports = function(app, passport){
 	});
 
 	app.use('/auth', router);
-
+	callback();
 };

@@ -21,6 +21,7 @@
   },
   "homepage": "http://inverseinnovations.com",
   "dependencies": {
+    "async": "^1.5.2",
     "body-parser": "^1.14.2",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
@@ -36,5 +37,7 @@
     "underscore": "^1.8.3",
     "vhost": "^3.0.2"
   },
-  "engines" : { "node" : ">=4.2.1 <5.4.0" }
+  "engines": {
+    "node": ">=4.2.1 <5.4.0"
+  }
 }
