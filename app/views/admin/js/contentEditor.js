@@ -16,6 +16,7 @@ var ContentEditor = Class({
 		}
 	}),
 	ContentView: Backbone.View.extend({
+		flashController: null,
 		parentClass: null,
 		el: '<input>',
 		aliasEl: null,
@@ -34,6 +35,7 @@ var ContentEditor = Class({
 		initialize: function(options){
 			_.bindAll(this, 'render', 'toggleVisible', 'hide', 'show');
 			var that = this;
+			that.flashController = window.flashController;
 			that.parentClass = (options||{}).parentClass;
 			that.aliasEl = (options||{}).aliasEl;
 			that.attributes = {
@@ -154,6 +156,8 @@ var ContentEditor = Class({
 					success: function (model, response) {
 						if (response.error) {
 							that.saveError(that, response);
+						} else {
+							that.flashController.successMessage('Saved');
 						}
 					},
 					error: function (model, response) {
@@ -163,7 +167,12 @@ var ContentEditor = Class({
 			}
 		},
 		saveError: function(ref, response) {
+			var that = this;
 			console.log("error",response);
+			if(response.error){
+				that.flashController.failMessage(response.error);
+			}
+
 			//TODO add flashbag to DOM
 			//Reset to previous values
 			ref.model.attributes[ref.attributes['data-var']] = ref.previousVal;
