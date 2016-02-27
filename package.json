@@ -4,6 +4,7 @@
   "description": "First attempt at creating a dynamic website with a MEAN stack. 'npm install -g node-gyp' may be needed",
   "main": "server.js",
   "scripts": {
+    "plugin": "node plugin.js",
     "test": "echo \"Warning: no tests setup yet\" && exit 0"
   },
   "repository": {
@@ -11,8 +12,8 @@
     "url": "https://github.com/apocist/uniformity.git"
   },
   "keywords": [
-    "Uniformity",
-    "CMS"
+    "uniformity",
+    "cms"
   ],
   "author": "Matthew Davis - Apocist <apocist@yahoo.com> (http://inverseinnovations.com/)",
   "license": "LGPL-2.1",
@@ -33,6 +34,7 @@
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.3",
+    "polite-plugin-manager": "0.0.6",
     "swig": "^1.4.2",
     "underscore": "^1.8.3",
     "vhost": "^3.0.2"
