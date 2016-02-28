@@ -1,5 +1,6 @@
-var exec = require('child_process').exec,
-	child;
+var 	exec = require('child_process').exec,
+		pluginManager = require('app/lib/pluginManager')(),
+		child;
 
 
 
