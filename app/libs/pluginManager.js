@@ -1,7 +1,8 @@
 var 	fs = require('fs'),
-		path = '../../config/plugins.js',
+		path = '../../config/pluginList.js',
 		pluginList = [],//the list of plugins to save (array of strings)
 		pluginData = {};//the plugins have been loaded and processed for use
+		//pluginOrder = {}
 
 /**
  * A custom Plugin Manager based on the concepts from PoliteJS/polite-plugin-manager
@@ -65,7 +66,7 @@ exports = function(){
 
 		hasPlugin: function(pluginName) {
 			if(!pluginList){pluginList = [];	}
-			return pluginList.indexOf(pluginName) >= 0 ? true : false;
+			return pluginList.indexOf(pluginName) >= 0;
 		}
 	};
 	pluginManager.load();
