@@ -1,9 +1,6 @@
-//This file is never used, but left as a placeholder example
-var PermissionController = require('./../auth/permission.auth.server.controller');
 
-//render function not need, as it does nothing special
-exports.render = function(req, res, obj, objData) {
-	PermissionController.hasAccess(req.user, objData, [PermissionController.access.readAll], function(bool){
+exports.render = function(req, res, obj, objData,libs) {
+	libs.PermissionController.hasAccess(req.user, objData, [libs.PermissionController.access.readAll], function(bool){
 		if(bool) {
 			res.render('routable/blog', objData);
 		} else {res.render('404', req);}//TODO need no permission page or something

@@ -23,7 +23,7 @@ module.exports = function(callback) {
 	
 	app.engine('swig', swig.renderFile);
 	
-    app.set('views', './app/views');
+    app.set('views', './app/views');//can also pass an array for mulitple folder / app.get('views'), first come first serve
 	app.set('view engine', 'swig');
 
 	// Swig will cache templates for you, but you can disable

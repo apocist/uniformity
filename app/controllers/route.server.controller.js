@@ -1,6 +1,9 @@
 var 	mongoose = require('mongoose'),
 		Route = mongoose.model('Route'),
-		PermissionController = require('./auth/permission.auth.server.controller');
+		PermissionController = require('./auth/permission.auth.server.controller'),
+		libs = {
+			'PermissionController': PermissionController
+		};
 
 exports.error404 = function(req, res) {
 	res.status(404);
@@ -64,11 +67,10 @@ exports.getObj = function(req, res, next, err, route) {
 				}, 
 				function(err, objData) {
 					if (!err && objData) {
-						var routableController;
-						if(obj.controller){routableController = require('./routable/'+obj.controller);}
 						//If controller contains special render functionality, do it
-						if(obj.controller && routableController.render){
-							routableController.render(req, res, obj, objData);
+						if(obj.controller && obj.controller.render){
+							//routableController.render(req, res, obj, objData);
+							obj.controller.render(req, res, obj, objData, libs);
 						} else {//Otherwise, perform normal operations
 							PermissionController.hasAccess(req.user, objData, [PermissionController.access.readAll], function(bool){
 								if(bool) {
