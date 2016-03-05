@@ -68,7 +68,7 @@ exports.getObj = function(req, res, next, err, route) {
 						if(obj.controller){routableController = require('./routable/'+obj.controller);}
 						//If controller contains special render functionality, do it
 						if(obj.controller && routableController.render){
-							require('./routable/'+obj.controller).render(req, res, obj, objData);
+							routableController.render(req, res, obj, objData);
 						} else {//Otherwise, perform normal operations
 							PermissionController.hasAccess(req.user, objData, [PermissionController.access.readAll], function(bool){
 								if(bool) {
