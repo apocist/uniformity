@@ -1,19 +1,25 @@
 {% extends '../base.swig' %}
 
 {% block head %}
-	{#<script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>#}{#1.8.2#}
-	<script type="text/javascript" src="http://admin.inin.pw:1337/js/underscore/underscore-1.5.2-min.js"></script>{#1.5.2#}
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="http://backbonejs.org/backbone-min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/site/css/common.css">
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.1/backbone-min.js"></script>
 	<script type="text/javascript" src="/site/js/common.js"></script>
+	<script type="text/javascript" src="/site/js/flashController.js"></script>
+	<script type="text/javascript" src="/auth/js/authController.js"></script>
 	<script type="text/javascript" src="/admin/js/contentEditor.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			window.flashController = new flashController();
+			window.authController = new authController({twitterButton: $('#twitterLogin')});
+
 			var editor = new ContentEditor({
 				id: {{ hid }},
 				type: '{{ type }}',
 				subType: '{{ __t }}',
-				baseUrl: 'http://admin.inin.pw:1337'
+				//baseUrl: 'http://admin.inin.pw:1337'
 			});
 			editor.load();
 		});
@@ -23,9 +29,10 @@
 {% block title %}{{ name }}{% endblock %}
 
 {% block content %}
-<h1 data-type="routable" data-subType="Blog" data-var="name">{{ name }}</h1>
-<h3>{{ posted|date('F jS, Y') }}</h3> {# TODO need a form type field #}
-<div data-type="routable" data-subType="Blog" data-var="content">
-	{{ content }}
-</div>
+	<h1 data-type="routable" data-subType="Blog" data-var="name">{{ name }}</h1>
+	<h3>{{ posted|date('F jS, Y') }}</h3> {# TODO need a form type field #}
+	<div data-type="routable" data-subType="Blog" data-var="content">
+		{{ content }}
+	</div>
+	<input id="twitterLogin" type="button" value="Twitter Login"/>
 {% endblock %}
