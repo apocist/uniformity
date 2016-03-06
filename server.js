@@ -13,6 +13,7 @@ var PluginManager = require('polite-plugin-manager');
 	//console.log('there are ', PluginManager.packages.length, ' packages')
 });*/
 
+//TODO need to load pluginManager first
 mongoose(function(d){
 	express(function(ap){
 		var db = d,

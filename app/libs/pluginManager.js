@@ -1,8 +1,22 @@
 var 	fs = require('fs'),
 		path = '../../config/pluginList.js',
 		pluginList = [],//the list of plugins to save (array of strings)
-		pluginData = {};//the plugins have been loaded and processed for use
-		//pluginOrder = {}
+		pluginData = {},//the plugins have been loaded and processed for use
+		pluginOrder = {};
+		/*
+		{
+			model.postRoutable: [
+				{
+					order: 2000,
+					item: 'bbddgdgd/fsafsdfsd//app/models/routable/blog.routable.server.model.js'
+				},
+				{
+
+				}
+			],
+			view.postSite : []
+		}
+		*/
 
 /**
  * A custom Plugin Manager based on the concepts from PoliteJS/polite-plugin-manager
@@ -24,20 +38,10 @@ exports = function(){
 			}
 			catch (err) {if(callback) callback({}, err);}
 		},
-		process: function(callback) {
-			pluginList.forEach(function (plugin) {
-				pluginData[plugin] = require(plugin);
-			});
-			if(callback) callback();
-		},
-		get: function(pluginName) {
-			if(!pluginData) pluginData = {};
-			if(pluginData.hasOwnProperty(pluginName)){
-				return pluginData[pluginName];
-			} else {
-				return null;
-			}
-		},
+		/**
+		 * Saves the current pluginList to config/pluginList.js
+		 * @param callback (optional)
+		 */
 		save: function(callback) {
 			if(pluginList){
 				var data = JSON.stringify(pluginList);
@@ -49,12 +53,80 @@ exports = function(){
 				if(callback) callback();
 			}
 		},
+		/**
+		 * Require each known plugin and gather it's needed information
+		 * @param callback (optional)
+		 */
+		process: function(callback) {
+			var that = this;
+			pluginList.forEach(function (plugin) {
+				pluginData[plugin] = require(plugin);
+				if(pluginData[plugin].hasOwnProperty('loadOrder')){
+					var loadOrder = pluginData[plugin]['loadOrder'];
+					for (var hook in loadOrder) {
+						if (loadOrder.hasOwnProperty(hook)) {
+							if(pluginOrder.hasOwnProperty(hook)){
+								pluginOrder[hook].push(loadOrder[hook]);
+							} else{
+								pluginOrder[hook]=[loadOrder[hook]];
+							}
+						}
+					}
+				}
+			});
+			that.processLoadOrder(callback);
+		},
+		/**
+		 * Sorts each plugins' hook by the order they have specified
+		 * @param callback (optional)
+		 */
+		processLoadOrder: function(callback){
+			var that = this;
+			for (var hook in pluginOrder) {
+				if (pluginOrder.hasOwnProperty(hook)) {
+					that.sortByKey(pluginOrder[hook], 'order');
+				}
+			}
+			if(callback) callback();
+		},
+		/**
+		 * Returns the Plugin information. 'process' needs to have been completed first.
+		 * @param pluginName
+		 * @returns {*}
+		 */
+		getPlugin: function(pluginName) {
+			if(!pluginData) pluginData = {};
+			if(pluginData.hasOwnProperty(pluginName)){
+				return pluginData[pluginName];
+			} else {
+				return null;
+			}
+		},
+		/**
+		 * Returns the load order of the specified hook. Returns Empty array if none
+		 * Returns Array of Objects [{order: 0, item: 'string'}]
+		 * @param hook (e.g. 'model.postRoutable')
+		 */
+		getLoadOrder: function(hook){
+			if (pluginOrder.hasOwnProperty(hook)) {
+				return pluginOrder[hook];
+			} else {return [];}
+		},
+		/**
+		 * Adds Plugin to uniformity. Will need to be 'saved' and 'processed' before it is usable.
+		 * @param pluginName
+		 */
 		addPlugin: function(pluginName) {
 			if(!pluginList){
 				pluginList = [];
 			}
 			pluginList.push(pluginName);
 		},
+		/**
+		 * Removes Plugin to uniformity. Will need to be 'saved' and 'processed' before it is usable.
+		 * Does not remove the node module.
+		 * @param pluginName
+		 */
 		removePlugin: function(pluginName) {
 			if(pluginList){
 				var index = pluginList.indexOf(pluginName);
@@ -63,11 +135,21 @@ exports = function(){
 				}
 			}
 		},
-
+		/**
+		 * Returns true/false if a Plugin by this name is installed.
+		 * @param pluginName
+		 * @returns {boolean}
+		 */
 		hasPlugin: function(pluginName) {
 			if(!pluginList){pluginList = [];	}
 			return pluginList.indexOf(pluginName) >= 0;
-		}
+		},
+		sortByKey: function(array, key) {
+		return array.sort(function(a, b) {
+			var x = a[key]; var y = b[key];
+			return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+		});
+	}
 	};
 	pluginManager.load();
 	return pluginManager;
