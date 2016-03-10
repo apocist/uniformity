@@ -12,7 +12,7 @@ var 	async = require('async'),
 
 
 	
-module.exports = function(callback) {
+module.exports = function(pluginManager, callback) {
     var app = express();
 
 	app.use(bodyParser.urlencoded({

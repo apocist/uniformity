@@ -1,6 +1,6 @@
 var 	fs = require('fs'),
-		path = '../../config/pluginList.js',
-		pluginList = [],//the list of plugins to save (array of strings)
+		path = './config/pluginList.js',
+		pluginList = null,//the list of plugins to save (array of strings)
 		pluginData = {},//the plugins have been loaded and processed for use
 		pluginOrder = {};
 		/*
@@ -22,21 +22,69 @@ var 	fs = require('fs'),
  * A custom Plugin Manager based on the concepts from PoliteJS/polite-plugin-manager
  * @returns {{load: pluginManager.load, process: pluginManager.process, get: pluginManager.get, save: pluginManager.save, addPlugin: pluginManager.addPlugin, removePlugin: pluginManager.removePlugin, hasPlugin: pluginManager.hasPlugin}}
  */
-exports = function(){
-
-	var pluginManager = {
+module.exports = {
 		/**
-		 * loads the plugin file. Also the construct function
+		 * Require each known plugin and gather it's needed information
+		 * @param callback (optional)
+		 */
+		process: function(callback) {
+			var that = this;
+			if(pluginList === null){
+				that.load(function(){that.process(callback)});//try again
+			} else {
+				pluginList.forEach(function (plugin) {
+					console.log('Detecting plugin '+plugin);
+					pluginData[plugin] = require(plugin);
+					if(pluginData[plugin].hasOwnProperty('loadOrder')){
+						var loadOrder = pluginData[plugin]['loadOrder'];
+						for (var hook in loadOrder) {
+							if (loadOrder.hasOwnProperty(hook)) {
+								if(pluginOrder.hasOwnProperty(hook)){
+									pluginOrder[hook].push(loadOrder[hook]);
+								} else{
+									pluginOrder[hook]=[loadOrder[hook]];
+								}
+							}
+						}
+					}
+				});
+				that.processLoadOrder(callback);
+			}
+		},
+		/**
+		 * Sorts each plugins' hook by the order they have specified
+		 * @param callback (optional)
+		 */
+		processLoadOrder: function(callback){
+			var that = this;
+			for (var hook in pluginOrder) {
+				if (pluginOrder.hasOwnProperty(hook)) {
+					that.sortByKey(pluginOrder[hook], 'order');
+				}
+			}
+			if(callback) callback();
+		},
+		/**
+		 * loads the plugin file
 		 * @param callback (optional)
 		 */
 		load: function(callback) {
-			var data = fs.readFileSync(path);
-
 			try {
-				pluginList = JSON.parse(data);
-				if(callback) callback(pluginList);
+				var data = fs.readFileSync(path);
+
+				try {
+					pluginList = JSON.parse(data);
+					if (callback) callback();
+				}
+				catch (err) {
+					pluginList = [];
+					if (callback) callback({}, err);
+				}
 			}
-			catch (err) {if(callback) callback({}, err);}
+			catch (err) {
+				pluginList = [];
+				if (callback) callback();
+			}
 		},
 		/**
 		 * Saves the current pluginList to config/pluginList.js
@@ -52,42 +100,6 @@ exports = function(){
 			} else{
 				if(callback) callback();
 			}
-		},
-		/**
-		 * Require each known plugin and gather it's needed information
-		 * @param callback (optional)
-		 */
-		process: function(callback) {
-			var that = this;
-			pluginList.forEach(function (plugin) {
-				pluginData[plugin] = require(plugin);
-				if(pluginData[plugin].hasOwnProperty('loadOrder')){
-					var loadOrder = pluginData[plugin]['loadOrder'];
-					for (var hook in loadOrder) {
-						if (loadOrder.hasOwnProperty(hook)) {
-							if(pluginOrder.hasOwnProperty(hook)){
-								pluginOrder[hook].push(loadOrder[hook]);
-							} else{
-								pluginOrder[hook]=[loadOrder[hook]];
-							}
-						}
-					}
-				}
-			});
-			that.processLoadOrder(callback);
-		},
-		/**
-		 * Sorts each plugins' hook by the order they have specified
-		 * @param callback (optional)
-		 */
-		processLoadOrder: function(callback){
-			var that = this;
-			for (var hook in pluginOrder) {
-				if (pluginOrder.hasOwnProperty(hook)) {
-					that.sortByKey(pluginOrder[hook], 'order');
-				}
-			}
-			if(callback) callback();
 		},
 		/**
 		 * Returns the Plugin information. 'process' needs to have been completed first.
@@ -145,14 +157,13 @@ exports = function(){
 			return pluginList.indexOf(pluginName) >= 0;
 		},
 		sortByKey: function(array, key) {
-		return array.sort(function(a, b) {
-			var x = a[key]; var y = b[key];
-			return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-		});
-	}
-	};
-	pluginManager.load();
-	return pluginManager;
+			return array.sort(function (a, b) {
+				var x = a[key];
+				var y = b[key];
+				return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+			});
+		}
+
 
 };
 

@@ -3,7 +3,7 @@ var 	config = require('./config'),
 		autoIncrement = require('mongoose-auto-increment'),
 		dir = require('../app/libs/node-dir-extend');
 
-module.exports = function(callback) {
+module.exports = function(pluginManager, callback) {
 	var db = mongoose.connect(config.db);
 	autoIncrement.initialize(db);
 
@@ -14,7 +14,9 @@ module.exports = function(callback) {
 		console.log('Models:');
 		console.log(files);
 		for(var filenNum in files) {
-			require(files[filenNum]);
+			if(files.hasOwnProperty(filenNum)){
+				require(files[filenNum]);
+			}
 		}
 		callback(db);
 	});

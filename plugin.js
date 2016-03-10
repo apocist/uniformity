@@ -1,5 +1,5 @@
 var 	exec = require('child_process').exec,
-		pluginManager = require('app/lib/pluginManager')(),
+		pluginManager = require('./app/libs/pluginManager'),
 		child;
 
 
@@ -29,7 +29,7 @@ if(!name){
 			if(keywords){
 				if (keywords.indexOf('uniformity') >= 0 && keywords.indexOf('plugin') >= 0) {
 					console.log("Installing '"+name+"'");
-					/*child = exec('npm install '+name, function (error, stdout, stderr) {
+					child = exec('npm install '+name, function (error, stdout, stderr) {
 						if (stdout !== null) {
 							console.log('stdout: ' + stdout);
 						}
@@ -39,8 +39,14 @@ if(!name){
 						if (error !== null) {
 							console.log('exec error: ' + error);
 						}
-					});*/
-					//TODO add installed 'plugin' to uniformity to load
+						if(stderr == null && error == null){
+							pluginManager.load(function(){
+								pluginManager.addPlugin(name);
+								pluginManager.save();
+								console.log("'"+name+"' installed and saved.");
+							});
+						}
+					});
 				} else {
 					console.warn("'"+name+"' does not seem to be a uniformity plugin, cancelling...");
 				}
