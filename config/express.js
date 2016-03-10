@@ -22,8 +22,14 @@ module.exports = function(pluginManager, callback) {
 	app.use(bodyParser.json());
 	
 	app.engine('swig', swig.renderFile);
-	
+
+	pluginManager.getLoadOrder('view.preSite').forEach(function (plugin) {
+		app.set('views', plugin.item);
+	});
     app.set('views', './app/views');//can also pass an array for mulitple folder / app.get('views'), first come first serve
+	pluginManager.getLoadOrder('view.postSite').forEach(function (plugin) {
+		app.set('views', plugin.item);
+	});
 	app.set('view engine', 'swig');
 
 	// Swig will cache templates for you, but you can disable
