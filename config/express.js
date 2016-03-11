@@ -23,13 +23,20 @@ module.exports = function(pluginManager, callback) {
 	
 	app.engine('swig', swig.renderFile);
 
+	var views = [];
 	pluginManager.getLoadOrder('view.preSite').forEach(function (plugin) {
-		app.set('views', plugin.item);
+		if(plugin.hasOwnProperty('item')){
+			views.push(plugin['item']);
+		}
 	});
-    app.set('views', './app/views');//can also pass an array for mulitple folder / app.get('views'), first come first serve
+	views.push('./app/views');
+    //app.set('views', './app/views');//can also pass an array for mulitple folder / app.get('views'), first come first serve
 	pluginManager.getLoadOrder('view.postSite').forEach(function (plugin) {
-		app.set('views', plugin.item);
+		if(plugin.hasOwnProperty('item')){
+			views.push(plugin['item']);
+		}
 	});
+	app.set('views', views);
 	app.set('view engine', 'swig');
 
 	// Swig will cache templates for you, but you can disable

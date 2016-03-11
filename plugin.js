@@ -33,13 +33,13 @@ if(!name){
 						if (stdout !== null) {
 							console.log('stdout: ' + stdout);
 						}
-						if (stderr !== null) {
+						if (stderr !== null && stderr.length > 0) {
 							console.log('stderr: ' + stderr);
 						}
 						if (error !== null) {
 							console.log('exec error: ' + error);
 						}
-						if(stderr == null && error == null){
+						if(error == null){
 							pluginManager.load(function(){
 								pluginManager.addPlugin(name);
 								pluginManager.save();

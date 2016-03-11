@@ -29,27 +29,26 @@ module.exports = {
 		 */
 		process: function(callback) {
 			var that = this;
-			if(pluginList === null){
-				that.load(function(){that.process(callback)});//try again
-			} else {
-				pluginList.forEach(function (plugin) {
-					console.log('Detecting plugin '+plugin);
-					pluginData[plugin] = require(plugin);
-					if(pluginData[plugin].hasOwnProperty('loadOrder')){
-						var loadOrder = pluginData[plugin]['loadOrder'];
-						for (var hook in loadOrder) {
-							if (loadOrder.hasOwnProperty(hook)) {
-								if(pluginOrder.hasOwnProperty(hook)){
-									pluginOrder[hook].push(loadOrder[hook]);
-								} else{
-									pluginOrder[hook]=[loadOrder[hook]];
+			that.load(function(){
+				pluginList.forEach(function (pluginName) {
+					require(pluginName)(function(plugin){
+						pluginData[pluginName] = plugin;
+						if(pluginData[pluginName].hasOwnProperty('loadOrder')){
+							var loadOrder = pluginData[pluginName]['loadOrder'];
+							for (var hook in loadOrder) {
+								if (loadOrder.hasOwnProperty(hook)) {
+									if(pluginOrder.hasOwnProperty(hook)){
+										pluginOrder[hook].push(loadOrder[hook]);
+									} else{
+										pluginOrder[hook]=loadOrder[hook];
+									}
 								}
 							}
 						}
-					}
+					});
 				});
 				that.processLoadOrder(callback);
-			}
+			});
 		},
 		/**
 		 * Sorts each plugins' hook by the order they have specified
@@ -74,17 +73,15 @@ module.exports = {
 
 				try {
 					pluginList = JSON.parse(data);
-					if (callback) callback();
 				}
 				catch (err) {
 					pluginList = [];
-					if (callback) callback({}, err);
 				}
 			}
 			catch (err) {
 				pluginList = [];
-				if (callback) callback();
 			}
+			if (callback) callback();
 		},
 		/**
 		 * Saves the current pluginList to config/pluginList.js
@@ -129,10 +126,13 @@ module.exports = {
 		 * @param pluginName
 		 */
 		addPlugin: function(pluginName) {
+			var that = this;
 			if(!pluginList){
 				pluginList = [];
 			}
-			pluginList.push(pluginName);
+			if(!that.hasPlugin(pluginName)){
+				pluginList.push(pluginName);
+			}
 		},
 		/**
 		 * Removes Plugin to uniformity. Will need to be 'saved' and 'processed' before it is usable.
