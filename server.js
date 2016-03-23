@@ -2,26 +2,22 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var 	config = require('./config/config'),
 		mongoose = require('./config/mongoose'),
-		express = require('./config/express');
+		express = require('./config/express'),
+		pluginManager = require('./app/libs/pluginManager');
 
-var PluginManager = require('polite-plugin-manager');
 
+pluginManager.process(function(){
+	mongoose(pluginManager, function(d){
+		express(pluginManager, function(ap){
+			var db = d,
+				app = ap;
 
-/*PluginManager.registerMany(__dirname+'/plugins').start(function() {
-
-	console.log('loaded packages!');
-	//console.log('there are ', PluginManager.packages.length, ' packages')
-});*/
-
-mongoose(function(d){
-	express(function(ap){
-		var db = d,
-			app = ap;
-
-		app.listen(config.port);
-		module.exports = app;
-		console.log(process.env.NODE_ENV  + ' server running at http://localhost:' + config.port);
-	});
+			app.locals.pluginManager = pluginManager;
+			app.listen(config.port);
+			module.exports = app;
+			console.log(process.env.NODE_ENV  + ' server running at http://localhost:' + config.port);
+		});
+	})
 });
 
 

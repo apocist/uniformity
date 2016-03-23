@@ -7,12 +7,13 @@ var 	async = require('async'),
 		expressSession = require('express-session'),
 		passport = require('passport'),
 		swig = require('swig'),
+		swigExpressLoader = require('../app/libs/swig/expressLoader');
 		uuid = require('node-uuid'),
 		vhost = require('vhost');//TODO may not use this unless restricting to certain domain names
 
 
 	
-module.exports = function(callback) {
+module.exports = function(pluginManager, callback) {
     var app = express();
 
 	app.use(bodyParser.urlencoded({
@@ -22,15 +23,31 @@ module.exports = function(callback) {
 	app.use(bodyParser.json());
 	
 	app.engine('swig', swig.renderFile);
-	
-    app.set('views', './app/views');
+
+	var views = [];
+	pluginManager.getLoadOrder('view.preSite').forEach(function (plugin) {
+		if(plugin.hasOwnProperty('item')){
+			views.push(plugin['item']);
+		}
+	});
+	views.push('./app/views');
+    //app.set('views', './app/views');//can also pass an array for mulitple folder / app.get('views'), first come first serve
+	pluginManager.getLoadOrder('view.postSite').forEach(function (plugin) {
+		if(plugin.hasOwnProperty('item')){
+			views.push(plugin['item']);
+		}
+	});
+	app.set('views', views);
 	app.set('view engine', 'swig');
 
 	// Swig will cache templates for you, but you can disable
 	// that and use Express's caching instead, if you like:
 	app.set('view cache', false);
 	// To disable Swig's cache, do the following:
-	swig.setDefaults({ cache: false });
+	swig.setDefaults({
+		cache: false,
+		loader:swigExpressLoader(views, 'swig')
+	});
 	// NOTE: You should always cache templates in a production environment.
 	// Don't leave both of these to `false` in production!
 
