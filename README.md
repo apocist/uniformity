@@ -4,15 +4,23 @@ First attempts at a CMS
 
 ## Install 
 
-After pulling the package from Github. 
+Install from npm using:
 
 ```sh
-$ npm install
+$ npm install uniformity
 ```
 
 Configure your correct Twitter API settings in ./config/social/twitter.blank.js then rename to 'twitter.js'
 
 **NOTE**: Any *minor* version updates may require a `npm install` to acquire the latest libraries. During Alpha stages, updates will not be considered backwards-compatible.
+
+## Plugins
+
+Install any needed plugins stored in the npm repository.
+Example:
+```sh
+$ npm run plugin 'uniformity-blog'
+```
 
 ## Dependencies
 
