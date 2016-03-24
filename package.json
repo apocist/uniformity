@@ -1,6 +1,6 @@
 {
   "name": "uniformity",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "First attempt at creating a dynamic website with a MEAN stack. 'npm install -g node-gyp' may be needed",
   "main": "server.js",
   "scripts": {
@@ -23,18 +23,17 @@
   "homepage": "http://inverseinnovations.com",
   "dependencies": {
     "async": "^1.5.2",
-    "body-parser": "^1.14.2",
-    "express": "^4.13.3",
-    "express-session": "^1.12.1",
-    "kerberos": "^0.0.17",
-    "mongoose": "^4.3.4",
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "kerberos": "^0.0.19",
+    "mongoose": "^4.4.9",
     "mongoose-auto-increment": "^5.0.1",
-    "mongoose-schema-extend": "^0.2.0",
+    "mongoose-schema-extend": "0.2.0",
     "node-dir": "^0.1.11",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
-    "passport-twitter": "^1.0.3",
-    "polite-plugin-manager": "0.0.6",
+    "passport-twitter": "^1.0.4",
     "swig": "^1.4.2",
     "underscore": "^1.8.3",
     "vhost": "^3.0.2"
