@@ -24,7 +24,9 @@ exports.create = function(options, done) {
 
 	//add all the items from Object to this new object (merge)
 	for (var attrname in options) {
-		newUser[attrname] = options[attrname];
+		if(options.hasOwnProperty(attrname)){
+			newUser[attrname] = options[attrname];
+		}
 	}
 
 	//TODO should only give master permissions if there are no users with them
