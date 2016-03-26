@@ -10,11 +10,13 @@ module.exports = function(app, passport, callback){
 	});
 
 	// route for twitter authentication and login
-	router.get('/login/twitter', passport.authenticate('twitter'));
+	router.get('/login/:authType', function(req, res, next) {
+		passport.authenticate(req.params.authType)(req, res, next);
+	});
 
 	// handle the callback after twitter has authenticated the user
-	router.get('/login/twitter/callback', function(req, res, next) {
-		passport.authenticate('twitter', function(err, user, flash) {//TODO remaining function should be centralized top be reused
+	router.get('/login/:authType/callback', function(req, res, next) {
+		passport.authenticate(req.params.authType, function(err, user, flash) {
 			var result =  {
 				status: {
 					error: err,
