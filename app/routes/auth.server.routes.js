@@ -11,27 +11,35 @@ module.exports = function(app, passport, callback){
 
 	// route for twitter authentication and login
 	router.get('/login/:authType', function(req, res, next) {
-		passport.authenticate(req.params.authType)(req, res, next);
+		if(passport._strategy(req.params.authType)){
+			passport.authenticate(req.params.authType)(req, res, next);
+		} else{
+			res.render('auth/authStatus', {status: {error: 'Authentication Strategy does not exist', user: null}});
+		}
 	});
 
 	// handle the callback after twitter has authenticated the user
 	router.get('/login/:authType/callback', function(req, res, next) {
-		passport.authenticate(req.params.authType, function(err, user, flash) {
-			var result =  {
-				status: {
-					error: err,
-					user: req.user,
-					flash: flash
+		if(passport._strategy(req.params.authType)) {
+			passport.authenticate(req.params.authType, function (err, user, flash) {
+				var result = {
+					status: {
+						error: err,
+						user: req.user,
+						flash: flash
+					}
+				};
+				if (!err && user) {
+					req.logIn(user, function (err) {
+						result.status.error = err;
+						result.status.user = req.user.toJSON();
+					});
 				}
-			};
-			if (!err && user){
-				req.logIn(user, function(err) {
-					result.status.error = err;
-					result.status.user = req.user.toJSON();
-				});
-			}
-			return res.render('auth/authStatus', result);
-		})(req, res, next);
+				return res.render('auth/authStatus', result);
+			})(req, res, next);
+		} else{
+			res.render('auth/authStatus', {status: {error: 'Authentication Strategy does not exist', user: null}});
+		}
 	});
 
 	router.get('/status', function(req, res){
