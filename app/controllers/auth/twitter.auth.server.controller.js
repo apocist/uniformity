@@ -1,14 +1,17 @@
-var 	TwitterStrategy  = require('passport-twitter').Strategy,
-		twitterConfig = require('../../../config/social/twitter.js'),
-		UserController = require('./user.auth.server.controller.js');
+var 	TwitterStrategy  = require('passport-twitter').Strategy;
 
-module.exports = function(passport) {
+/**
+ *
+ * @param passport
+ * @param UserController require('./auth/user.auth.server.controller.js')
+ * @param config Strategy Configuration settings
+ */
+module.exports = function(passport, UserController, config) {
 
 	passport.use('twitter', new TwitterStrategy({
-			consumerKey     : twitterConfig.apikey,
-			consumerSecret  : twitterConfig.apisecret,
-			callbackURL     : twitterConfig.callbackURL
-
+			consumerKey     : config.apikey,
+			consumerSecret  : config.apisecret,
+			callbackURL     : config.callbackURL
 		},
 		/**
 		 *
@@ -32,6 +35,7 @@ module.exports = function(passport) {
 
 					// if the user is found then log them in
 					if (user) {
+						//TODO update the twitter profile
 						return done(null, user, 'User Found and Logged In'); // user found, return that user
 					} else {
 						var twitterProfile = {

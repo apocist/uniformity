@@ -7,12 +7,16 @@ var 	async = require('async'),
 		expressSession = require('express-session'),
 		passport = require('passport'),
 		swig = require('swig'),
-		swigExpressLoader = require('../app/libs/swig/expressLoader');
+		swigExpressLoader = require('../app/libs/swig/expressLoader'),
 		uuid = require('node-uuid'),
 		vhost = require('vhost');//TODO may not use this unless restricting to certain domain names
 
 
-	
+/**
+ *
+ * @param pluginManager
+ * @param callback
+ */
 module.exports = function(pluginManager, callback) {
     var app = express();
 
@@ -24,6 +28,7 @@ module.exports = function(pluginManager, callback) {
 	
 	app.engine('swig', swig.renderFile);
 
+	//Load view Templates(core and plugins)
 	var views = [];
 	pluginManager.getLoadOrder('view.preSite').forEach(function (plugin) {
 		if(plugin.hasOwnProperty('item')){
@@ -31,7 +36,6 @@ module.exports = function(pluginManager, callback) {
 		}
 	});
 	views.push('./app/views');
-    //app.set('views', './app/views');//can also pass an array for mulitple folder / app.get('views'), first come first serve
 	pluginManager.getLoadOrder('view.postSite').forEach(function (plugin) {
 		if(plugin.hasOwnProperty('item')){
 			views.push(plugin['item']);
@@ -46,7 +50,7 @@ module.exports = function(pluginManager, callback) {
 	// To disable Swig's cache, do the following:
 	swig.setDefaults({
 		cache: false,
-		loader:swigExpressLoader(views, 'swig')
+		loader:swigExpressLoader(views, 'swig')//Use custom swig template loader
 	});
 	// NOTE: You should always cache templates in a production environment.
 	// Don't leave both of these to `false` in production!
@@ -74,8 +78,9 @@ module.exports = function(pluginManager, callback) {
 	app.use(passport.session());
 
 
+	//TODO pass plugin manager
 	// Initialize Passport
-	require('../app/controllers/auth.server.controller.js')(passport);
+	require('../app/controllers/auth.server.controller.js')(passport, pluginManager);
 
 
 	//Includes all the files found directly in /app/routes , none in sub directories

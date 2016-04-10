@@ -3,16 +3,6 @@ var 	mongoose = require('mongoose'),
 		Permission = mongoose.model('Permission');
 
 /**
- * A simple alias for the User model function findOne
- * @param options fields to search for user by
- * @param done expecting a callback function of (err, user)
- */
-exports.findOne = function(options, done) {
-	User.findOne(options, function(err, user) {
-		return done(err, user);
-	});
-};
-/**
  *
  * @param options object containing additional variable objects for newUser
  * @param done expecting a callback function of (err, user)
@@ -49,4 +39,53 @@ exports.create = function(options, done) {
 		});
 
 	});
+};
+/**
+ * A simple alias for the User model function findOne
+ * @param options fields to search for user by
+ * @param done expecting a callback function of (err, user)
+ */
+exports.findOne = function(options, done) {
+	if(done){
+		User.findOne(options, function(err, user) {
+			return done(err, user);
+		});
+	} else return User.findOne(options);
+};
+/**
+ * A simple alias for the User model function findById
+ * @param options fields to search for user by
+ * @param done expecting a callback function of (err, user)
+ */
+exports.findById = function(options, done) {
+	if(done){
+		User.findById(options, function(err, user) {
+			return done(err, user);
+		});
+	} else return User.findById(options);
+
+};
+/**
+ * A simple alias for the User model function populate
+ * @param options fields to search for user by
+ * @param done expecting a callback function of (err, user)
+ */
+exports.populate = function(options, done) {
+	if(done){
+		User.populate(options, function(err, user) {
+			return done(err, user);
+		});
+	} else return User.populate(options);
+};
+/**
+ * A simple alias for the User model function exec
+ * @param options fields to search for user by
+ * @param done expecting a callback function of (err, user)
+ */
+exports.exec = function(options, done) {
+	if(done){
+		User.exec(options, function(err, user) {
+			return done(err, user);
+		});
+	} else return User.exec(options);
 };

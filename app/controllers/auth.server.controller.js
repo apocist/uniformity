@@ -1,8 +1,14 @@
 var 	twitter = require('./auth/twitter.auth.server.controller.js'),
-		mongoose = require('mongoose'),
-		User = mongoose.model('User');
+		UserController = require('./auth/user.auth.server.controller.js'),
+		twitterConfig = require('../../config/social/twitter.js');//TODO will be dyna loaded from pluginManager
 
-module.exports = function(passport){
+//Run at startup
+/**
+ *
+ * @param passport
+ * @param pluginManager require('./app/libs/pluginManager')
+ */
+module.exports = function(passport, pluginManager){
 
 	// Passport needs to be able to serialize and deserialize users to support persistent login sessions
 	passport.serializeUser(function(user, done) {
@@ -10,7 +16,7 @@ module.exports = function(passport){
 	});
 
 	passport.deserializeUser(function(id, done) {//TODO may need to sanitize the data to prevent anything unneeded to pass to users
-		User
+		UserController
 			.findById(id)
 			.populate('permissions', 'scope permission')//don't need the user field
 			.exec (function(err, user) {
@@ -18,8 +24,9 @@ module.exports = function(passport){
 			});
 	});
 
+	//TODO loop through each plugin and load dynamically
 	//TODO check what socialConfigs exist before running each
 	// Setting up Passport Strategies for Login and SignUp/Registration
-	twitter(passport);
+	twitter(passport, UserController, twitterConfig);
 
 };
