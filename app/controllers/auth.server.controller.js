@@ -4,11 +4,10 @@ var 	twitter = require('./auth/twitter.auth.server.controller.js'),
 
 //Run at startup
 /**
- *
+ * @param app
  * @param passport
- * @param pluginManager require('./app/libs/pluginManager')
  */
-module.exports = function(passport, pluginManager){
+module.exports = function(app, passport){
 
 	// Passport needs to be able to serialize and deserialize users to support persistent login sessions
 	passport.serializeUser(function(user, done) {

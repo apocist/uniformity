@@ -19,6 +19,7 @@ var 	async = require('async'),
  */
 module.exports = function(pluginManager, callback) {
     var app = express();
+	app.locals.pluginManager = pluginManager;
 
 	app.use(bodyParser.urlencoded({
 		extended: true
@@ -30,13 +31,13 @@ module.exports = function(pluginManager, callback) {
 
 	//Load view Templates(core and plugins)
 	var views = [];
-	pluginManager.getLoadOrder('view.preSite').forEach(function (plugin) {
+	app.locals.pluginManager.getLoadOrder('view.preSite').forEach(function (plugin) {
 		if(plugin.hasOwnProperty('item')){
 			views.push(plugin['item']);
 		}
 	});
 	views.push('./app/views');
-	pluginManager.getLoadOrder('view.postSite').forEach(function (plugin) {
+	app.locals.pluginManager.getLoadOrder('view.postSite').forEach(function (plugin) {
 		if(plugin.hasOwnProperty('item')){
 			views.push(plugin['item']);
 		}
@@ -80,7 +81,7 @@ module.exports = function(pluginManager, callback) {
 
 	//TODO pass plugin manager
 	// Initialize Passport
-	require('../app/controllers/auth.server.controller.js')(passport, pluginManager);
+	require('../app/controllers/auth.server.controller.js')(app, passport);
 
 
 	//Includes all the files found directly in /app/routes , none in sub directories
