@@ -24,7 +24,6 @@ module.exports = function(app, passport){
 
 	//TODO loop through each plugin and load dynamically
 	//TODO should controllers be loaded into 'app'?
-	console.log(app.get('passport'));
 	// Setting up Passport Strategies for Login and SignUp/Registration
 	twitter(passport, UserController, app.locals.config.get("pluginManager:uniformity-auth-twitter"));
 
