@@ -1,6 +1,5 @@
 var 	twitter = require('./auth/twitter.auth.server.controller.js'),
-		UserController = require('./auth/user.auth.server.controller.js'),
-		twitterConfig = require('../../config/social/twitter.js');//TODO will be dyna loaded from pluginManager
+		UserController = require('./auth/user.auth.server.controller.js');
 
 //Run at startup
 /**
@@ -24,8 +23,9 @@ module.exports = function(app, passport){
 	});
 
 	//TODO loop through each plugin and load dynamically
-	//TODO check what socialConfigs exist before running each
+	//TODO should controllers be loaded into 'app'?
+	console.log(app.get('passport'));
 	// Setting up Passport Strategies for Login and SignUp/Registration
-	twitter(passport, UserController, twitterConfig);
+	twitter(passport, UserController, app.locals.config.get("pluginManager:uniformity-auth-twitter"));
 
 };

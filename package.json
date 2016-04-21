@@ -1,6 +1,6 @@
 {
   "name": "uniformity",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "First attempt at creating a dynamic website with a MEAN stack. 'npm install -g node-gyp' may be needed",
   "main": "server.js",
   "scripts": {
@@ -30,6 +30,7 @@
     "mongoose": "^4.4.9",
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-schema-extend": "0.2.0",
+    "nconf": "^0.8.4",
     "node-dir": "^0.1.11",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",

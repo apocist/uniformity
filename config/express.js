@@ -1,7 +1,7 @@
 //noinspection JSUnusedGlobalSymbols
 var 	async = require('async'),
 		bodyParser = require('body-parser'),
-		config = require('./config'),
+		//config = require('./config'),
 		dir = require('../app/libs/node-dir-extend'),
 		express = require('express'),
 		expressSession = require('express-session'),
@@ -14,11 +14,13 @@ var 	async = require('async'),
 
 /**
  *
+ * @param config
  * @param pluginManager
  * @param callback
  */
-module.exports = function(pluginManager, callback) {
+module.exports = function(config, pluginManager, callback) {
     var app = express();
+	app.locals.config = config;
 	app.locals.pluginManager = pluginManager;
 
 	app.use(bodyParser.urlencoded({

@@ -32,5 +32,8 @@ node_modules
 # Bower.io
 .bowerrc
 
+#  settings
+config/config.json
+
 # Secure settings
 config/social/twitter.js

@@ -2,7 +2,8 @@ var 	fs = require('fs'),
 		path = './config/pluginList.js',
 		pluginList = null,//the list of plugins to save (array of strings)
 		pluginData = {},//the plugins have been loaded and processed for use
-		pluginOrder = {};
+		pluginOrder = {},
+		config;
 		/*
 		{
 			model.postRoutable: [
@@ -25,10 +26,12 @@ var 	fs = require('fs'),
 module.exports = {
 		/**
 		 * Require each known plugin and gather it's needed information
+		 * @param nconf
 		 * @param callback (optional)
 		 */
-		process: function(callback) {
+		process: function(nconf, callback) {
 			var that = this;
+			config = nconf;
 			that.load(function(){
 				pluginList.forEach(function (pluginName) {
 					require(pluginName)(function(plugin){
@@ -68,35 +71,31 @@ module.exports = {
 		 * @param callback (optional)
 		 */
 		load: function(callback) {
-			try {
-				var data = fs.readFileSync(path);
-
-				try {
-					pluginList = JSON.parse(data);
-				}
-				catch (err) {
-					pluginList = [];
-				}
+			if(!config){
+				config = require('nconf');
+				config
+					.env()
+					.argv()
+					.file('./config/config.json')//absolute -file doesn't need to exist
+					.defaults(require('../../config/defaults.json'));//relative
 			}
-			catch (err) {
+			if(config.get('pluginManager:pluginList')){
+				pluginList = config.get('pluginManager:pluginList');
+			} else{
 				pluginList = [];
 			}
+			
 			if (callback) callback();
 		},
 		/**
-		 * Saves the current pluginList to config/pluginList.js
+		 * Saves the current pluginList. Actually just saves the whole config file
 		 * @param callback (optional)
 		 */
 		save: function(callback) {
-			if(pluginList){
-				var data = JSON.stringify(pluginList);
-
-				fs.writeFile(path, data, function (err) {
-					if(callback) callback(err);
-				});
-			} else{
-				if(callback) callback();
-			}
+			config.set('pluginManager:pluginList', pluginList);
+			config.save(function (err) {
+				if(callback) callback(err);
+			});
 		},
 		/**
 		 * Returns the Plugin information. 'process' needs to have been completed first.
