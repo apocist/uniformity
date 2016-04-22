@@ -10,7 +10,7 @@ Install from npm using:
 $ npm install uniformity
 ```
 
-Configure your correct Twitter API settings in ./config/social/twitter.blank.js then rename to 'twitter.js'
+Configure your correct Twitter API settings in ./config/config.json (refer to ./config/defaults.json)
 
 **NOTE**: Any *minor* version updates may require a `npm install` to acquire the latest libraries. During Alpha stages, updates will not be considered backwards-compatible.
 
