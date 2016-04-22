@@ -1,14 +1,13 @@
 var 	TwitterStrategy  = require('passport-twitter').Strategy;
 
 /**
- *
- * @param passport
- * @param UserController require('./auth/user.auth.server.controller.js')
- * @param config Strategy Configuration settings
+ * @param app
  */
-module.exports = function(passport, UserController, config) {
+module.exports = function(app) {
+	var config = app.locals.config.get("pluginManager:uniformity-auth-twitter"),
+		UserController = app.locals.controllers.auth.userController;
 
-	passport.use('twitter', new TwitterStrategy({
+	app.locals.passport.use('twitter', new TwitterStrategy({
 			consumerKey     : config.apikey,
 			consumerSecret  : config.apisecret,
 			callbackURL     : config.callbackURL
