@@ -1,7 +1,6 @@
 //noinspection JSUnusedGlobalSymbols
 var 	async = require('async'),
 		bodyParser = require('body-parser'),
-		//config = require('./config'),
 		dir = require('../app/libs/node-dir/node-dir-extend'),
 		express = require('express'),
 		expressSession = require('express-session'),
@@ -101,7 +100,7 @@ module.exports = function(config, pluginManager, callback) {
 			require(routes[route])(app, passport);
 		}*/
 		async.each(routes, function(route, next){
-			require(route)(app, passport, next);
+			require(route)(app, next);
 		}, function(){
 			callback(app);
 		});

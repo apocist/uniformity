@@ -5,7 +5,7 @@ var 	async = require('async'),
 		};
 
 
-module.exports = function(app, passport, callback) {
+module.exports = function(app, callback) {
 	//Setup CORS for only Reading externally
 	var allowCrossDomain = function(req, res, next) {
 		res.header('Access-Control-Allow-Origin', '*');

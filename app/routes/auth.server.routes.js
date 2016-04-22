@@ -1,7 +1,7 @@
 var 	express = require('express'),
 		router = express.Router();
 
-module.exports = function(app, passport, callback){
+module.exports = function(app, callback){
 
 	// handle logout
 	router.get('/logout', function(req, res) {
@@ -11,8 +11,8 @@ module.exports = function(app, passport, callback){
 
 	// route for twitter authentication and login
 	router.get('/login/:authType', function(req, res, next) {
-		if(passport._strategy(req.params.authType)){
-			passport.authenticate(req.params.authType)(req, res, next);
+		if(app.locals.passport._strategy(req.params.authType)){
+			app.locals.passport.authenticate(req.params.authType)(req, res, next);
 		} else{
 			res.render('auth/authStatus', {status: {error: 'Authentication Strategy does not exist', user: null}});
 		}
@@ -20,8 +20,8 @@ module.exports = function(app, passport, callback){
 
 	// handle the callback after twitter has authenticated the user
 	router.get('/login/:authType/callback', function(req, res, next) {
-		if(passport._strategy(req.params.authType)) {
-			passport.authenticate(req.params.authType, function (err, user, flash) {
+		if(app.locals.passport._strategy(req.params.authType)) {
+			app.locals.passport.authenticate(req.params.authType, function (err, user, flash) {
 				var result = {
 					status: {
 						error: err,

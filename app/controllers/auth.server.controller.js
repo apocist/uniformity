@@ -1,5 +1,4 @@
-var 	twitter = require('./auth/twitter.auth.server.controller.js'),
-		UserController = require('./auth/user.auth.server.controller.js');
+var 	twitter = require('./auth/twitter.auth.server.controller.js');
 
 //Run at startup
 /**
@@ -22,7 +21,6 @@ module.exports = function(app){
 	});
 
 	//TODO loop through each plugin and load dynamically
-	//TODO should controllers be loaded into 'app'?
 	// Setting up Passport Strategies for Login and SignUp/Registration
 	twitter(app);
 

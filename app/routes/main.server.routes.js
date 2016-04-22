@@ -3,7 +3,7 @@ var 	routing = require('../controllers/route.server.controller.js'),
 		express = require('express'),
 		vhost = require('vhost');
 
-module.exports = function(app, passport, callback) {
+module.exports = function(app, callback) {
 	//noinspection JSUnresolvedFunction,JSCheckFunctionSignatures
 	var mainRoute = express.Router();
 
