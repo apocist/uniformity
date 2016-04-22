@@ -4,7 +4,7 @@ var 	TwitterStrategy  = require('passport-twitter').Strategy;
  * @param app
  */
 module.exports = function(app) {
-	var config = app.locals.config.get("pluginManager:uniformity-auth-twitter"),
+	var config = app.locals.config.get("pluginController:uniformity-auth-twitter"),
 		UserController = app.locals.controllers.auth.userController;
 
 	app.locals.passport.use('twitter', new TwitterStrategy({

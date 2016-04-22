@@ -4,7 +4,7 @@
 		"port": 1337,
 		"db": "mongodb://localhost/uniformity"
 	},
-	"pluginManager": {
+	"pluginController": {
 		"uniformity-auth-twitter": {
 			"apikey" : "<api key here>",
 			"apisecret" : "<api secret here>",
