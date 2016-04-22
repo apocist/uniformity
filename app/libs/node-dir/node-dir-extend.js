@@ -21,11 +21,12 @@ _.extend(exports, {
 				if (err) throw err;
 				//remove all subdir files
 				for (var subdir in subdirs) {
-					subdirs[subdir] += '\\';//ensure that it only blocks files INSIDE this dir(not similar named files outside)
-					files = files.filter(function (file) {
-						;
-						return (file.substring(0, subdirs[subdir].length) != subdirs[subdir])
-					});
+					if(subdirs.hasOwnProperty(subdir)){
+						subdirs[subdir] += '\\';//ensure that it only blocks files INSIDE this dir(not similar named files outside)
+						files = files.filter(function (file) {
+							return (file.substring(0, subdirs[subdir].length) != subdirs[subdir])
+						});
+					}
 				}
 				//console.log('results:\n',files);
 				callback(files);

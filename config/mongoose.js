@@ -2,7 +2,7 @@ var 	async = require('async'),
 		//config = require('./config'),
 		mongoose = require('mongoose'),
 		autoIncrement = require('mongoose-auto-increment'),
-		dir = require('../app/libs/node-dir-extend');
+		dir = require('../app/libs/node-dir/node-dir-extend');
 
 module.exports = function(config, pluginManager, callback) {
 	var db = mongoose.connect(config.get('ENV:db'));

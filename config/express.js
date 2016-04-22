@@ -2,7 +2,7 @@
 var 	async = require('async'),
 		bodyParser = require('body-parser'),
 		//config = require('./config'),
-		dir = require('../app/libs/node-dir-extend'),
+		dir = require('../app/libs/node-dir/node-dir-extend'),
 		express = require('express'),
 		expressSession = require('express-session'),
 		passport = require('passport'),

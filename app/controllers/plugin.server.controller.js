@@ -1,23 +1,7 @@
-var 	fs = require('fs'),
-		path = './config/pluginList.js',
-		pluginList = null,//the list of plugins to save (array of strings)
+var 	pluginList = null,//the list of plugins to save (array of strings)
 		pluginData = {},//the plugins have been loaded and processed for use
 		pluginOrder = {},
 		config;
-		/*
-		{
-			model.postRoutable: [
-				{
-					order: 2000,
-					item: 'bbddgdgd/fsafsdfsd//app/models/routable/blog.routable.server.model.js'
-				},
-				{
-
-				}
-			],
-			view.postSite : []
-		}
-		*/
 
 /**
  * A custom Plugin Manager based on the concepts from PoliteJS/polite-plugin-manager
