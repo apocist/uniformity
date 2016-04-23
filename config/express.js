@@ -14,20 +14,20 @@ var 	async = require('async'),
 /**
  *
  * @param config
- * @param pluginManager
+ * @param pluginController
  * @param callback
  */
-module.exports = function(config, pluginManager, callback) {
+module.exports = function(config, pluginController, callback) {
     var app = express();
 	app.locals.config = config;
-	app.locals.pluginManager = pluginManager;
+	app.locals.pluginController = pluginController;
 	app.locals.passport = passport;
 	app.locals.controllers = {
 		auth: {
 			permissionController : require('../app/controllers/auth/permission.auth.server.controller'),
 			userController : require('../app/controllers/auth/user.auth.server.controller')
 		},
-		pluginController : pluginManager
+		pluginController : pluginController
 	};
 
 	app.use(bodyParser.urlencoded({

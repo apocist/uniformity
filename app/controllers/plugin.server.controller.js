@@ -32,6 +32,12 @@ module.exports = {
 								}
 							}
 						}
+						if(pluginData[pluginName].hasOwnProperty('defaults')){
+							if(Object.keys(pluginData[pluginName]['defaults']).length > 0){
+								//Add additional defaults
+								config.add('defaults-'+pluginName , {type:'literal', store: pluginData[pluginName]['defaults'] });
+							}
+						}
 					});
 				});
 				that.processLoadOrder(callback);

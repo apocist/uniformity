@@ -4,7 +4,7 @@ var 	async = require('async'),
 		autoIncrement = require('mongoose-auto-increment'),
 		dir = require('../app/libs/node-dir/node-dir-extend');
 
-module.exports = function(config, pluginManager, callback) {
+module.exports = function(config, pluginController, callback) {
 	var db = mongoose.connect(config.get('ENV:db'));
 	autoIncrement.initialize(db);
 
@@ -13,12 +13,12 @@ module.exports = function(config, pluginManager, callback) {
 	async.series(
 		[
 			function(cb) {loadModelDir('Base Models', __dirname + '/../app/models/', cb);},
-			function(cb) {loadPluginLoadOrder(pluginManager, 'model.preAuth', cb);},
+			function(cb) {loadPluginLoadOrder(pluginController, 'model.preAuth', cb);},
 			function(cb) {loadModelDir('Auth Models', __dirname + '/../app/models/auth/', cb);},
-			function(cb) {loadPluginLoadOrder(pluginManager, 'model.postAuth', cb);},
-			function(cb) {loadPluginLoadOrder(pluginManager, 'model.preRoutable', cb);},
+			function(cb) {loadPluginLoadOrder(pluginController, 'model.postAuth', cb);},
+			function(cb) {loadPluginLoadOrder(pluginController, 'model.preRoutable', cb);},
 			function(cb) {loadModelDir('Routable Models', __dirname + '/../app/models/routable/', cb);},
-			function(cb) {loadPluginLoadOrder(pluginManager, 'model.postRoutable', cb);}
+			function(cb) {loadPluginLoadOrder(pluginController, 'model.postRoutable', cb);}
 		],
 		function(){
 			callback(db);
@@ -26,9 +26,9 @@ module.exports = function(config, pluginManager, callback) {
 	);
 };
 
-function loadPluginLoadOrder(pluginManager, loadOrder, cb){
+function loadPluginLoadOrder(pluginController, loadOrder, cb){
 	var models = [];
-	pluginManager.getLoadOrder(loadOrder).forEach(function (plugin) {
+	pluginController.getLoadOrder(loadOrder).forEach(function (plugin) {
 		if(plugin.hasOwnProperty('item')){
 			models.push(plugin['item']);
 		}

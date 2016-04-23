@@ -1,6 +1,4 @@
-var 	twitter = require('./auth/twitter.auth.server.controller.js');
-
-//Run at startup
+//Ran at startup
 /**
  * @param app
  */
@@ -19,9 +17,12 @@ module.exports = function(app){
 				done(err, user);
 			});
 	});
-
-	//TODO loop through each plugin and load dynamically
+	
 	// Setting up Passport Strategies for Login and SignUp/Registration
-	twitter(app);
+	app.locals.controllers.pluginController.getLoadOrder('passport.strategy').forEach(function (plugin) {
+		if(plugin.hasOwnProperty('item')){
+			require(plugin['item'])(app);
+		}
+	});
 
 };

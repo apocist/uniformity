@@ -1,8 +1,8 @@
 var 	mongoose = require('mongoose'),
 		Schema = mongoose.Schema;
-//TODO need permissions to allow editing
 var UserSchema = new Schema({
 	permissions: [{type : Schema.ObjectId, ref: 'Permission'}],
+	//TODO need to modularize auths
 	twitter: {
 		id: String,
 		token: String,
