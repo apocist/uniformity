@@ -1,6 +1,6 @@
 {
   "name": "uniformity",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "First attempt at creating a dynamic website with a MEAN stack. 'npm install -g node-gyp' may be needed",
   "main": "server.js",
   "scripts": {
