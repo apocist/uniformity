@@ -32,6 +32,12 @@ module.exports = {
 								}
 							}
 						}
+						if(pluginData[pluginName].hasOwnProperty('defaults')){
+							if(Object.keys(pluginData[pluginName]['defaults']).length > 0){
+								//Add additional defaults
+								config.add('defaults-'+pluginName , {type:'literal', store: pluginData[pluginName]['defaults'] });
+							}
+						}
 					});
 				});
 				that.processLoadOrder(callback);
@@ -63,8 +69,8 @@ module.exports = {
 					.file('./config/config.json')//absolute -file doesn't need to exist
 					.defaults(require('../../config/defaults.json'));//relative
 			}
-			if(config.get('pluginManager:pluginList')){
-				pluginList = config.get('pluginManager:pluginList');
+			if(config.get('pluginController:pluginList')){
+				pluginList = config.get('pluginController:pluginList');
 			} else{
 				pluginList = [];
 			}
@@ -76,7 +82,7 @@ module.exports = {
 		 * @param callback (optional)
 		 */
 		save: function(callback) {
-			config.set('pluginManager:pluginList', pluginList);
+			config.set('pluginController:pluginList', pluginList);
 			config.save(function (err) {
 				if(callback) callback(err);
 			});

@@ -19,6 +19,19 @@ exports.create = function(options, done) {
 		}
 	}
 
+	if(options.hasOwnProperty('strategies')){
+		newUser.strategies = [];//empty that list
+		for (var strategy in options.strategies) {
+			if(options.strategies.hasOwnProperty(strategy)){
+
+				options.strategies[strategy]['user'] = newUser;
+				options.strategies[strategy].save();
+
+				newUser.strategies.push(options.strategies[strategy]);
+			}
+		}
+	}
+
 	//TODO should only give master permissions if there are no users with them
 	var permission = new Permission();//TODO in the works of a Permissions Controller
 	permission.user = newUser;

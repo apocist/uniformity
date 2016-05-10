@@ -1,5 +1,5 @@
 var 	exec = require('child_process').exec,
-		pluginManager = require('./app/controllers/plugin.server.controller'),
+		pluginController = require('./app/controllers/plugin.server.controller'),
 		child;
 
 
@@ -40,9 +40,9 @@ if(!name){
 							console.log('exec error: ' + error);
 						}
 						if(error == null){
-							pluginManager.load(function(){
-								pluginManager.addPlugin(name);
-								pluginManager.save();
+							pluginController.load(function(){
+								pluginController.addPlugin(name);
+								pluginController.save();
 								console.log("'"+name+"' installed and saved.");
 							});
 						}

@@ -2,7 +2,7 @@ var 	config = require('nconf'),
 		express = require('./config/express'),
 		mongoose = require('./config/mongoose'),
 	
-		pluginManager = require('./app/controllers/plugin.server.controller');
+		pluginController = require('./app/controllers/plugin.server.controller');
 	
 
 config
@@ -12,9 +12,9 @@ config
 	.defaults(require('./config/defaults.json'));//relative
 
 
-pluginManager.process(config, function(){
-	mongoose(config, pluginManager, function(d){
-		express(config, pluginManager, function(ap){
+pluginController.process(config, function(){
+	mongoose(config, pluginController, function(d){
+		express(config, pluginController, function(ap){
 			var db = d,
 				app = ap;
 			
