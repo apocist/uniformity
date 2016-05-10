@@ -10,13 +10,17 @@ Install from npm using:
 $ npm install uniformity
 ```
 
-Configure your correct Twitter API settings in ./config/config.json (refer to ./config/defaults.json)
+You will need an Authentication Plugin to perform any changes. The only one available at this time can be installed via
+```sh
+$ npm run plugin 'uniformity-auth-twitter'
+```
+Configure your correct Twitter API settings in ./config/config.json (refer to ./config/defaults.json at [uniformity-auth-twitter](https://github.com/apocist/uniformity-auth-twitter))
 
 **NOTE**: Any *minor* version updates may require a `npm install` to acquire the latest libraries. During Alpha stages, updates will not be considered backwards-compatible.
 
 ## Plugins
 
-Install any needed plugins stored in the npm repository.
+Install any other needed plugins stored in the npm repository.
 Example:
 ```sh
 $ npm run plugin 'uniformity-blog'
