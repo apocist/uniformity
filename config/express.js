@@ -25,6 +25,7 @@ module.exports = function(config, pluginController, callback) {
 	app.locals.controllers = {
 		auth: {
 			permissionController : require('../app/controllers/auth/permission.auth.server.controller'),
+			strategyController : require('../app/controllers/auth/strategy.auth.server.controller'),
 			userController : require('../app/controllers/auth/user.auth.server.controller')
 		},
 		pluginController : pluginController

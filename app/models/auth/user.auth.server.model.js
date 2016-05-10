@@ -2,14 +2,7 @@ var 	mongoose = require('mongoose'),
 		Schema = mongoose.Schema;
 var UserSchema = new Schema({
 	permissions: [{type : Schema.ObjectId, ref: 'Permission'}],
-	//TODO need to modularize auths
-	twitter: {
-		id: String,
-		token: String,
-		username: String,
-		displayName: String,
-		lastStatus: String
-	}
+	strategies: [{type : Schema.ObjectId, ref: 'Strategy'}]
 },
 {
 	collection: 'auth.user',
