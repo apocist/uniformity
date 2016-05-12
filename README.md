@@ -1,6 +1,8 @@
 # uniformity [![npm](https://img.shields.io/npm/v/uniformity.svg)](https://www.npmjs.com/package/uniformity) [![Build Status](https://travis-ci.org/apocist/uniformity.svg?branch=master)](https://travis-ci.org/apocist/uniformity) [![Join the chat at https://gitter.im/apocist/uniformity](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/apocist/uniformity?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-First attempts at a CMS
+A simple but highly customizable NodeJS CMS. Still in alpha development, but provides modular plug and play capabilities to offer only the features you're looking for in a website.
+
+Cannot be used in a production environment at this time.
 
 ## Install 
 
@@ -40,7 +42,7 @@ $ npm run plugin 'uniformity-blog'
 $ npm start
 ```
 
-The service will then state it is running on the port configured in `/config/env/development.js`.
+The service will then state it is running on the port configured in `./config/config.json`.
 
 ## Notes
 
