@@ -1,6 +1,6 @@
-{% extends 'base.swig' %}
+{% extends 'empty.swig' %}
 
-{% block head %}
+{% block javascript %}{% parent %}
 	<script type="text/javascript">
 		if (window.opener) {
 			window.opener.focus();
