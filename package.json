@@ -1,6 +1,6 @@
 {
   "name": "uniformity",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "A simple but highly customizable NodeJS CMS. Provides modular plug and play capabilities to offer only the features you're looking for in a website.",
   "main": "server.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "node-dir": "^0.1.11",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
-    "swig": "^1.4.2",
+    "swig-templates": "^2.0.1",
     "underscore": "^1.8.3",
     "vhost": "^3.0.2"
   },
