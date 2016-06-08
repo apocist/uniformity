@@ -1,3 +1,4 @@
+var async = require('async');
 //Ran at startup
 /**
  * @param app
@@ -23,6 +24,19 @@ module.exports = function(app){
 		if(plugin.hasOwnProperty('item')){
 			require(plugin['item'])(app);
 		}
+	});
+
+	//Prepare the authenticatable strategies
+	var stratArray = [];
+	async.eachSeries(app.locals.passport._strategies, function(strat, cb) {
+		if(strat.constructor.name == 'Strategy'){
+			stratArray.push(strat.name);
+			cb();
+		} else cb();
+	}, function(){
+		app.locals.passport.authStrategies = stratArray;
+		console.log('Strategies:');
+		console.log(app.locals.passport.authStrategies);
 	});
 
 };
