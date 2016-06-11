@@ -1,5 +1,7 @@
 {% extends 'empty.swig' %}
 
+{% import 'site/editWidget.macro.swig' as editWidget %}
+
 {% block meta %}{% parent %}
 	<meta charset="utf-8">
 {% endblock %}
