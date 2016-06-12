@@ -1,4 +1,5 @@
-var 	dir = require('node-dir'),
+var 	async = require('async'),
+		dir = require('node-dir'),
 		_ = require("underscore");
 
 //Extend to provide all the functions of node-dir
@@ -20,16 +21,19 @@ _.extend(exports, {
 			return dir.subdirs(path, function (err, subdirs) {
 				if (err) throw err;
 				//remove all subdir files
-				for (var subdir in subdirs) {
-					if(subdirs.hasOwnProperty(subdir)){
-						subdirs[subdir] += '\\';//ensure that it only blocks files INSIDE this dir(not similar named files outside)
+				async.eachSeries(subdirs, function (subdir, cb) {
+					if (subdir) {
+						subdir += '\\';//ensure that it only blocks files INSIDE this dir(not similar named files outside)
 						files = files.filter(function (file) {
-							return (file.substring(0, subdirs[subdir].length) != subdirs[subdir])
+							return (file.substring(0, subdir.length) != subdir)
 						});
 					}
-				}
+					cb();
+				}, function done(){
+					callback(files);
+				});
 				//console.log('results:\n',files);
-				callback(files);
+				
 			});
 		});
 	}

@@ -7,8 +7,8 @@
 
 			//var state = '<%= state %>';
 			try {
-				if (window.opener.authController && window.opener.authController.authUpdate) {
-					window.opener.authController.authUpdate({{ status|json|raw }});
+				if (window.opener.uniformityController && window.opener.uniformityController.controllers.authController && window.opener.uniformityController.controllers.authController.authUpdate) {
+					window.opener.uniformityController.controllers.authController.authUpdate({{ status|json|raw }});
 				}
 			} catch(err) {console.log(err);}
 		}
