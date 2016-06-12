@@ -123,6 +123,7 @@ define(['jquery','underscore','backbone','common'], function($, _, Backbone) {
 	});
 
 	return Class({
+		uniformityController: null,
 		contentModel: null,//current Model
 		editableFields: [],//array of views
 
@@ -159,8 +160,8 @@ define(['jquery','underscore','backbone','common'], function($, _, Backbone) {
 			initialize: function (options) {
 				_.bindAll(this, 'render', 'toggleVisible', 'hide', 'show');
 				var that = this;
-				that.flashController = window.flashController;
 				that.parentClass = (options || {}).parentClass;
+				that.flashController = that.parentClass.uniformityController.controllers.flashController;
 				that.aliasEl = (options || {}).aliasEl;
 				that.attributes = {
 					"type": "text", //TODO find out what this 'should' be per variable (like a WYSIWYG editor)
@@ -315,6 +316,7 @@ define(['jquery','underscore','backbone','common'], function($, _, Backbone) {
 		initialize: function (options) {
 			var that = this;
 
+			that.uniformityController = (options || {}).uniformityController;
 			that.contentModel = new that.ContentModel({
 				id: (options || {}).id,
 				type: (options || {}).type,
@@ -346,6 +348,7 @@ define(['jquery','underscore','backbone','common'], function($, _, Backbone) {
 				}
 			});
 		}
+		//TODO need to unInit/destroy function to remove the editors
 	});
 
 

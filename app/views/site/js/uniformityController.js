@@ -2,6 +2,7 @@ define(['jquery','async','flashController','authController','contentEditor','asy
 	return Class({
 
 		controllers: {},
+		contentEditors: [],
 
 		initialize: function (options) {
 			var that = this;
@@ -10,9 +11,10 @@ define(['jquery','async','flashController','authController','contentEditor','asy
 			that.controllers.authController = new authController({uniformityController: that, twitterButton: $('#twitterLogin')});
 			console.log('uniformity inited');
 
-			that.activateContentEditor();
+			that.activateContentEditors();
 		},
-		activateContentEditor: function(){
+		activateContentEditors: function(){
+			var that = this;
 			var editableModels = [];
 			var editableModelNames = {};//can't hav e a length
 			async.eachSeries($('[data-editable="true"]'), function (element, cb) {
@@ -33,6 +35,7 @@ define(['jquery','async','flashController','authController','contentEditor','asy
 				//console.log(itemName);
 				if(typeof editableModelNames[itemName] === 'undefined'){
 					editableModelNames[itemName] = item;
+					item.uniformityController = that;
 					editableModels.push(item);
 				}
 				cb();
@@ -41,12 +44,16 @@ define(['jquery','async','flashController','authController','contentEditor','asy
 				console.log('Editing:');
 				console.log(editableModels);
 				async.eachSeries(editableModels, function (model, cb) {
-					new contentEditor(model);
+					that.contentEditors.push(new contentEditor(model));
 					cb();
 				}, function done() {
 					console.log('content editing Activated');
 				});
 			});
+		},
+		deactivateContentEditors: function(){
+			var that = this;
+			//cycle through that.contentEditors and destroy each one
 		}
 	});
 });

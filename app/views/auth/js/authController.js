@@ -4,7 +4,7 @@ define(['jquery','common'], function($) {
 
 
 		uniformityController: null,
-		flashController: null,//Require flashController, alias from uniformitycontroller
+		flashController: null,//Require flashController, alias from uniformityController
 
 		//TODO elements to be removed
 		twitterButton: null,
