@@ -25,7 +25,7 @@ _.extend(exports, {
 					if (subdir) {
 						subdir += '\\';//ensure that it only blocks files INSIDE this dir(not similar named files outside)
 						files = files.filter(function (file) {
-							return (file.substring(0, subdir.length) != subdir)
+							return (file.substring(0, subdir.length) != subdir.substring(0, subdir.length-1) + '/')
 						});
 					}
 					cb();
