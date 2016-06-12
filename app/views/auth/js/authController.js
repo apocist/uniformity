@@ -7,7 +7,7 @@ define(['jquery','common'], function($) {
 		flashController: null,//Require flashController, alias from uniformityController
 
 		//TODO elements to be removed
-		twitterButton: null,
+		loginButton: null,
 
 		//variables
 		user: null,
@@ -19,25 +19,25 @@ define(['jquery','common'], function($) {
 
 			that.uniformityController = (options || {}).uniformityController;
 			that.flashController = that.uniformityController.controllers.flashController;
-			that.twitterButton = (options || {}).twitterButton;
+			that.loginButton = (options || {}).loginButton;
 			that.user = (options || {}).user;
 			that.isAuthenticated = (options || {}).isAuthenticated;
 
-			if (that.twitterButton != null) {
-				console.log('set twitter button!');//TODO remove later
-				$(that.twitterButton).click(that.twitterLogin);//Clicking the Display Element will allow editing it
+			if (that.loginButton != null) {
+				console.log('set login button!');//TODO remove later
+				$(that.loginButton).click(that.initLogin);//Clicking the Display Element will allow editing it
 
 			}
 
 			console.log('auth inited');
 		},
-		twitterLogin: function () {//TODO need to make a lightbox popup?
-			var url = '/auth/login/twitter',
+		initLogin: function () {
+			var url = '/auth/login',
 				width = 640,
 				height = 480,
 				top = (window.outerHeight - height) / 2,
 				left = (window.outerWidth - width) / 2;
-			window.open(url, 'Twitter Login', 'width=' + width + ',height=' + height + ',scrollbars=0,top=' + top + ',left=' + left);
+			window.open(url, 'Login', 'width=' + width + ',height=' + height + ',scrollbars=0,top=' + top + ',left=' + left);
 		},
 		resetSession: function () {
 			var that = this;

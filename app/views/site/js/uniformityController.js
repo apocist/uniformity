@@ -8,7 +8,7 @@ define(['jquery','async','flashController','authController','contentEditor','asy
 			var that = this;
 
 			that.controllers.flashController = new flashController({uniformityController: that});
-			that.controllers.authController = new authController({uniformityController: that, twitterButton: $('#twitterLogin')});
+			that.controllers.authController = new authController({uniformityController: that, loginButton: $('#loginButton')});
 			console.log('uniformity inited');
 
 			that.activateContentEditors();

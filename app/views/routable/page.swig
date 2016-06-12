@@ -7,6 +7,6 @@
 		{{ editWidget.create("name", name, {"tag": "h1"}) }}
 		<br/>
 		{{ editWidget.create("content", content, {"id": "content"}) }}
-		<input id="twitterLogin" type="button" value="Twitter Login"/>
+		<input id="loginButton" type="button" value="Login"/>
 	</div>
 {% endblock %}

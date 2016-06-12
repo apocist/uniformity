@@ -9,7 +9,12 @@ module.exports = function(app, callback){
 		res.redirect('/auth/status');//handle sign and notify via json api call
 	});
 
-	// route for twitter authentication and login
+	// route for login choices
+	router.get('/login', function(req, res, next) {
+		res.render('auth/authLogin', {strategies: app.locals.passport.authStrategies});
+	});
+	
+	// route for custom authentication and login
 	router.get('/login/:authType', function(req, res, next) {
 		if(app.locals.passport._strategy(req.params.authType)){
 			app.locals.passport.authenticate(req.params.authType)(req, res, next);
