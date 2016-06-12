@@ -1,5 +1,6 @@
 var 	async = require('async'),
 		dir = require('node-dir'),
+		pathNode = require('path'),
 		_ = require("underscore");
 
 //Extend to provide all the functions of node-dir
@@ -23,7 +24,7 @@ _.extend(exports, {
 				//remove all subdir files
 				async.eachSeries(subdirs, function (subdir, cb) {
 					if (subdir) {
-						subdir += '\\';//ensure that it only blocks files INSIDE this dir(not similar named files outside)
+						subdir += pathNode.sep;//ensure that it only blocks files INSIDE this dir(not similar named files outside)
 						files = files.filter(function (file) {
 							return (file.substring(0, subdir.length) != subdir)
 						});
