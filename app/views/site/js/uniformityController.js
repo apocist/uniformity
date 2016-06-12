@@ -1,4 +1,4 @@
-define(['jquery','async','flashController','authController','contentEditor','async','common'], function($, async, flashController, authController, contentEditor) {
+define(['jquery','async','flashController','authController','contentEditor','bootstrap','common'], function($, async, flashController, authController, contentEditor) {
 	return Class({
 
 		controllers: {},

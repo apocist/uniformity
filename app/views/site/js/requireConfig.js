@@ -13,6 +13,8 @@ requirejs.config({
 		jquery: 'http://code.jquery.com/jquery-2.2.1.min',
 		backbone: 'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.1/backbone-min',
 		async: 'https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min',
+		bootstrap: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min',//v4 alpha
+		tether: 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min',
 		
 		common: '/site/js/common',
 
@@ -21,11 +23,18 @@ requirejs.config({
 		authController: '/auth/js/authController',
 
 		contentEditor: '/admin/js/contentEditor'
+	},
+	shim: {
+		bootstrap : {"deps" :['jquery','tether']}
 	}
 });
-require(['uniformityController'], function (uniformityController) {
-	//Start the main controller
-	window.uniformityController = new uniformityController();
-	console.log('all done loading');
+require(['tether'], function (tether) {
+	window.Tether = tether;//Tether HAS to be in window before bootstrap loads. might want a prettier method
+	require(['uniformityController'], function (uniformityController) {
+		//Start the main controller
+		window.uniformityController = new uniformityController();
+		console.log('all done loading');
+
+	});
 
 });
