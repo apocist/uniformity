@@ -17,6 +17,7 @@ requirejs.config({
 		tether: 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min',
 		
 		common: '/site/js/common',
+		custombootsteap: '/site/js/customBootstrap',
 
 		uniformityController: '/site/js/uniformityController',
 		flashController: '/site/js/flashController',

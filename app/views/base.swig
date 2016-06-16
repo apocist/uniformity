@@ -12,6 +12,7 @@
 {% block css %}{% parent %}
 	{{ css.stylesheet("/site/css/common") }}
 	{{ css.stylesheet("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min") }}
+	{{ css.stylesheet("/site/css/customBootstrap") }}
 {% endblock %}
 
 {% block javascript %}{% parent %}
