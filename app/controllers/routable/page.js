@@ -1,5 +1,5 @@
 //This file is never used, but left as a placeholder example
-var PermissionController = require('./../auth/permission.auth.server.controller');
+var PermissionController = require('./../auth/permission');
 
 //render function not need, as it does nothing special
 exports.render = function(req, res, obj, objData) {

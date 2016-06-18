@@ -2,7 +2,7 @@ var 	config = require('nconf'),
 		express = require('./config/express'),
 		mongoose = require('./config/mongoose'),
 	
-		pluginController = require('./app/controllers/plugin.server.controller');
+		pluginController = require('./app/controllers/plugin');
 	
 
 config

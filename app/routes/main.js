@@ -1,5 +1,5 @@
-var 	routing = require('../controllers/route.server.controller.js'),
-		index = require('../controllers/site/index.site.server.controller'),
+var 	routing = require('../controllers/route'),
+		index = require('../controllers/site/index'),
 		express = require('express'),
 		vhost = require('vhost');
 

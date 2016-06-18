@@ -14,5 +14,5 @@ var PermissionSchema = new Schema({
 
 PermissionSchema.statics.objectParent = ['Permission.Auth.Site', 'Auth.Site', 'Site'];
 PermissionSchema.statics.defaultPermission = [0,0,0,0,0,0,0,1];//only Read Own
-PermissionSchema.statics.controller = "permission.auth.server.controller";
+PermissionSchema.statics.controller = "permission";
 mongoose.model('Permission', PermissionSchema);

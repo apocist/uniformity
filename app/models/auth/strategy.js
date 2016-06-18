@@ -65,5 +65,5 @@ StrategySchema.statics.formschema = {
 };
 StrategySchema.statics.objectParent = ['User.Auth.Site', 'Strategy.Auth.Site','Auth.Site', 'Site'];
 StrategySchema.statics.defaultPermission = [0,0,0,0,0,0,1,1];//only Read All
-StrategySchema.statics.controller = "strategy.auth.server.controller";
+StrategySchema.statics.controller = "strategy";
 mongoose.model('Strategy', StrategySchema);

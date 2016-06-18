@@ -1,6 +1,6 @@
 var 	mongoose = require('mongoose'),
 		Route = mongoose.model('Route'),
-		PermissionController = require('./auth/permission.auth.server.controller'),
+		PermissionController = require('./auth/permission'),
 		libs = {
 			'PermissionController': PermissionController
 		};

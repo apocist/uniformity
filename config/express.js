@@ -24,9 +24,9 @@ module.exports = function(config, pluginController, callback) {
 	app.locals.passport = passport;
 	app.locals.controllers = {
 		auth: {
-			permissionController : require('../app/controllers/auth/permission.auth.server.controller'),
-			strategyController : require('../app/controllers/auth/strategy.auth.server.controller'),
-			userController : require('../app/controllers/auth/user.auth.server.controller')
+			permissionController : require('../app/controllers/auth/permission'),
+			strategyController : require('../app/controllers/auth/strategy'),
+			userController : require('../app/controllers/auth/user')
 		},
 		pluginController : pluginController
 	};
@@ -91,7 +91,7 @@ module.exports = function(config, pluginController, callback) {
 
 	//TODO pass plugin manager
 	// Initialize Passport
-	require('../app/controllers/auth.server.controller.js')(app);
+	require('../app/controllers/auth')(app);
 
 
 	//Includes all the files found directly in /app/routes , none in sub directories
