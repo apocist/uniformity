@@ -1,7 +1,8 @@
 var 	async = require('async'),
 		express = require('express'),
 		routes = {
-			routable: require('./api/routable.js')
+			//routable: require('./api/routable.js'),
+			main: require('./api/main.js')
 		};
 
 
