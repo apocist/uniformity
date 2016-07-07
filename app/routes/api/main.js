@@ -5,13 +5,13 @@ exports.routes = function(req, res, next) {
 	var apiRoute = express.Router();
 	//apiRoute.use('/routable', apiRoute);
 
-	apiRoute.route('/:subType/:hid/:action')
+	apiRoute.route('/:model/:hid/:action')
 		.all(api.wildcard);//works for grabbing certain obj
 
-	apiRoute.route('/:subType/:hid')
+	apiRoute.route('/:model/:hid')
 		.all(api.wildcard);//works for grabbing certain obj
 
-	apiRoute.route('/:subType')
+	apiRoute.route('/:model')
 		.all(api.wildcard);//works for grabbing certain obj
 
 	return apiRoute;

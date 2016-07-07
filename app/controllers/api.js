@@ -4,19 +4,59 @@ var 	mongoose = require('mongoose'),
 //maybe handle with pre and post hooks
 //TODO should be an array of errors
 
+exports.wildcard = function(req, res) {
+	console.log('wildcard');
+	res.response = {
+		request: {
+			url: req.originalUrl,
+			method: req.method,
+			action: req.headers.action || req.params.action || req.method,
+			model: req.headers.model || req.params.model || null,
+			_id: req.headers._id || req.params._id || req.body._id || null,
+			hid: req.headers.hid || req.params.hid || null,
+			//headers: req.headers,
+			params: req.params,
+			data: req.body
+		},
+		data: {},
+		error: {}
+	};
+	if(res.response.request.model){
+		if(mongoose.modelNames().indexOf(res.response.request.model) >= 0) {
+			console.log(res.response.request.model + ' model exists');
+			var objModel = mongoose.model(res.response.request.model);
+			if(objModel.apicontroller){
+				if(!req.app.locals.apicontrollers[objModel.apicontroller]){
+					req.app.locals.apicontrollers[objModel.apicontroller] = require('./api/'+objModel.apicontroller);
+				}
+			}
+
+		}
+	}
+	if(req.app.locals.apicontrollers[objModel.apicontroller] && req.app.locals.apicontrollers[objModel.apicontroller][res.response.request.action]){
+		req.app.locals.apicontrollers[objModel.apicontroller][res.response.request.action](req, res);
+	} else if(exports[res.response.request.action]){
+		exports[res.response.request.action](req, res);
+	} else {
+		res.response.error = res.response.request.action + " action does not exist";
+		res.json(res.response);
+	}
+};
+
 //TODO prepare a create api call
 /**
  * creates a routable object
- * @param req.params.subType Model Name
+ * @param req.params.model Model Name
  * @param req.body
  * {
  *  (all properties of model)
  * }
  * @param res
  */
-/*exports.create = function(req, res) {
-	if(mongoose.modelNames().indexOf(req.params.subType) >= 0){//if this model subType exists
-		var objType = mongoose.model(req.params.subType);
+/*exports.POST = function(req, res) {
+	console.log('default POST');
+	if(mongoose.modelNames().indexOf(req.params.model) >= 0){//if this model model exists
+		var objType = mongoose.model(req.params.model);
 		var obj = new objType(req.body);
 		if (obj.schema.statics.routable) {//makes sure this is a routable obj
 			//TODO allow controller checks first
@@ -64,40 +104,14 @@ var 	mongoose = require('mongoose'),
 	}else{res.json({error: "Type is not a Model"});}
 };*/
 
-
-exports.wildcard = function(req, res) {
-	console.log('wildcard');
-	res.response = {
-		echo: {
-			url: req.originalUrl,
-			method: req.method,
-			action: req.headers.action || req.params.action || req.method,
-			model: req.headers.model || req.params.subType,
-			_id: req.headers._id || req.params._id || req.body._id,
-			hid: req.headers.hid || req.params.hid,
-			//headers: req.headers,
-			params: req.params,
-			data: req.body
-		},
-		data: {},
-		error: {}
-	};
-	if(exports[res.response.echo.action]){
-		exports[res.response.echo.action](req, res);
-	} else {
-		res.response.error = res.response.echo.action + " action does not exist";
-		res.json(res.response);
-	}
-};
-
 /**
  * Outputs a single routable
- * @param req.params.subType Model Name
+ * @param req.params.model Model Name
  * @param req.params.hid Routable ID
  * @param res
  */
 exports.GET = function(req, res) {//req, res, next, err, route) {
-	if(res.response.echo.hid) {//Type is case sensitive
+	if(res.response.request.hid) {//Type is case sensitive
 		exports.getObjByHid(req, res);
 	} else {
 		exports.listBySubType(req, res);
@@ -106,7 +120,7 @@ exports.GET = function(req, res) {//req, res, next, err, route) {
 
 /**
  * updates a routable object
- * @param req.params.subType Model Name
+ * @param req.params.model Model Name
  * @param req.body
  * {
  *  hid,
@@ -115,14 +129,14 @@ exports.GET = function(req, res) {//req, res, next, err, route) {
  * @param res
  **/
 exports.PUT = function(req, res) {//TODO allow either _id or hid?
-	if(res.response.echo._id){
-		if(mongoose.modelNames().indexOf(res.response.echo.model) >= 0){//if this model exists
-			var objModel = mongoose.model(res.response.echo.model);
-			var obj = new objModel(res.response.echo.data);
+	if(res.response.request._id){
+		if(mongoose.modelNames().indexOf(res.response.request.model) >= 0){//if this model exists
+			var objModel = mongoose.model(res.response.request.model);
+			var obj = new objModel(res.response.request.data);
 			//TODO allow controller checks first
 			PermissionController.hasAccess(req.user, objModel, [PermissionController.access.updateAll], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 				if(bool) {
-					objModel.findByIdAndUpdate(res.response.echo._id, obj, function(err) {
+					objModel.findByIdAndUpdate(res.response.request._id, obj, function(err) {
 						if (err) {res.response.error = err; res.json(res.response);}
 						else {res.response.data.success = true; res.json(res.response);}
 					});
@@ -134,7 +148,7 @@ exports.PUT = function(req, res) {//TODO allow either _id or hid?
 
 /**
  * Deletes Routables and route and JSON returns results
- * @param req.params.subType Model Name
+ * @param req.params.model Model Name
  * @param req.body
  * {
  *  hid,
@@ -142,13 +156,13 @@ exports.PUT = function(req, res) {//TODO allow either _id or hid?
  * @param res
  */
 exports.DELETE = function(req, res) {//TODO allow either _id or hid
-	if(res.response.echo.hid){
-		if(mongoose.modelNames().indexOf(res.response.echo.model) >= 0){
-			var objModel = mongoose.model(res.response.echo.model);
+	if(res.response.request.hid){
+		if(mongoose.modelNames().indexOf(res.response.request.model) >= 0){
+			var objModel = mongoose.model(res.response.request.model);
 			//TODO allow controller checks first
 			PermissionController.hasAccess(req.user, objModel, [PermissionController.access.deleteAll], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 				if(bool) {
-					objModel.findOneAndRemove({hid :res.response.echo.hid}, function(err) {
+					objModel.findOneAndRemove({hid :res.response.request.hid}, function(err) {
 						if (err) {res.json({error: err}); res.json(res.response);}
 						else{
 							res.response.data.success = true;
@@ -157,40 +171,40 @@ exports.DELETE = function(req, res) {//TODO allow either _id or hid
 					});
 				} else {res.response.error = "Do not have Delete Permission"; res.json(res.response);}
 			});
-		}else{res.response.error = res.response.echo.model + " not a Model"; res.json(res.response);}
+		}else{res.response.error = res.response.request.model + " not a Model"; res.json(res.response);}
 	}else{res.response.error = "No HID specified"; res.json(res.response);}
 };
 
 /**
  * Outputs all routables of certain Model
- * @param req.params.subType Model Name
+ * @param req.params.model Model Name
  * @param res
  */
 exports.listBySubType = function(req, res) {//TODO allow either _id or hid
 	//FIXME very dangerous as it gives all data for any model at the moment(no permissions)
-	if(mongoose.modelNames().indexOf(res.response.echo.model) >= 0){//if this model subType exists
-		var objType = mongoose.model(res.response.echo.model);
+	if(mongoose.modelNames().indexOf(res.response.request.model) >= 0){//if this model subType exists
+		var objType = mongoose.model(res.response.request.model);
 		objType.find({}, function(err, objs) {
 			if(err) {res.response.error = err; res.json(res.response);}
 			else {res.response.data = objs; res.json(res.response);}
 		});
-	}else{res.response.error = res.response.echo.model+" is not a Model"; res.json(res.response);}
+	}else{res.response.error = res.response.request.model+" is not a Model"; res.json(res.response);}
 };
 
 /**
  * Outputs a single routable
- * @param req.params.subType Model Name
+ * @param req.params.model Model Name
  * @param req.params.hid Routable ID
  * @param res
  */
 exports.getObjByHid = function(req, res) {//TODO allow either _id or hid
-	if(mongoose.modelNames().indexOf(res.response.echo.model) >= 0){
-		var objModel = mongoose.model(res.response.echo.model);
+	if(mongoose.modelNames().indexOf(res.response.request.model) >= 0){
+		var objModel = mongoose.model(res.response.request.model);
 		if (objModel.schema.statics.routable) {//makes sure this is a routable obj
 			//TODO allow controller checks first
 			PermissionController.hasAccess(req.user, objModel, [PermissionController.access.readAll], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 				if(bool) {
-					objModel.findOne({hid: res.response.echo.hid}, function (err, objData) {
+					objModel.findOne({hid: res.response.request.hid}, function (err, objData) {
 						if (err) {res.response.error = err;res.json(res.response);}
 						else{
 							res.response.data = objData;
@@ -199,8 +213,8 @@ exports.getObjByHid = function(req, res) {//TODO allow either _id or hid
 					});
 				} else {res.response.error = "Do not have Read Permission";res.json(res.response);}
 			});
-		}else{res.response.error = res.response.echo.model + " not routable";res.json(res.response);}
-	}else{res.response.error = res.response.echo.model + " not a Model";res.json(res.response);}
+		}else{res.response.error = res.response.request.model + " not routable";res.json(res.response);}
+	}else{res.response.error = res.response.request.model + " not a Model";res.json(res.response);}
 };
 
 /**
