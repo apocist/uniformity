@@ -5,19 +5,18 @@ This is a non-existant object that is only meant to be extended from
 var 	mongoose = require('mongoose'),
 		autoIncrement = require('mongoose-auto-increment'),
 		Schema = mongoose.Schema;
-	
 
 var RoutableSchema = new Schema({
-	type: {type: String, default: 'routable', enums: ['routable']},
-	name: { type : String, required : true},
-	hid: { type : Number, required : false, unique : false },
-	route: { type : Schema.ObjectId, ref : 'Route' },
-	created : { type : Date, default : Date.now },
-	modified : { type : Date, default : Date.now }
-},
-{
-	collection: 'route'//this object will never exist
-}
+		type: {type: String, default: 'routable', enums: ['routable']},
+		name: { type : String, required : true},
+		hid: { type : Number, required : false, unique : false },
+		route: { type : Schema.ObjectId, ref : 'Route' },
+		created : { type : Date, default : Date.now },
+		modified : { type : Date, default : Date.now }
+	},
+	{
+		collection: 'route'//this object will never exist
+	}
 );
 
 //Auto populate
@@ -69,6 +68,6 @@ RoutableSchema.statics.routable = true;
 RoutableSchema.statics.objectParent = ['Routable.Site', 'Site'];
 RoutableSchema.statics.defaultPermission = [0,0,0,0,0,0,1,1];//only Read All
 RoutableSchema.statics.controller;//to be set by routable model, if the model needs any special functionality to render, create, or update
-RoutableSchema.statics.apicontroller = "routable";//to be set by routable model, if the model needs any special functionality to render, create, or update
+RoutableSchema.statics.apicontroller = require('../controllers/api/routable');//Defaults to routable api controller
 RoutableSchema.plugin(autoIncrement.plugin, { model: 'Route', field: 'hid', startAt: 100 });
 mongoose.model('Routable', RoutableSchema);

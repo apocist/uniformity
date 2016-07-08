@@ -19,22 +19,17 @@ exports.wildcard = function(req, res) {
 			data: req.body
 		},
 		data: {},
-		error: {}
+		error: {},
+		success: false
 	};
 	if(res.response.request.model){
 		if(mongoose.modelNames().indexOf(res.response.request.model) >= 0) {
 			console.log(res.response.request.model + ' model exists');
 			var objModel = mongoose.model(res.response.request.model);
-			if(objModel.apicontroller){
-				if(!req.app.locals.apicontrollers[objModel.apicontroller]){
-					req.app.locals.apicontrollers[objModel.apicontroller] = require('./api/'+objModel.apicontroller);
-				}
-			}
-
 		}
 	}
-	if(req.app.locals.apicontrollers[objModel.apicontroller] && req.app.locals.apicontrollers[objModel.apicontroller][res.response.request.action]){
-		req.app.locals.apicontrollers[objModel.apicontroller][res.response.request.action](req, res);
+	if(objModel && objModel.apicontroller && objModel.apicontroller[res.response.request.action]){
+		objModel.apicontroller[res.response.request.action](req, res);
 	} else if(exports[res.response.request.action]){
 		exports[res.response.request.action](req, res);
 	} else {
@@ -43,66 +38,35 @@ exports.wildcard = function(req, res) {
 	}
 };
 
-//TODO prepare a create api call
 /**
- * creates a routable object
+ * updates a routable object
  * @param req.params.model Model Name
  * @param req.body
  * {
+ *  hid,
  *  (all properties of model)
  * }
  * @param res
- */
-/*exports.POST = function(req, res) {
-	console.log('default POST');
-	if(mongoose.modelNames().indexOf(req.params.model) >= 0){//if this model model exists
-		var objType = mongoose.model(req.params.model);
-		var obj = new objType(req.body);
-		if (obj.schema.statics.routable) {//makes sure this is a routable obj
-			//TODO allow controller checks first
-			PermissionController.hasAccess(req.user, obj, [PermissionController.access.create], function(bool){//TODO maybe it should sue objType to avoid the user data first
-				if(bool) {
-					var url;
-					if(req.body.url){
-						url = req.body.url;//can add additional field "url"
-						if(url.charAt(0) != '/'){//make sure url starts with /
-							url = '/'+url;
-						}
+ **/
+exports.POST = function(req, res) {//TODO allow either _id or hid?
+	if(mongoose.modelNames().indexOf(res.response.request.model) >= 0){//if this model exists
+		var objModel = mongoose.model(res.response.request.model);
+		var obj = new objModel(res.response.request.data);
+		//TODO allow controller checks first
+		PermissionController.hasAccess(req.user, objModel, [PermissionController.access.create], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
+			if(bool) {
+				obj.save(function(err) {
+					if (err) {res.response.error = err; res.json(res.response);}
+					else {
+						res.response.data = obj;
+						res.response.success = true;
+						res.json(res.response);
 					}
-					Route.findOne({url: url}, function(err, routsearch) {
-						if(err) {res.json({error: "Error Checking Url"});}
-						else if(routsearch) {res.json({error: "Url already exists"});}
-						else {//no url exists, go ahead and make it
-							var route = new Route({
-								url: url,
-								routableType: obj.constructor.modelName,
-								object: obj._id
-							});
-							obj.route = route._id;
-							obj.save(function(err) {
-								if (err) {res.json({error: "Error Creating Routable"});}
-								else {
-									route.hid = obj.hid;
-									route.save(function (err) {
-										if (err) {
-											obj.remove(function(err) {
-												if (err) {res.json({error: "Error Creating Route, Couldn't remove errored Routable"});}
-												else {res.json({error: "Error Creating Route"});}
-											});
-										}
-										else{//all good
-											res.json(obj);
-										}
-									});
-								}
-							});
-						}
-					});
-				} else {res.json({error: "Do not have Create Permission"});}
-			});
-		}else{res.json({error: "Type not routable"});}
-	}else{res.json({error: "Type is not a Model"});}
-};*/
+				});
+			} else {res.response.error = "Do not have Create Permission"; res.json(res.response);}
+		});
+	}else{res.response.error = res.response.request.model + " not a Model"; res.json(res.response);}
+};
 
 /**
  * Outputs a single routable
@@ -138,11 +102,11 @@ exports.PUT = function(req, res) {//TODO allow either _id or hid?
 				if(bool) {
 					objModel.findByIdAndUpdate(res.response.request._id, obj, function(err) {
 						if (err) {res.response.error = err; res.json(res.response);}
-						else {res.response.data.success = true; res.json(res.response);}
+						else {res.response.success = true; res.json(res.response);}
 					});
 				} else {res.response.error = "Do not have Update Permission"; res.json(res.response);}
 			});
-		}else{res.response.error = "Type is not a Model"; res.json(res.response);}
+		}else{res.response.error = res.response.request.model + " not a Model"; res.json(res.response);}
 	}else{res.response.error = "No ID specified"; res.json(res.response);}
 };
 
@@ -165,7 +129,7 @@ exports.DELETE = function(req, res) {//TODO allow either _id or hid
 					objModel.findOneAndRemove({hid :res.response.request.hid}, function(err) {
 						if (err) {res.json({error: err}); res.json(res.response);}
 						else{
-							res.response.data.success = true;
+							res.response.success = true;
 							res.json(res.response);
 						}
 					});
@@ -186,7 +150,10 @@ exports.listBySubType = function(req, res) {//TODO allow either _id or hid
 		var objType = mongoose.model(res.response.request.model);
 		objType.find({}, function(err, objs) {
 			if(err) {res.response.error = err; res.json(res.response);}
-			else {res.response.data = objs; res.json(res.response);}
+			else {
+				res.response.data = objs;
+				res.response.success = true;
+				res.json(res.response);}
 		});
 	}else{res.response.error = res.response.request.model+" is not a Model"; res.json(res.response);}
 };
@@ -208,6 +175,7 @@ exports.getObjByHid = function(req, res) {//TODO allow either _id or hid
 						if (err) {res.response.error = err;res.json(res.response);}
 						else{
 							res.response.data = objData;
+							res.response.success = true;
 							res.json(res.response);
 						}
 					});
@@ -217,6 +185,7 @@ exports.getObjByHid = function(req, res) {//TODO allow either _id or hid
 	}else{res.response.error = res.response.request.model + " not a Model";res.json(res.response);}
 };
 
+//TODO deprecated need to move
 /**
  * Outputs all Routable Models' modelSchema and formSchema
  * @return object
