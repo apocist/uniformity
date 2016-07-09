@@ -13,7 +13,6 @@ var Error = function(message) {
 	return {
 		message: err
 	}
-
 };
 
 /**

@@ -1,8 +1,6 @@
 var 	mongoose = require('mongoose'),
 		Route = mongoose.model('Route'),
 		PermissionController = require('./auth/permission');
-//maybe handle with pre and post hooks
-//TODO should be an array of errors
 
 /**
  * Shortcut for creating an error json
@@ -15,7 +13,6 @@ var Error = function(message) {
 	return {
 		message: err
 	}
-	
 };
 
 /**
@@ -26,6 +23,11 @@ var reply = function(res) {
 	res.json(res.response);
 };
 
+/**
+ * Gateway for all routed api calls. Will determine which function to execute based on the method of action of request
+ * @param req
+ * @param res
+ */
 exports.wildcard = function(req, res) {
 	res.response = {
 		request: {
@@ -59,15 +61,11 @@ exports.wildcard = function(req, res) {
 };
 
 /**
- * updates a routable object
- * @param req.params.model Model Name
- * @param req.body
- * {
- *  hid,
- *  (all properties of model)
- * }
+ * Creates a modelled object
+ * @param req
  * @param res
- **/
+ * @constructor
+ */
 exports.POST = function(req, res) {//TODO allow either _id or hid?
 	if(mongoose.modelNames().indexOf(res.response.request.model) < 0) {//if this model doesn't exist
 		res.response.error.push(Error(res.response.request.model + " not a Model"));
@@ -95,10 +93,10 @@ exports.POST = function(req, res) {//TODO allow either _id or hid?
 };
 
 /**
- * Outputs a single routable
- * @param req.params.model Model Name
- * @param req.params.hid Routable ID
+ * Fetches either a single object or a list of objects that are the the specified Model
+ * @param req
  * @param res
+ * @constructor
  */
 exports.GET = function(req, res) {//req, res, next, err, route) {
 	if(res.response.request.hid) {//Type is case sensitive
@@ -109,10 +107,11 @@ exports.GET = function(req, res) {//req, res, next, err, route) {
 };
 
 /**
- * updates a routable object
+ * Updates the modelled object
  * @param req
  * @param res
- **/
+ * @constructor
+ */
 exports.PUT = function(req, res) {//TODO allow either _id or hid
 	if(!res.response.request._id) {//if no id
 		res.response.error.push(Error("No ID specified"));
@@ -140,9 +139,10 @@ exports.PUT = function(req, res) {//TODO allow either _id or hid
 };
 
 /**
- * Deletes Routables and route and JSON returns results
+ * Deletes the modelled object
  * @param req
  * @param res
+ * @constructor
  */
 exports.DELETE = function(req, res) {//TODO allow either _id or hid
 	if(!res.response.request.hid) {//if no id
@@ -170,7 +170,7 @@ exports.DELETE = function(req, res) {//TODO allow either _id or hid
 };
 
 /**
- * Outputs all routables of certain Model
+ * Fetches all instances of the specified Model
  * @param req
  * @param res
  */
@@ -193,7 +193,7 @@ exports.listBySubType = function(req, res) {
 };
 
 /**
- * Outputs a single routable
+ * Fetches the specified modelled object
  * @param req
  * @param res
  */
