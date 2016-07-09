@@ -16,7 +16,7 @@ var Error = function(message) {
 };
 
 /**
- * Shortcut as it's used so often
+ * Shortcut to return an enveloped response
  * @param res
  */
 var reply = function(res) {
