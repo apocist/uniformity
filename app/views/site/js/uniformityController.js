@@ -24,10 +24,11 @@ define(['jquery','async','flashController','authController','contentEditor','cus
 					item.type = element.attributes['data-type'].value;
 					itemName += item.type;
 				}
-				if(element.attributes['data-subType']){
+				//FIXME to remove, there should only be Type now
+				/*if(element.attributes['data-subType']){
 					item.subType = element.attributes['data-subType'].value;
 					itemName += item.subType;
-				}
+				}*/
 				if(element.attributes['data-id']){
 					item.id = element.attributes['data-id'].value;
 					itemName += item.id;
@@ -35,7 +36,7 @@ define(['jquery','async','flashController','authController','contentEditor','cus
 				//console.log(itemName);
 				if(typeof editableModelNames[itemName] === 'undefined'){
 					editableModelNames[itemName] = item;
-					item.uniformityController = that;
+					item.uniformityController = that;//FIXME should this be adding the controller?
 					editableModels.push(item);
 				}
 				cb();

@@ -130,14 +130,17 @@ define(['jquery','underscore','backbone','common'], function($, _, Backbone) {
 		ContentModel: Backbone.Model.extend({
 			baseUrl: '/api',
 			type: null,
-			subType: null,
+			//subType: null,
+			parse: function(options) {
+				return Backbone.Model.prototype.parse.call(this, options.data);//only fetch 'data'. the rest is header info
+			},
 			urlRoot: function () {
-				return (this.baseUrl ? this.baseUrl : '/api') + (this.type ? '/' + this.type : '') + (this.subType ? '/' + this.subType : '');
+				return (this.baseUrl ? this.baseUrl : '/api') + (this.type ? '/' + this.type : '') /*+ (this.subType ? '/' + this.subType : '')*/;
 			},
 			initialize: function (options) {
 				this.baseUrl = (options || {}).baseUrl;
 				this.type = (options || {}).type;
-				this.subType = (options || {}).subType;
+				//this.subType = (options || {}).subType;
 			}
 		}),
 		ContentView: Backbone.View.extend({
@@ -166,7 +169,7 @@ define(['jquery','underscore','backbone','common'], function($, _, Backbone) {
 				that.attributes = {
 					"type": "text", //TODO find out what this 'should' be per variable (like a WYSIWYG editor)
 					"data-type": that.model.type,
-					"data-subType": that.model.subType,
+					//"data-subType": that.model.subType,
 					"data-var": that.aliasEl.getAttribute("data-var")
 				};
 				that.css = $(that.aliasEl).getCss([//Copies the current calculated css to appear more seamless
@@ -293,13 +296,14 @@ define(['jquery','underscore','backbone','common'], function($, _, Backbone) {
 			},
 			saveError: function (ref, response) {
 				var that = this;
-				console.log("error", response);
+				console.log("error", response.error);
 				if (response.error) {
-					that.flashController.failMessage(response.error);
+					that.flashController.failMessage(response.error[0].message);
 				}
 
 				//TODO add flashbag to DOM
 				//Reset to previous values
+				//FIXME is not reverting back
 				ref.model.attributes[ref.attributes['data-var']] = ref.previousVal;
 				ref.populate();
 			},
@@ -323,7 +327,7 @@ define(['jquery','underscore','backbone','common'], function($, _, Backbone) {
 				subType: (options || {}).subType,
 				baseUrl: (options || {}).baseUrl
 			});
-			$((that.contentModel.type ? '[data-type="' + that.contentModel.type + '"]' : '') + ( that.contentModel.subType ? '[data-subType="' + that.contentModel.subType + '"]' : '')).not("input").each(function () {
+			$((that.contentModel.type ? '[data-type="' + that.contentModel.type + '"]' : '')/* + ( that.contentModel.subType ? '[data-subType="' + that.contentModel.subType + '"]' : '')*/).not("input").each(function () {
 				var aliasEl = this;
 				that.editableFields.push(
 					new that.ContentView({
