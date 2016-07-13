@@ -92,4 +92,6 @@ exports.POST = function(req, res) {
 	} else{reply(res);}
 };
 
+//TODO does routable PUT edit the route?
+
 //DELETE is handled by Model events

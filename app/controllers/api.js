@@ -1,3 +1,7 @@
+/**
+ * Maintains the base functionality when ever a route to http://domain.com/api/X/X/X is called
+ */
+
 var 	mongoose = require('mongoose'),
 		Route = mongoose.model('Route'),
 		PermissionController = require('./auth/permission');
@@ -35,8 +39,8 @@ exports.wildcard = function(req, res) {
 			method: req.method,
 			action: req.headers.action || req.params.action || req.method,
 			model: req.headers.model || req.params.model || null,
-			_id: req.headers._id || req.params._id || req.body._id || null,
-			hid: req.headers.hid || req.params.hid || null,
+			id: req.headers.id || req.headers._id || req.params.id || req.body._id || null,
+			//hid: req.headers.hid || req.params.hid || null,
 			//headers: req.headers,
 			params: req.params,
 			data: req.body
@@ -66,14 +70,13 @@ exports.wildcard = function(req, res) {
  * @param res
  * @constructor
  */
-exports.POST = function(req, res) {//TODO allow either _id or hid?
+exports.POST = function(req, res) {
 	if(mongoose.modelNames().indexOf(res.response.request.model) < 0) {//if this model doesn't exist
 		res.response.error.push(Error(res.response.request.model + " not a Model"));
 	}
 	if(res.response.error.length <= 0){
 		var objModel = mongoose.model(res.response.request.model);
 		var obj = new objModel(res.response.request.data);
-		//TODO allow controller checks first
 		PermissionController.hasAccess(req.user, objModel, [PermissionController.access.create], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 			if(!bool){//if no permissions
 				res.response.error.push(Error("Do not have Create Permission"));
@@ -99,8 +102,8 @@ exports.POST = function(req, res) {//TODO allow either _id or hid?
  * @constructor
  */
 exports.GET = function(req, res) {//req, res, next, err, route) {
-	if(res.response.request.hid) {//Type is case sensitive
-		exports.getObjByHid(req, res);
+	if(res.response.request.id) {//Type is case sensitive
+		exports.getObjById(req, res);
 	} else {
 		exports.listBySubType(req, res);
 	}
@@ -112,8 +115,8 @@ exports.GET = function(req, res) {//req, res, next, err, route) {
  * @param res
  * @constructor
  */
-exports.PUT = function(req, res) {//TODO allow either _id or hid
-	if(!res.response.request._id) {//if no id
+exports.PUT = function(req, res) {
+	if(!res.response.request.id) {//if no id
 		res.response.error.push(Error("No ID specified"));
 	}
 	if(mongoose.modelNames().indexOf(res.response.request.model) < 0) {//if this model doesn't exist
@@ -122,13 +125,12 @@ exports.PUT = function(req, res) {//TODO allow either _id or hid
 	if(res.response.error.length <= 0){
 		var objModel = mongoose.model(res.response.request.model);
 		var obj = new objModel(res.response.request.data);
-		//TODO allow controller checks first
 		PermissionController.hasAccess(req.user, objModel, [PermissionController.access.updateAll], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 			if(!bool){//if no permissions
 				res.response.error.push(Error("Do not have Update Permission"));
 			}
 			if(res.response.error.length <= 0){
-				objModel.findByIdAndUpdate(res.response.request._id, obj, function(err) {
+				objModel.findByIdAndUpdate(res.response.request.id, obj, function(err) {
 					if (err) {res.response.error.push(Error(err));}
 					else {res.response.success = true;}//should we return the object?
 					reply(res);
@@ -144,22 +146,21 @@ exports.PUT = function(req, res) {//TODO allow either _id or hid
  * @param res
  * @constructor
  */
-exports.DELETE = function(req, res) {//TODO allow either _id or hid
-	if(!res.response.request.hid) {//if no id
-		res.response.error.push(Error("No HID specified"));
+exports.DELETE = function(req, res) {
+	if(!res.response.request.id) {//if no id
+		res.response.error.push(Error("No ID specified"));
 	}
 	if(mongoose.modelNames().indexOf(res.response.request.model) < 0) {//if this model doesn't exist
 		res.response.error.push(Error(res.response.request.model + " not a Model"));
 	}
 	if(res.response.error.length <= 0){
 		var objModel = mongoose.model(res.response.request.model);
-		//TODO allow controller checks first
 		PermissionController.hasAccess(req.user, objModel, [PermissionController.access.deleteAll], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 			if(!bool){//if no permissions
 				res.response.error.push(Error("Do not have Delete Permission"));
 			}
 			if(res.response.error.length <= 0){
-				objModel.findOneAndRemove({hid :res.response.request.hid}, function(err) {
+				objModel.findOneAndRemove({id :res.response.request.id}, function(err) {
 					if (err) {res.response.error.push(Error(err));}
 					else{res.response.success = true;}
 					reply(res);
@@ -197,9 +198,9 @@ exports.listBySubType = function(req, res) {
  * @param req
  * @param res
  */
-exports.getObjByHid = function(req, res) {//TODO allow either _id or hid
-	if(!res.response.request.hid) {//if no hid
-		res.response.error.push(Error("No HID specified"));
+exports.getObjById = function(req, res) {
+	if(!res.response.request.id) {//if no hid
+		res.response.error.push(Error("No ID specified"));
 	}
 	if(mongoose.modelNames().indexOf(res.response.request.model) < 0) {//if this model doesn't exist
 		res.response.error.push(Error(res.response.request.model + " not a Model"));
@@ -212,7 +213,7 @@ exports.getObjByHid = function(req, res) {//TODO allow either _id or hid
 				res.response.error.push(Error("Do not have Read Permission"));
 			}
 			if(res.response.error.length <= 0){
-				objModel.findOne({hid: res.response.request.hid}, function (err, objData) {
+				objModel.findById(res.response.request.id, function (err, objData) {
 					if (err) {res.response.error.push(Error(err));}
 					else{
 						res.response.data = objData;

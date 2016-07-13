@@ -66,7 +66,7 @@ RoutableSchema.statics.formschema = {
 };
 RoutableSchema.statics.routable = true;
 RoutableSchema.statics.objectParent = ['Routable.Site', 'Site'];
-RoutableSchema.statics.defaultPermission = [0,0,0,0,0,0,1,1];//only Read All
+RoutableSchema.statics.defaultPermission = [0,0,1,0,0,1,1,1];//Delete own, Update own, Read All
 RoutableSchema.statics.controller;//to be set by routable model, if the model needs any special functionality to render, create, or update
 RoutableSchema.statics.apicontroller = require('../controllers/api/routable');//Defaults to routable api controller
 RoutableSchema.plugin(autoIncrement.plugin, { model: 'Route', field: 'hid', startAt: 100 });

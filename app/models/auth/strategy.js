@@ -64,6 +64,6 @@ StrategySchema.statics.formschema = {
 	}*/
 };
 StrategySchema.statics.objectParent = ['User.Auth.Site', 'Strategy.Auth.Site','Auth.Site', 'Site'];
-StrategySchema.statics.defaultPermission = [0,0,0,0,0,0,1,1];//only Read All
+StrategySchema.statics.defaultPermission = [0,0,0,0,0,0,1,1];//only Read All TODO need details to prevent reading certain things like tokens
 StrategySchema.statics.controller = "strategy";
 mongoose.model('Strategy', StrategySchema);

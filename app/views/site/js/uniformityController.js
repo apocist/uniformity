@@ -36,7 +36,7 @@ define(['jquery','async','flashController','authController','contentEditor','cus
 				//console.log(itemName);
 				if(typeof editableModelNames[itemName] === 'undefined'){
 					editableModelNames[itemName] = item;
-					item.uniformityController = that;//FIXME should this be adding the controller?
+					item.uniformityController = that;
 					editableModels.push(item);
 				}
 				cb();

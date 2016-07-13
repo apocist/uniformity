@@ -282,7 +282,7 @@ define(['jquery','underscore','backbone','common'], function($, _, Backbone) {
 					$(that.aliasEl).html(newVal);//Update the DOM
 					that.model.save(null, {
 						success: function (model, response) {
-							if (response.error) {
+							if (response.error.length > 0) {
 								that.saveError(that, response);
 							} else {
 								that.flashController.successMessage('Saved');
@@ -297,8 +297,10 @@ define(['jquery','underscore','backbone','common'], function($, _, Backbone) {
 			saveError: function (ref, response) {
 				var that = this;
 				console.log("error", response.error);
-				if (response.error) {
+				if (response.error.length > 0) {
 					that.flashController.failMessage(response.error[0].message);
+				} else {
+					that.flashController.failMessage('Unknown Error');
 				}
 
 				//TODO add flashbag to DOM
