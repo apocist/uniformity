@@ -42,7 +42,7 @@ exports.wildcard = function(req, res) {
 			id: req.headers.id || req.headers._id || req.params.id || req.body._id || null,
 			//hid: req.headers.hid || req.params.hid || null,
 			//headers: req.headers,
-			params: req.params,
+			//params: req.params,
 			data: req.body
 		},
 		success: false,

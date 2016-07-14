@@ -1,9 +1,5 @@
-var 	async = require('async'),
-		express = require('express'),
-		routes = {
-			//routable: require('./api/routable.js'),
-			main: require('./api/main.js')
-		};
+var 	api = require('../controllers/api'),
+		express = require('express');
 
 
 module.exports = function(app, callback) {
@@ -14,18 +10,13 @@ module.exports = function(app, callback) {
 		res.header('Access-Control-Allow-Headers', 'Content-Type');
 		next();
 	};
-	app.use(allowCrossDomain);
-
-	var apiRoute = null;
-	async.each(routes, function(route, next){
-		apiRoute = express.Router();
-
-		apiRoute.use(route.routes());
-
-		app.use('/api', apiRoute);
-		next();
-	}, function(){
-		callback();
-	});
-
+	
+	var apiRoute = express.Router();
+	apiRoute.use(allowCrossDomain);
+	apiRoute.route('/:model/:id/:action').all(api.wildcard);//works for grabbing certain obj
+	apiRoute.route('/:model/:id').all(api.wildcard);//works for grabbing certain obj
+	apiRoute.route('/:model').all(api.wildcard);//works for grabbing certain obj
+	
+	app.use('/api', apiRoute);
+	callback();
 };
