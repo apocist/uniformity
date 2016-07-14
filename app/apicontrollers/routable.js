@@ -68,7 +68,6 @@ exports.POST = function(req, res) {
 						obj.save(function(err) {
 							if(err) {res.response.error.push(Error("Error Creating Routable"));}
 							if(res.response.error.length <= 0){
-								route.hid = obj.hid;
 								route.save(function (err) {
 									if (err) {
 										obj.remove(function(err) {

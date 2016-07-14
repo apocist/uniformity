@@ -4,7 +4,8 @@
 
 var 	mongoose = require('mongoose'),
 		Route = mongoose.model('Route'),
-		PermissionController = require('./auth/permission');
+		PermissionController = require('./auth/permission'),
+		ObjectId = mongoose.Types.ObjectId;
 
 /**
  * Shortcut for creating an error json
@@ -25,6 +26,24 @@ var Error = function(message) {
  */
 var reply = function(res) {
 	res.json(res.response);
+};
+
+/**
+ * Returns a string if the supplied id could be valid
+ * @param id possible mongoose _id
+ * @returns {*}
+ */
+var toObjectId = function(id) {
+	if(id == null) {return null}
+	var stringId = id.toString().toLowerCase();
+	if (!ObjectId.isValid(stringId)) {
+		return null;
+	}
+	var result = new ObjectId(stringId);
+	if (result.toString() != stringId) {
+		return null;
+	}
+	return result;
 };
 
 /**
@@ -49,6 +68,16 @@ exports.wildcard = function(req, res) {
 		error: [],
 		data: {}
 	};
+	//Valid the model id
+	if(res.response.request.id) {
+		var tempId = toObjectId(res.response.request.id);
+		if(res.response.request.id != tempId){
+				res.response.error.push(Error("Invalid id provided"));
+		} else {
+			res.response.request.id = tempId;
+		}
+	}
+	//Fetch the model, if one
 	if(res.response.request.model){
 		if(mongoose.modelNames().indexOf(res.response.request.model) >= 0) {
 			var objModel = mongoose.model(res.response.request.model);

@@ -3,7 +3,26 @@ var 	mongoose = require('mongoose'),
 		PermissionController = require('./auth/permission'),
 		libs = {
 			'PermissionController': PermissionController
-		};
+		},
+		ObjectId = mongoose.Types.ObjectId;
+
+/**
+ * Returns a string if the supplied id could be valid
+ * @param id possible mongoose _id
+ * @returns {*}
+ */
+var toObjectId = function(id) {
+	if(id == null) {return null}
+	var stringId = id.toString().toLowerCase();
+	if (!ObjectId.isValid(stringId)) {
+		return null;
+	}
+	var result = new ObjectId(stringId);
+	if (result.toString() != stringId) {
+		return null;
+	}
+	return result;
+};
 
 exports.error404 = function(req, res) {
 	res.status(404);
@@ -44,14 +63,10 @@ exports.routeByID = function(req, res, next) {
 	if(url.charAt(0) == '/'){//if url has / remove it
 		url = url.substring(1);
 	}
-	if(!isNaN(url)){
-		Route.findOne({
-				hid: url
-			}, 
-			function(err, route) {
-				exports.getObj(req, res, next, err, route);
-			}
-		);
+	if(toObjectId(url)){
+		Route.findById(toObjectId(url), function(err, route) {
+			exports.getObj(req, res, next, err, route);
+		});
 	}else{next();}
 };
 

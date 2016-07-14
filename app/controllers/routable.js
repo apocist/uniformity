@@ -40,7 +40,6 @@ exports.create = function(req, res) {
 							obj.save(function(err) {
 								if (err) {res.json({error: "Error Creating Routable"});}
 								else {
-									route.hid = obj.hid;
 									route.save(function (err) {
 										if (err) {
 											obj.remove(function(err) {
@@ -109,7 +108,7 @@ exports.remove = function(req, res) {
 				//TODO allow controller checks first
 				PermissionController.hasAccess(req.user, objModel, [PermissionController.access.deleteAll], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 					if(bool) {
-						objModel.findOneAndRemove({hid :req.body.hid}, function(err) {
+						objModel.findOneAndRemove({_id :req.body._id}, function(err) {
 							if (err) {res.json({error: err});}
 							else{
 								res.json({success: true});
@@ -143,14 +142,14 @@ exports.listBySubType = function(req, res) {//FIXME how to handle the listing of
  * @param req.params.hid Routable ID
  * @param res
  */
-exports.getObjByHid = function(req, res) {//req, res, next, err, route) {
+exports.getObjById = function(req, res) {//req, res, next, err, route) {
 	if(mongoose.modelNames().indexOf(req.params.subType) >= 0){
 		var objModel = mongoose.model(req.params.subType);
 		if (objModel.schema.statics.routable) {//makes sure this is a routable obj
 			//TODO allow controller checks first
 			PermissionController.hasAccess(req.user, objModel, [PermissionController.access.readAll], function(bool){//TODO realizing that this is only checking the permissions of the model schema and not the object....need to find first
 				if(bool) {
-					objModel.findOne({hid: req.params.hid}, function (err, objData) {
+					objModel.findOne({_id: req.params.id}, function (err, objData) {
 						if (err) {res.json({error: err});}
 						else{
 							res.json(objData);

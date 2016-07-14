@@ -10,7 +10,7 @@ module.exports = function(app, callback) {
 
 	mainRoute.route('*')
 		.all(routing.routeByURL)//gets a route by friendly url
-		.all(routing.routeByID);//gets a route by hid
+		.all(routing.routeByID);//gets a route by id
 
 	mainRoute.get('/', index.render);
 
