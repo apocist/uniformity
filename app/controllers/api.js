@@ -56,7 +56,7 @@ exports.wildcard = function(req, res) {
 		request: {
 			url: req.originalUrl,
 			method: req.method,
-			action: req.headers.action || req.params.action || req.method,
+			action: req.headers.action || req.params.action || req.query.action || req.method,
 			model: req.headers.model || req.params.model || null,
 			id: req.headers.id || req.headers._id || req.params.id || req.body._id || null,
 			//hid: req.headers.hid || req.params.hid || null,
@@ -68,15 +68,6 @@ exports.wildcard = function(req, res) {
 		error: [],
 		data: {}
 	};
-	//Valid the model id
-	if(res.response.request.id) {
-		var tempId = toObjectId(res.response.request.id);
-		if(res.response.request.id != tempId){
-				res.response.error.push(Error("Invalid id provided"));
-		} else {
-			res.response.request.id = tempId;
-		}
-	}
 	//Fetch the model, if one
 	if(res.response.request.model){
 		if(mongoose.modelNames().indexOf(res.response.request.model) >= 0) {
@@ -145,7 +136,14 @@ exports.GET = function(req, res) {//req, res, next, err, route) {
  * @constructor
  */
 exports.PUT = function(req, res) {
-	if(!res.response.request.id) {//if no id
+	if(res.response.request.id) {
+		var tempId = toObjectId(res.response.request.id);
+		if(res.response.request.id != tempId){
+			res.response.error.push(Error("Invalid id provided"));
+		} else {
+			res.response.request.id = tempId;
+		}
+	} else {
 		res.response.error.push(Error("No ID specified"));
 	}
 	if(mongoose.modelNames().indexOf(res.response.request.model) < 0) {//if this model doesn't exist
@@ -176,7 +174,14 @@ exports.PUT = function(req, res) {
  * @constructor
  */
 exports.DELETE = function(req, res) {
-	if(!res.response.request.id) {//if no id
+	if(res.response.request.id) {
+		var tempId = toObjectId(res.response.request.id);
+		if(res.response.request.id != tempId){
+			res.response.error.push(Error("Invalid id provided"));
+		} else {
+			res.response.request.id = tempId;
+		}
+	} else {
 		res.response.error.push(Error("No ID specified"));
 	}
 	if(mongoose.modelNames().indexOf(res.response.request.model) < 0) {//if this model doesn't exist
@@ -228,7 +233,14 @@ exports.listBySubType = function(req, res) {
  * @param res
  */
 exports.getObjById = function(req, res) {
-	if(!res.response.request.id) {//if no hid
+	if(res.response.request.id) {
+		var tempId = toObjectId(res.response.request.id);
+		if(res.response.request.id != tempId){
+			res.response.error.push(Error("Invalid id provided"));
+		} else {
+			res.response.request.id = tempId;
+		}
+	} else {
 		res.response.error.push(Error("No ID specified"));
 	}
 	if(mongoose.modelNames().indexOf(res.response.request.model) < 0) {//if this model doesn't exist
