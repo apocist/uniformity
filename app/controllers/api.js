@@ -138,7 +138,7 @@ exports.GET = function(req, res) {//req, res, next, err, route) {
 exports.PUT = function(req, res) {
 	if(res.response.request.id) {
 		var tempId = toObjectId(res.response.request.id);
-		if(res.response.request.id != tempId){
+		if(!tempId){
 			res.response.error.push(Error("Invalid id provided"));
 		} else {
 			res.response.request.id = tempId;
@@ -176,7 +176,7 @@ exports.PUT = function(req, res) {
 exports.DELETE = function(req, res) {
 	if(res.response.request.id) {
 		var tempId = toObjectId(res.response.request.id);
-		if(res.response.request.id != tempId){
+		if(!tempId){
 			res.response.error.push(Error("Invalid id provided"));
 		} else {
 			res.response.request.id = tempId;
@@ -235,7 +235,7 @@ exports.listBySubType = function(req, res) {
 exports.getObjById = function(req, res) {
 	if(res.response.request.id) {
 		var tempId = toObjectId(res.response.request.id);
-		if(res.response.request.id != tempId){
+		if(!tempId){
 			res.response.error.push(Error("Invalid id provided"));
 		} else {
 			res.response.request.id = tempId;

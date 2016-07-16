@@ -23,6 +23,7 @@ module.exports = function(config, pluginController, callback) {
 	app.locals.pluginController = pluginController;
 	app.locals.passport = passport;
 	app.locals.controllers = {
+		apiController: require('../app/controllers/api'),
 		auth: {
 			permissionController : require('../app/controllers/auth/permission'),
 			strategyController : require('../app/controllers/auth/strategy'),
