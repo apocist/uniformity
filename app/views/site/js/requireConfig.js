@@ -15,6 +15,8 @@ requirejs.config({
 		async: 'https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min',
 		bootstrap: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min',//v4 alpha
 		tether: 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min',
+		angular: '/bower_components/angular/angular',//FIXME need to change the path
+		angular_route: '/bower_components/angular-route/angular-route',
 		
 		common: '/site/js/common',
 		custombootsteap: '/site/js/customBootstrap',
@@ -23,16 +25,25 @@ requirejs.config({
 		flashController: '/site/js/flashController',
 		authController: '/auth/js/authController',
 
+		angularApp: '/angular/js/app',
+		angularRoutes: '/angular/js/routes',
+		apiService: '/angular/js/apiService',
+		modelService: '/angular/js/templateModel',
+		routeController: '/angular/js/routeController',
+
 		contentEditor: '/admin/js/contentEditor'
 	},
 	shim: {
-		bootstrap : {"deps" :['jquery','tether']}
+		bootstrap: {"deps" :['jquery','tether']},
+		angular: {exports: 'angular'},
+		angular_route : {"deps" :['angular']}
 	}
 });
 require(['tether'], function (tether) {
 	window.Tether = tether;//Tether HAS to be in window before bootstrap loads. might want a prettier method
-	require(['uniformityController'], function (uniformityController) {
+	require(['angular', 'uniformityController', 'angularApp', 'angularRoutes'], function (angular, uniformityController) {
 		//Start the main controller
+		angular.bootstrap(document, ['app']);
 		window.uniformityController = new uniformityController();
 		console.log('all done loading');
 
