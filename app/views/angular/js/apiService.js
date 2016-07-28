@@ -6,7 +6,11 @@ define(['angular'], function(angular) {
 				getRoutableByUrl: function (url) {
 					return $http({
 						method: 'GET',
-						url: '/api/Route?action=getRoutableByUrl&url=' + url
+						url: '/api/Route',//by stand, keep the model directly in the Url
+						headers: {
+							action: 'getRoutableByUrl',
+							url: url
+						}
 					});
 				}
 			}

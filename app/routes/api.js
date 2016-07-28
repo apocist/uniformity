@@ -13,9 +13,10 @@ module.exports = function(app, callback) {
 	
 	var apiRoute = express.Router();
 	apiRoute.use(allowCrossDomain);
-	apiRoute.route('/:model/:id/:action').all(api.wildcard);//works for grabbing certain obj
-	apiRoute.route('/:model/:id').all(api.wildcard);//works for grabbing certain obj
-	apiRoute.route('/:model').all(api.wildcard);//works for grabbing certain obj
+	apiRoute.route('/:model/:id/:action').all(api.wildcard);
+	apiRoute.route('/:model/:id').all(api.wildcard);
+	apiRoute.route('/:model').all(api.wildcard);
+	apiRoute.route('/').all(api.wildcard);
 	
 	app.use('/api', apiRoute);
 	callback();
