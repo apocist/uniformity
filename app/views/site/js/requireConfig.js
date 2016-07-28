@@ -15,8 +15,8 @@ requirejs.config({
 		async: 'https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min',
 		bootstrap: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min',//v4 alpha
 		tether: 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min',
-		angular: '/bower_components/angular/angular',//FIXME need to change the path
-		angular_route: '/bower_components/angular-route/angular-route',
+		angular: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min',//'/bower_components/angular/angular'
+		angular_route: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.min',//'/bower_components/angular-route/angular-route',
 		
 		common: '/site/js/common',
 		custombootsteap: '/site/js/customBootstrap',

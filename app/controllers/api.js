@@ -66,6 +66,7 @@ exports.wildcard = function(req, res) {
 		},
 		success: false,
 		error: [],
+		schema: {},
 		data: {}
 	};
 	//Fetch the model, if one

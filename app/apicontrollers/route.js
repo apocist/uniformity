@@ -58,10 +58,10 @@ exports.getRoutableByUrl = function(req, res) {
 				}
 				if (res.response.error.length <= 0) {
 					var objModel = mongoose.model(route.routableType);
-					if (objModel.apicontroller && objModel.apicontroller.GET) {//the get function
-						objModel.apicontroller.GET(req, res);
+					if (objModel.apicontroller && objModel.apicontroller.getObjById) {//the getObjById function(as it should now have an id)
+						objModel.apicontroller.getObjById(req, res);
 					} else {
-						ApiController.GET(req, res);
+						ApiController.getObjById(req, res);
 					}
 				} else {reply(res);}
 			} else {reply(res);}
