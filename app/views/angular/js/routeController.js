@@ -13,6 +13,7 @@ define(['angular'], function(angular) {
 			} else if ($routeParams.url == '/' || $routeParams.url == '' || $routeParams.url == null) {
 				$scope.templateUrl = '/site/index.html';
 			} else {
+				$scope.url = $routeParams.url;
 				$scope.templateUrl = '/site/404.html';
 			}
 

@@ -13,7 +13,5 @@
 {% block title %}Angular Test Page{% endblock %}
 
 {% block content %}
-	<div ng-view id="template_body" >
-
-	</div>
+	<div ng-view id="template_body" ></div>
 {% endblock %}
