@@ -13,5 +13,11 @@
 {% block title %}Angular Test Page{% endblock %}
 
 {% block content %}
-	<div ng-view id="template_body" ></div>
+	<div id="header">
+		<div class="navigation"><h3>Navigation goes here</h3></div>
+	</div>
+	<div id="sidebar" class="left"></div>
+	<div ng-view id="content" ></div>
+	<div id="sidebar" class="right"></div>
+	<div id="footer"></div>
 {% endblock %}
