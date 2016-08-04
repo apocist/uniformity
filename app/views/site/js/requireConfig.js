@@ -30,6 +30,7 @@ requirejs.config({
 		apiService: '/angular/js/apiService',
 		modelService: '/angular/js/templateModel',
 		routeController: '/angular/js/routeController',
+		navigationController: '/angular/js/navigationController',
 
 		contentEditor: '/admin/js/contentEditor'
 	},

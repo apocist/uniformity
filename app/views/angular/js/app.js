@@ -1,9 +1,10 @@
 
-define(['angular','angular_route','apiService','modelService','routeController'], function(angular) {
+define(['angular','angular_route','apiService','modelService','routeController', 'navigationController'], function(angular) {
 	return angular.module('app', [
 		'API.service',
 		'API.templateModel',
 		'API.routeController',
+		'Element.navigationController',
 		'ngRoute'
 		//'API.routeConfig'
 	]);

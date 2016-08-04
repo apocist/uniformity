@@ -14,7 +14,7 @@
 
 {% block content %}
 	<div id="header">
-		<div class="navigation"><h3>Navigation goes here</h3></div>
+		<div class="navigation" ng-include="'/site/navigation.html'"><h3>Navigation goes here</h3></div>
 	</div>
 	<div id="sidebar" class="left"></div>
 	<div ng-view id="content" ></div>
