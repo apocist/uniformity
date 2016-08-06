@@ -1,0 +1,17 @@
+<div ng-controller="navigationController" ng-cloak>
+    <md-sidenav
+            class="md-sidenav-left"
+            md-component-id="left"
+            md-disable-backdrop
+            md-is-locked-open="isSubMenu()"
+            md-whiteframe="4">
+        <md-toolbar class="md-theme-indigo">
+            <h1 class="md-toolbar-tools">Sidenav Left</h1>
+        </md-toolbar>
+        <md-content layout-padding >
+            <p>
+                This sidebar should only appear if there are sub menu items
+            </p>
+        </md-content>
+    </md-sidenav>
+</div>

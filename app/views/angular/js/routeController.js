@@ -1,6 +1,7 @@
 define(['angular'], function(angular) {
-	return angular.module('API.routeController', [])./* Route Controller */
-	controller('routeController', function ($scope, $routeParams, APIService, Model) {
+	return angular.module('API.routeController', ['Element.navigationController'])./* Route Controller */
+	controller('routeController', function ($scope, $routeParams, APIService, Model, controllerService) {
+		controllerService.routeController = $scope;
 		console.log('Dynamic!!');
 		console.log('$scope', $scope);
 		console.log('$routeParams', $routeParams);
@@ -15,6 +16,11 @@ define(['angular'], function(angular) {
 			} else {
 				$scope.url = $routeParams.url;
 				$scope.templateUrl = '/site/404.html';
+			}
+
+			if(controllerService.navigationController){
+				//Update the active menu item
+				controllerService.navigationController.updateCurrentMenuItem();
 			}
 
 		});
