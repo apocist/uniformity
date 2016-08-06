@@ -45,6 +45,9 @@ requirejs.config({
 		bootstrap: {"deps" :['jquery','tether']},
 		angular: {exports: 'angular'},
 		angular_route : {"deps" :['angular']},
+		angular_animate : {"deps" :['angular']},
+		angular_aria : {"deps" :['angular']},
+		angular_messages : {"deps" :['angular']},
 		angular_material : {"deps" :['angular', 'angular_animate', 'angular_aria', 'angular_messages']}
 	}
 });

@@ -41,3 +41,17 @@ body {
 	background-color: rgba(56, 202, 255, 0.7);
 	color: #000000
 }
+
+/* SideBar */
+#sidebar-left {
+	overflow: visible !important;
+	float: left;
+	padding-right: 4px;
+}
+
+md-sidenav,
+md-sidenav.md-locked-open,
+md-sidenav.md-closed.md-locked-open-add-active {
+	min-width: 0 !important;
+	max-width: 200px !important;
+}

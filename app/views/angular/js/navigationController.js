@@ -7,6 +7,7 @@ define(['angular', 'underscore'], function(angular) {
 				APIService: APIService,
 				scopes: [],
 				SiteMap: [],
+				isSubMenu: false,
 				currentMenuItem: {
 					parent: null,
 					children: [],
@@ -26,11 +27,13 @@ define(['angular', 'underscore'], function(angular) {
 				updateScopes: function() {
 					var that = this;
 					that.updatePrimaryMenuItem();
+					that.updateSubMenu();
 					_.each(that.scopes, function(scope){
 						scope.SiteMap = that.SiteMap;
 						scope.currentMenuItem = that.currentMenuItem;
 						scope.primaryMenuItem = that.primaryMenuItem;
 						scope.currentNavUrl = that.primaryMenuItem.url || $routeParams.url;
+						scope.isSubMenu = that.isSubMenu;
 					});
 				},
 				updatePrimaryMenuItem: function() {
@@ -41,6 +44,12 @@ define(['angular', 'underscore'], function(angular) {
 						});
 					}
 
+				},
+				updateSubMenu: function() {
+					var status = (controllerService.navigationController.currentMenuItem && (controllerService.navigationController.currentMenuItem.parent || controllerService.navigationController.currentMenuItem.children.length > 0)) ? true : false;
+					if(this.isSubMenu != status){
+						this.isSubMenu = status;
+					}
 				},
 				getMainParentMenuItem: function(item, callback){
 					var that = this;
@@ -76,11 +85,6 @@ define(['angular', 'underscore'], function(angular) {
 			return url === $routeParams.url ? 'active' : '';
 		};
 
-		$scope.isSubMenu = function () {
-			//console.log('sidebar item', $scope.currentMenuItem);
-			//console.log('sidebar', ($scope.currentMenuItem && ($scope.currentMenuItem.parent || $scope.currentMenuItem.children.length > 0)) || 'nothing');
-			return (controllerService.navigationController.currentMenuItem && (controllerService.navigationController.currentMenuItem.parent || controllerService.navigationController.currentMenuItem.children.length > 0));
-		};
 		$scope.currentNavUrl = $routeParams.url;
 
 		if(!controllerService.navigationController.init){
