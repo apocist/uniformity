@@ -23,5 +23,7 @@ define(['angular'], function(angular) {
 
 		});
 
-	});
+	}).run(['$route', function($route)  {
+		$route.reload();
+	}]);
 });

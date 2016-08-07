@@ -46,6 +46,8 @@ body {
 #sidebar-left {
 	overflow: visible !important;
 	float: left;
+}
+#sidebar-left.md-is-open {
 	padding-right: 4px;
 }
 
@@ -54,4 +56,8 @@ md-sidenav.md-locked-open,
 md-sidenav.md-closed.md-locked-open-add-active {
 	min-width: 0 !important;
 	max-width: 200px !important;
+}
+md-sidenav,
+md-sidenav > md-content {
+	overflow: hidden;
 }

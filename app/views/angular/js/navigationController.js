@@ -66,7 +66,7 @@ define(['angular', 'underscore'], function(angular) {
 				},
 				fetchSiteMap: function () {
 					var that = this;
-					//that.init = true;
+					that.init = true;
 					that.APIService.getModel('MenuItem').success(function (response) {
 						if (response.success == true && Object.keys(response.data).length) {
 							that.SiteMap = response.data;
@@ -89,6 +89,8 @@ define(['angular', 'underscore'], function(angular) {
 
 		if(!controllerService.navigationController.init){
 			controllerService.navigationController.fetchSiteMap();
+		} else {
+			controllerService.navigationController.updateScopes();
 		}
 
 	});

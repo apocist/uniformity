@@ -42,17 +42,17 @@ requirejs.config({
 		contentEditor: '/admin/js/contentEditor'
 	},
 	shim: {
-		bootstrap: {"deps" :['jquery','tether']},
+		bootstrap: {'deps' :['jquery','tether']},
 		angular: {exports: 'angular'},
-		angular_route : {"deps" :['angular']},
-		angular_animate : {"deps" :['angular']},
-		angular_aria : {"deps" :['angular']},
-		angular_messages : {"deps" :['angular']},
-		angular_material : {"deps" :['angular', 'angular_animate', 'angular_aria', 'angular_messages']}
+		angular_route : {'deps' :['angular']},
+		angular_animate : {'deps' :['angular']},
+		angular_aria : {'deps' :['angular']},
+		angular_messages : {'deps' :['angular']},
+		angular_material : {'deps' :['angular', 'angular_animate', 'angular_aria', 'angular_messages']}
 	}
 });
-require(['tether'], function (tether) {
-	window.Tether = tether;//Tether HAS to be in window before bootstrap loads. might want a prettier method
+//require(['tether'], function (tether) {
+	//window.Tether = tether;//Tether HAS to be in window before bootstrap loads. might want a prettier method
 	require(['angular', 'uniformityController', 'angularApp', 'angularRoutes'], function (angular, uniformityController) {
 		//Start the main controller
 		angular.bootstrap(document, ['app']);
@@ -61,4 +61,4 @@ require(['tether'], function (tether) {
 
 	});
 
-});
+//});

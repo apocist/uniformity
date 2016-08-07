@@ -18,42 +18,8 @@
 
 {% block content %}
 	<div layout="column">
-		<div id="header" ng-include="'/site/partials/header.html'"></div>
-		<div layout="row">
-			{#<div id="sidebar" class="left" ng-include="'/site/partials/navigation_sidebar.html'" flex="20"></div>#}
-			{%  raw %}
-			<div id="sidebar-left" ng-controller="navigationController" ng-cloak >
-				<md-sidenav
-						class="md-sidenav-left"
-						md-component-id="left"
-						md-disable-backdrop
-						md-is-open="isSubMenu"
-						md-is-locked-open="isSubMenu"
-						md-whiteframe="4">
-					<md-toolbar class="md-theme-indigo">
-						<h1 class="md-toolbar-tools">Sidenav Left</h1>
-					</md-toolbar>
-					<md-content layout-padding >
-						<p>
-							This sidebar should only appear if there are sub menu items
-						</p>
-						<script type="text/ng-template" id="treeMenu">
-							<a href="{{menuItem.url}}" ng-class="isActiveLink('{{menuItem.url}}')">{{menuItem.name}}</a>
-							<ul ng-if="(SiteMap | filter:{parent : menuItem._id}).length > 0">
-								<li ng-repeat="menuItem in SiteMap | filter:{parent : menuItem._id} | orderBy: 'priority' track by menuItem._id"  ng-include="'treeMenu'"></li>
-							</ul>
-						</script>
-						<ul class="main-navigation">
-							<li ng-repeat="menuItem in SiteMap | filter:{parent : primaryMenuItem._id} | orderBy: 'priority' track by menuItem._id" ng-include="'treeMenu'"></li>
-						</ul>
-					</md-content>
-				</md-sidenav>
-
-			</div>{%  endraw %}
-			<div ng-view id="content" ></div>
-			<div id="sidebar-right"></div>
-		</div>
-
-		<div id="footer"></div>
+		<div id="header" ng-include="'/site/partials/header.html'" ng-cloak></div>
+		<div id="content_section" ng-include="'/site/partials/content-section.html'" ng-cloak></div>
+		<div id="footer" ng-cloak></div>
 	</div>
 {% endblock %}

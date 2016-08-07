@@ -1,0 +1,29 @@
+<div layout="row">
+    <div id="sidebar-left" ng-controller="navigationController"ng-class="{'md-is-open': isSubMenu}" ng-cloak >
+        <md-sidenav
+                class="md-sidenav-left"
+                md-component-id="left"
+                md-disable-backdrop
+                md-is-open="isSubMenu"
+                md-is-locked-open="isSubMenu"
+                md-whiteframe="4"
+                ng-cloak>
+            <md-toolbar class="md-theme-indigo">
+                <h1 class="md-toolbar-tools">{{ primaryMenuItem.name }}</h1>
+            </md-toolbar>
+            <md-content layout-padding >
+                <script type="text/ng-template" id="treeMenu">
+                    <md-button href="{{menuItem.url}}" class="md-primary" ng-class="{'md-accent': menuItem.url == currentMenuItem.url}">{{menuItem.name}}</md-button>
+                    <ul ng-if="(SiteMap | filter:{parent : menuItem._id}).length > 0">
+                        <li ng-repeat="menuItem in SiteMap | filter:{parent : menuItem._id} | orderBy: 'priority' track by menuItem._id"  ng-include="'treeMenu'"></li>
+                    </ul>
+                </script>
+                <ul class="main-navigation">
+                    <li ng-repeat="menuItem in SiteMap | filter:{parent : primaryMenuItem._id} | orderBy: 'priority' track by menuItem._id" ng-include="'treeMenu'"></li>
+                </ul>
+            </md-content>
+        </md-sidenav>
+    </div>
+    <div ng-view id="content" ></div>
+    <div id="sidebar-right"></div>
+</div>

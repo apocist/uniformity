@@ -9,9 +9,4 @@ define(['angular','angular_material','angular_route','controllerService','apiSer
 		'ngRoute'
 		//'API.routeConfig'
 	]);
-	/*config(function($routeProvider, $locationProvider) {
-		$routeProvider.when(":url*", {template: '<div ng-include="templateUrl">Loading...</div>', controller: "DynamicRouteController"});
-		//otherwise({redirectTo: '/'});
-		$locationProvider.html5Mode(true);
-	});*/
 });
