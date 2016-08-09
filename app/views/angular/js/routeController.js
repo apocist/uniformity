@@ -1,12 +1,12 @@
 define(['angular'], function(angular) {
-	return angular.module('API.routeController', ['Element.navigationController'])./* Route Controller */
-	controller('routeController', function ($scope, $routeParams, APIService, Model, controllerService) {
+	return angular.module('routeController', ['navigationController'])./* Route Controller */
+	controller('routeController', function ($scope, $routeParams, apiService, TemplateModel, controllerService) {
 		controllerService.routeController = $scope;
 		console.log('$routeParams', $routeParams);
-		APIService.getRoutableByUrl($routeParams.url).success(function (response) {
+		apiService.getRoutableByUrl($routeParams.url).success(function (response) {
 			//console.log('response', response);
 			if (response.data != null && Object.keys(response.data).length) {
-				$scope.model = new Model(response.data);
+				$scope.model = new TemplateModel(response.data);
 				//console.log('name', $scope.model.name);
 				$scope.templateUrl = '/routable/' + $scope.model.__t + '.html';
 			} else if ($routeParams.url == '/' || $routeParams.url == '' || $routeParams.url == null) {

@@ -1,10 +1,10 @@
 define(['angular', 'underscore'], function(angular) {
-	return angular.module('Element.navigationController', ['ngMaterial', 'ngMessages']).
-	controller('navigationController', function ($scope, $routeParams, APIService, controllerService) {
+	return angular.module('navigationController', ['ngMaterial', 'ngMessages']).
+	controller('navigationController', function ($scope, $routeParams, apiService, controllerService) {
 		if(!controllerService.navigationController){
 			controllerService.navigationController = {
 				init:false,
-				APIService: APIService,
+				apiService: apiService,
 				scopes: [],
 				SiteMap: [],
 				isSubMenu: false,
@@ -67,7 +67,7 @@ define(['angular', 'underscore'], function(angular) {
 				fetchSiteMap: function () {
 					var that = this;
 					that.init = true;
-					that.APIService.getModel('MenuItem').success(function (response) {
+					that.apiService.getModel('MenuItem').success(function (response) {
 						if (response.success == true && Object.keys(response.data).length) {
 							that.SiteMap = response.data;
 							console.log('SiteMap', that.SiteMap);

@@ -1,18 +1,18 @@
 
 define(['angular'], function(angular) {
-	return angular.module('API.templateModel', [])
-		.factory('Model', ['$http', function ($http) {
-			function Model(modelData) {
+	return angular.module('modelService', [])
+		.factory('TemplateModel', ['$http', function ($http) {
+			function TemplateModel(modelData) {
 				if (modelData) {
 					this.setData(modelData)
 				}
 				// Some other initializations related to book
 			}
-			Model.prototype = {
+			TemplateModel.prototype = {
 				setData: function (modelData) {
 					angular.extend(this, modelData);
 				}
 			};
-			return Model;
+			return TemplateModel;
 		}]);
 });

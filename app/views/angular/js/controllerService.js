@@ -1,6 +1,6 @@
 
 define(['angular', 'underscore'], function(angular) {
-	return angular.module('controller.service', [])
+	return angular.module('controllerService', [])
 		.factory('controllerService', function ($http) {
 			return {
 				/*

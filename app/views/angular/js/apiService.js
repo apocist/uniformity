@@ -1,7 +1,7 @@
 
 define(['angular'], function(angular) {
-	return angular.module('API.service', [])
-		.factory('APIService', function ($http) {
+	return angular.module('apiService', [])
+		.factory('apiService', function ($http) {
 			return {
 				getModel: function (model, action) {
 					return $http({

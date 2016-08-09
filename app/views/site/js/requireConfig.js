@@ -31,11 +31,11 @@ requirejs.config({
 		flashController: '/site/js/flashController',
 		authController: '/auth/js/authController',
 
-		angularApp: '/angular/js/app',
-		angularRoutes: '/angular/js/routes',
+		uniformityApp: '/angular/js/uniformityApp',
+		routeProvider: '/angular/js/routeProvider',
 		controllerService: '/angular/js/controllerService',
 		apiService: '/angular/js/apiService',
-		modelService: '/angular/js/templateModel',
+		modelService: '/angular/js/modelService',
 		routeController: '/angular/js/routeController',
 		navigationController: '/angular/js/navigationController',
 
@@ -53,11 +53,9 @@ requirejs.config({
 });
 //require(['tether'], function (tether) {
 	//window.Tether = tether;//Tether HAS to be in window before bootstrap loads. might want a prettier method
-	require(['angular', 'uniformityController', 'angularApp', 'angularRoutes'], function (angular, uniformityController) {
+	require(['angular', 'uniformityApp', 'routeProvider'], function (angular) {
 		//Start the main controller
-		angular.bootstrap(document, ['app']);
-		window.uniformityController = new uniformityController();
-		console.log('all done loading');
+		angular.bootstrap(document, ['uniformityApp']);
 
 	});
 
