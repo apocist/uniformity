@@ -25,19 +25,19 @@ requirejs.config({
 		//https://material.angularjs.org/latest/angular-material.min.js
 		
 		common: '/site/js/common',
-		custombootsteap: '/site/js/customBootstrap',
+		custombootsteap: '/site/js/customBootstrap',//deprecated
 
-		uniformityController: '/site/js/uniformityController',
-		flashController: '/site/js/flashController',
-		authController: '/auth/js/authController',
+		uniformityController: '/site/js/old/uniformityController',//deprecated
+		flashController: '/site/js/old/flashController',//deprecated
+		authController: '/auth/js/old/authController',//deprecated
 
-		uniformityApp: '/angular/js/uniformityApp',
-		routeProvider: '/angular/js/routeProvider',
-		controllerService: '/angular/js/controllerService',
-		apiService: '/angular/js/apiService',
-		modelService: '/angular/js/modelService',
-		routeController: '/angular/js/routeController',
-		navigationController: '/angular/js/navigationController',
+		uniformityApp: '/site/js/uniformityApp',
+		routeProvider: '/site/js/provider/routeProvider',
+		controllerService: '/site/js/service/controllerService',
+		apiService: '/site/js/service/apiService',
+		modelService: '/site/js/service/modelService',
+		routeController: '/site/js/controller/routeController',
+		navigationController: '/site/js/controller/navigationController',
 
 		contentEditor: '/admin/js/contentEditor'
 	},
