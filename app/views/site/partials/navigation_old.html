@@ -1,0 +1,12 @@
+<div ng-controller="navigationController" ng-cloak>
+
+    <script type="text/ng-template" id="treeMenu">
+        <a href="{{menuItem.url}}" ng-class="isActiveLink('{{menuItem.url}}')">{{menuItem.name}}</a>
+        <ul ng-if="(SiteMap | filter:{parent : menuItem._id}).length > 0">
+            <li ng-repeat="menuItem in SiteMap | filter:{parent : menuItem._id} | orderBy: 'priority' track by menuItem._id"  ng-include="'treeMenu'"></li>
+        </ul>
+    </script>
+    <ul class="main-navigation">
+        <li ng-repeat="menuItem in SiteMap | orderBy: 'priority' track by menuItem._id" ng-if="menuItem.parent == '' || menuItem.parent == null" ng-include="'treeMenu'"></li>
+    </ul>
+</div>

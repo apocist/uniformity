@@ -1,6 +1,16 @@
 var 	mongoose = require('mongoose'),
-		Route, // can only load later
-		PermissionController;// can only load later
+		//ApiController,// can only load later
+		PermissionController,// can only load later
+		Route; // can only load later
+
+var requireControllers = function(req){
+	if(!PermissionController){
+		PermissionController = req.app.locals.controllers.auth.permissionController;
+	}
+	if(!Route){
+		Route = mongoose.model('Route');
+	}
+};
 
 /**
  * Shortcut for creating an error json
@@ -30,12 +40,7 @@ var reply = function(res) {
  * @constructor
  */
 exports.POST = function(req, res) {
-	if(!PermissionController){
-		PermissionController = req.app.locals.controllers.auth.permissionController;
-	}
-	if(!Route){
-		Route = mongoose.model('Route');
-	}
+	requireControllers(req);
 	if(mongoose.modelNames().indexOf(res.response.request.model) < 0) {//if this model doesn't exist
 		res.response.error.push(Error(res.response.request.model + " not a Model"));
 	}

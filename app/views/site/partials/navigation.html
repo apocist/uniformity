@@ -1,0 +1,8 @@
+<div ng-controller="navigationController" ng-cloak>
+    <md-content class="md-padding">
+        <md-nav-bar md-selected-nav-item="currentNavUrl" nav-bar-aria-label="navigation links">
+            <md-nav-item ng-repeat="menuItem in SiteMap | orderBy: 'priority' track by menuItem._id" ng-if="menuItem.parent == '' || menuItem.parent == null" md-nav-href="{{menuItem.url}}" name="{{menuItem.url}}">{{menuItem.name}}</md-nav-item>
+        </md-nav-bar>
+    </md-content>
+
+</div>
