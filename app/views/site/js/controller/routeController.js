@@ -7,13 +7,12 @@ define(['angular'], function(angular) {
 			//console.log('response', response);
 			if (response.data != null && Object.keys(response.data).length) {
 				$scope.model = new TemplateModel(response.data);
-				//console.log('name', $scope.model.name);
 				$scope.templateUrl = '/routable/' + $scope.model.__t + '.html';
 			} else if ($routeParams.url == '/' || $routeParams.url == '' || $routeParams.url == null) {
-				$scope.templateUrl = '/site/index.html';
+				$scope.templateUrl = '/site/partials/index_default.html';
 			} else {
 				$scope.url = $routeParams.url;
-				$scope.templateUrl = '/site/404.html';
+				$scope.templateUrl = '/site/partials/404.html';
 			}
 
 			if(controllerService.navigationController){
