@@ -17,9 +17,11 @@
 {% block title %}Angular Test Page{% endblock %}
 
 {% block content %}
-	<div layout="column">
-		<div id="header" ng-include="'/site/partials/header.html'" ng-cloak></div>
-		<div id="content_section" ng-include="'/site/partials/content-section.html'" ng-cloak></div>
-		<div id="footer" ng-cloak></div>
-	</div>
+	{% raw %}
+		<div layout="column">
+			<div id="header" ng-include="'/site/partials/header.html'" ng-cloak></div>
+			<div id="content_section" ng-include="'/site/partials/content-section.html'" ng-cloak></div>
+			<div id="footer" ng-include="'/site/partials/footer.html'" ng-cloak></div>
+		</div>
+	{% endraw %}
 {% endblock %}

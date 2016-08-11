@@ -16,6 +16,7 @@ requirejs.config({
 		bootstrap: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min',//v4 alpha
 		tether: 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min',
 		angular: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min',
+		angular_sanitize: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-sanitize.min',
 		angular_animate: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.min',
 		angular_aria: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-aria.min',
 		angular_messages: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-messages.min',
@@ -38,12 +39,14 @@ requirejs.config({
 		modelService: '/site/js/service/modelService',
 		routeController: '/site/js/controller/routeController',
 		navigationController: '/site/js/controller/navigationController',
+		userToolbarController: '/site/js/controller/userToolbarController',
 
 		contentEditor: '/admin/js/contentEditor'
 	},
 	shim: {
 		bootstrap: {'deps' :['jquery','tether']},
 		angular: {exports: 'angular'},
+		angular_sanitize : {'deps' :['angular']},
 		angular_route : {'deps' :['angular']},
 		angular_animate : {'deps' :['angular']},
 		angular_aria : {'deps' :['angular']},
