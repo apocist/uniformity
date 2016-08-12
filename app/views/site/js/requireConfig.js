@@ -36,6 +36,7 @@ requirejs.config({
 		routeProvider: '/site/js/provider/routeProvider',
 		controllerService: '/site/js/service/controllerService',
 		apiService: '/site/js/service/apiService',
+		authService: '/site/js/service/authService',
 		modelService: '/site/js/service/modelService',
 		routeController: '/site/js/controller/routeController',
 		navigationController: '/site/js/controller/navigationController',

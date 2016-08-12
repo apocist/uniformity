@@ -19,7 +19,7 @@ module.exports = function(app, callback){
 		if(app.locals.passport._strategy(req.params.authType)){
 			app.locals.passport.authenticate(req.params.authType)(req, res, next);
 		} else{
-			res.render('auth/authStatus', {status: {error: 'Authentication Strategy does not exist', user: null}});
+			res.render('auth/authStatus', {status: {type: 'auth', error: 'Authentication Strategy does not exist', user: null}});
 		}
 	});
 
@@ -27,8 +27,10 @@ module.exports = function(app, callback){
 	router.get('/login/:authType/callback', function(req, res, next) {
 		if(app.locals.passport._strategy(req.params.authType)) {
 			app.locals.passport.authenticate(req.params.authType, function (err, user, flash) {
+				//FIXME not populating
 				var result = {
 					status: {
+						type: 'auth',
 						error: err,
 						user: req.user,
 						flash: flash
@@ -43,7 +45,7 @@ module.exports = function(app, callback){
 				return res.render('auth/authStatus', result);
 			})(req, res, next);
 		} else{
-			res.render('auth/authStatus', {status: {error: 'Authentication Strategy does not exist', user: null}});
+			res.render('auth/authStatus', {status: {type: 'auth', error: 'Authentication Strategy does not exist', user: null}});
 		}
 	});
 

@@ -2,8 +2,12 @@
     <md-content>
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <md-button aria-label="Login" ng-click="loginDialog($event)">
+                <span flex></span>
+                <md-button ng-if="!authService.isAuthenticated()"  aria-label="Login" ng-click="loginDialog($event)">
                     Login
+                </md-button>
+                <md-button ng-if="authService.isAuthenticated()" aria-label="Profile" ng-click="profileDialog($event)">
+                    Profile
                 </md-button>
             </div>
         </md-toolbar>

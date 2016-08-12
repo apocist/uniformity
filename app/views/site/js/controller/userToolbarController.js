@@ -1,7 +1,8 @@
 define(['angular'], function(angular) {
 	return angular.module('userToolbarController', ['ngMaterial','ngSanitize']).
-	controller('userToolbarController', function ($scope, $mdDialog) {
+	controller('userToolbarController', function ($scope, $mdDialog, authService) {
 
+		$scope.authService = authService;
 		//Login Strategies
 		$scope.loginDialog = function(ev) {
 			$mdDialog.show({
@@ -11,7 +12,6 @@ define(['angular'], function(angular) {
 						$scope.openPopup(url);
 					};
 					$scope.openPopup = function(url){
-						console.log('Link clicked');
 						var width = 640,
 							height = 480,
 							top = (window.outerHeight - height) / 2,
@@ -25,6 +25,21 @@ define(['angular'], function(angular) {
 				},
 				parent: angular.element(document.querySelector('body')),
 				templateUrl: '/site/partials/strategyLogin.html',
+				targetEvent: ev,
+				clickOutsideToClose: true
+			});
+		};
+
+		$scope.profileDialog = function(ev) {
+			$mdDialog.show({
+				controller: function($scope, $mdDialog, user) {
+					$scope.user = user
+				},
+				locals: {
+					user: authService.getUser()
+				},
+				parent: angular.element(document.querySelector('body')),
+				templateUrl: '/site/partials/profileSample.html',
 				targetEvent: ev,
 				clickOutsideToClose: true
 			});
