@@ -14,8 +14,6 @@
 	{{ css.stylesheet("/site/css/common.css") }}
 {% endblock %}
 
-{% block title %}Angular Test Page{% endblock %}
-
 {% block content %}
 	{% raw %}
 		<div layout="column">

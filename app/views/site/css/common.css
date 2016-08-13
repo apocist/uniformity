@@ -90,3 +90,15 @@ md-sidenav > md-content {
 #userToolbar .configButton svg .gear {
 	fill: white
 }
+@keyframes rotateAnimation {
+	from {transform: rotate(0deg);}
+	to {transform: rotate(360deg)}
+}
+#userToolbar .md-fab-action-item button:hover .configButton svg .gear,
+#userToolbar .configButton.toolbarOpen svg .gear {
+	animation-name: rotateAnimation;
+	animation-duration: 7s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	transform-origin: center;
+}

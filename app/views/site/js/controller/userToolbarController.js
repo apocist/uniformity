@@ -3,10 +3,11 @@ define(['angular'], function(angular) {
 	controller('userToolbarController', function ($scope, $mdDialog, authService, $mdToast) {
 
 		$scope.authService = authService;
+		$scope.contentEditable = false;
 		//Login Strategies
 		$scope.loginDialog = function(ev) {
 			$mdDialog.show({
-				controller: function($scope, $mdDialog/*, items*/) {
+				controller: function($scope, $mdDialog) {
 					$scope.openStrategy = function(strategy){
 						var url = '/auth/login/' + strategy;
 						$scope.openPopup(url);
@@ -49,7 +50,14 @@ define(['angular'], function(angular) {
 			if(!authService.isAuthenticated()){
 				$event.stopImmediatePropagation();
 				$scope.loginDialog($event);
+			} else if($scope.contentEditable) {
+				$event.stopImmediatePropagation();
+				$scope.toggleContentEdit();
 			}
+		};
+
+		$scope.toggleContentEdit = function() {
+			$scope.contentEditable = !$scope.contentEditable;
 		};
 
 	});
