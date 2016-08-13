@@ -1,15 +1,27 @@
 <div id="userToolbar" ng-controller="userToolbarController">
     <md-content>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <span flex></span>
-                <md-button ng-if="!authService.isAuthenticated()"  aria-label="Login" ng-click="loginDialog($event)">
-                    Login
+
+        <md-fab-toolbar md-open="false" count="0" md-direction="left" md-trigger="focus">
+
+            <md-fab-trigger class="align-with-text">
+                <md-button aria-label="menu" class="md-fab md-primary" ng-click="toolbarOpen($event)">
+                    <md-icon md-svg-src="site/img/abstract-user-flat-2.svg" class="svgButton profileButton" aria-label="Profile"></md-icon>
                 </md-button>
-                <md-button ng-if="authService.isAuthenticated()" aria-label="Profile" ng-click="profileDialog($event)">
-                    Profile
-                </md-button>
-            </div>
-        </md-toolbar>
+            </md-fab-trigger>
+
+            <md-toolbar>
+                <md-fab-actions class="md-toolbar-tools">
+                    <md-button aria-label="Profile" class="md-icon-button" ng-click="profileDialog($event)">
+                        <md-icon md-svg-src="site/img/abstract-user-flat-2.svg" class="svgButton profileButton" aria-label="Profile"></md-icon>
+                    </md-button>
+
+                    <md-button aria-label="Profile" class="md-icon-button" ng-click="profileDialog($event)">
+                        <md-icon md-svg-src="site/img/Settings-Button.svg" class="svgButton configButton" aria-label="Profile"></md-icon>
+                    </md-button>
+                </md-fab-actions>
+            </md-toolbar>
+
+        </md-fab-toolbar>
+
     </md-content>
 </div>

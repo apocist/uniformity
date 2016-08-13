@@ -21,6 +21,17 @@ define(['angular'], function(angular) {
 							url: url
 						}
 					});
+				},
+
+				/**
+				 * Using only until I get rid of the Auth routes and use purely api
+				 * @param url
+				 */
+				getCustom: function (url) {
+					return $http({
+						method: 'GET',
+						url: url
+					});
 				}
 			}
 		});

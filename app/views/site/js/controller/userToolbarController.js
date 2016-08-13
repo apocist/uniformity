@@ -1,6 +1,6 @@
 define(['angular'], function(angular) {
 	return angular.module('userToolbarController', ['ngMaterial','ngSanitize']).
-	controller('userToolbarController', function ($scope, $mdDialog, authService) {
+	controller('userToolbarController', function ($scope, $mdDialog, authService, $mdToast) {
 
 		$scope.authService = authService;
 		//Login Strategies
@@ -43,6 +43,13 @@ define(['angular'], function(angular) {
 				targetEvent: ev,
 				clickOutsideToClose: true
 			});
+		};
+
+		$scope.toolbarOpen = function($event) {
+			if(!authService.isAuthenticated()){
+				$event.stopImmediatePropagation();
+				$scope.loginDialog($event);
+			}
 		};
 
 	});
