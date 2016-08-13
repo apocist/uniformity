@@ -4,12 +4,8 @@
 	<script type="text/javascript">
 		if (window.opener) {
 			window.opener.focus();
-
-			//var state = '<%= state %>';
 			try {
-				if (window.opener.uniformityController && window.opener.uniformityController.controllers.authController && window.opener.uniformityController.controllers.authController.authUpdate) {
-					window.opener.uniformityController.controllers.authController.authUpdate({{ status|json|raw }});
-				}
+					window.opener.postMessage({{ status|json|raw }}, '*');
 			} catch(err) {console.log(err);}
 		}
 		window.close();

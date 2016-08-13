@@ -8,7 +8,7 @@
 
 	{% block javascript %}{% endblock %}
 
-	<title>{% block title %}{% endblock %}</title>
+	<title ng-bind="title">{% block title %}{% endblock %}</title>
 </head>
 <body class="{% block bodyClass %}{% endblock %}">
 	{% block content %}{% endblock %}

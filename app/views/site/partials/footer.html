@@ -1,0 +1,33 @@
+<div id="userToolbar" ng-controller="userToolbarController">
+    <md-content>
+
+        <md-fab-toolbar md-open="false" count="0" md-direction="left" md-trigger="focus">
+
+            <md-fab-trigger class="align-with-text">
+                <md-button ng-hide="contentEditable" aria-label="menu" class="md-fab md-primary" ng-click="toolbarOpen($event)" ng-cloak>
+                    <md-tooltip ng-if="authService.isAuthenticated()" md-direction="left">User Toolbar</md-tooltip>
+                    <md-tooltip ng-if="!authService.isAuthenticated()" md-direction="left">Login</md-tooltip>
+                    <md-icon  md-svg-src="site/img/abstract-user-flat-2.svg" class="svgButton profileButton" aria-label="Profile"></md-icon>
+                </md-button>
+                <md-button ng-show="contentEditable" aria-label="menu" class="md-fab md-primary" ng-click="toolbarOpen($event)" ng-cloak>
+                    <md-tooltip md-direction="left">Exit Edit Mode</md-tooltip>
+                    <md-icon  md-svg-src="site/img/Settings-Button.svg" class="svgButton configButton toolbarOpen" aria-label="Stop Config"></md-icon>
+                </md-button>
+            </md-fab-trigger>
+
+            <md-toolbar>
+                <md-fab-actions class="md-toolbar-tools">
+                    <md-button aria-label="Profile" class="md-icon-button" ng-click="profileDialog($event)">
+                        <md-icon md-svg-src="site/img/abstract-user-flat-2.svg" class="svgButton profileButton" aria-label="Profile"></md-icon>
+                    </md-button>
+
+                    <md-button aria-label="Config" class="md-icon-button" ng-click="toggleContentEdit()">
+                        <md-icon md-svg-src="site/img/Settings-Button.svg" class="svgButton configButton" aria-label="Profile"></md-icon>
+                    </md-button>
+                </md-fab-actions>
+            </md-toolbar>
+
+        </md-fab-toolbar>
+
+    </md-content>
+</div>

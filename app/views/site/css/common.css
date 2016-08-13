@@ -61,3 +61,44 @@ md-sidenav,
 md-sidenav > md-content {
 	overflow: hidden;
 }
+
+
+#userToolbar {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+}
+#userToolbar > md-content {
+	background-color: rgba(250, 250, 250, 0);
+}
+#userToolbar md-fab-toolbar md-toolbar .md-toolbar-tools {
+	padding: 0 2px;
+	margin-top: 2px;
+}
+#userToolbar .md-button.md-icon-button {
+	width: 56px;
+	height: 56px;
+}
+#userToolbar .svgButton {
+	width: 35px;
+	height: 35px;
+}
+#userToolbar .profileButton svg {
+	stroke: currentColor;
+}
+#userToolbar .configButton svg .gear {
+	fill: white
+}
+@keyframes rotateAnimation {
+	from {transform: rotate(0deg);}
+	to {transform: rotate(360deg)}
+}
+#userToolbar .md-fab-action-item button:hover .configButton svg .gear,
+#userToolbar .configButton.toolbarOpen svg .gear {
+	animation-name: rotateAnimation;
+	animation-duration: 7s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	transform-origin: center;
+}

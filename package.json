@@ -1,7 +1,7 @@
 {
   "name": "uniformity",
-  "version": "0.12.1",
-  "description": "A simple but highly customizable NodeJS CMS. Provides modular plug and play capabilities to offer only the features you're looking for in a website.",
+  "version": "0.13.0",
+  "description": "A simple but highly customizable NodeJS CMS relying on the MEAN stack. Provides modular plug and play capabilities to offer only the features you're looking for in a website.",
   "main": "server.js",
   "scripts": {
     "plugin": "node plugin.js",
@@ -39,6 +39,6 @@
     "vhost": "^3.0.2"
   },
   "engines": {
-    "node": ">=4.2.1 <=5.4.0"
+    "node": ">=4.2.1"
   }
 }
