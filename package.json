@@ -1,6 +1,6 @@
 {
   "name": "uniformity",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "A simple but highly customizable NodeJS CMS relying on the MEAN stack. Provides modular plug and play capabilities to offer only the features you're looking for in a website.",
   "main": "server.js",
   "scripts": {

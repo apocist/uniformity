@@ -1,7 +1,13 @@
 {
 	"NODE_ENV": "development",
 	"ENV": {
-		"port": 1337,
-		"db": "mongodb://localhost/uniformity"
+		"port": 80,
+		"db": {
+			"uri": "mongodb://localhost/uniformity",
+			"options": {
+				"user": "myUserName",
+				"pass": "myPassword"
+			}
+		}
 	}
 }
