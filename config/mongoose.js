@@ -6,6 +6,7 @@ var 	async = require('async'),
 
 module.exports = function(config, pluginController, callback) {
 	var db = mongoose.connect(config.get('ENV:db:uri'), config.get('ENV:db:options'));
+	db.Promise = global.Promise;
 	autoIncrement.initialize(db);
 
 	//models are loaded by parent directories first
