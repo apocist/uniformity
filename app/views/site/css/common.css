@@ -94,11 +94,10 @@ md-sidenav > md-content {
 	from {transform: rotate(0deg);}
 	to {transform: rotate(360deg)}
 }
-#userToolbar .md-fab-action-item button:hover .configButton svg .gear,
-#userToolbar .configButton.toolbarOpen svg .gear {
+#userToolbar .md-fab-action-item button:hover .configButton svg .rotate_here,
+#userToolbar .configButton.toolbarOpen svg .rotate_here {
 	animation-name: rotateAnimation;
 	animation-duration: 7s;
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
-	transform-origin: center;
 }
