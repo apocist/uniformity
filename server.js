@@ -46,7 +46,7 @@ pluginController.process(config, function(){
 							console.log('error: ', err);
 						} else {
 							console.log(config.get('NODE_ENV')  + ' server running at //localhost:' + config.get('ENV:port'));
-							if(sslEnabled == true && !config.get('ENV:port') == 443){
+							if(sslEnabled == true && config.get('ENV:port') != 443){
 								console.warn('SSL/TSL is intended to run on port 443, however server is starting on port ' + config.get('ENV:port'));
 							} else if(sslEnabled == true && config.get('ENV:port') == 443){ //If SSL is setup, force it's usage
 								var redirectApp = require('http');
