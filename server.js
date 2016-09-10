@@ -31,8 +31,12 @@ pluginController.process(config, function(){
 				sslEnabled = true;
 				createServerOptions = {
 					key: fs.readFileSync(config.get('ENV:ssl:key')),
-					cert: fs.readFileSync(config.get('ENV:ssl:cert'))
+					cert: fs.readFileSync(config.get('ENV:ssl:cert')),
+					secureOptions: require('constants').SSL_OP_NO_TLSv1//SSL_OP_CIPHER_SERVER_PREFERENCE
 				};
+				if(config.get('ENV:ssl:ciphers')){
+					createServerOptions.ciphers = config.get('ENV:ssl:ciphers');
+				}
 			}
 
 			spdy
