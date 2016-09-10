@@ -23,7 +23,7 @@ pluginController.process(config, function(){
 			var sslEnabled = false;
 			var createServerOptions = {
 				spdy: {
-					plain: false //no https
+					plain: true //no https
 				}
 			};
 			//Turn on SSL if certs are found
@@ -45,6 +45,7 @@ pluginController.process(config, function(){
 						if(err){
 							console.log('error: ', err);
 						} else {
+							//TODO need to select certain domains
 							console.log(config.get('NODE_ENV')  + ' server running at //localhost:' + config.get('ENV:port'));
 							if(sslEnabled == true && config.get('ENV:port') != 443){
 								console.warn('SSL/TSL is intended to run on port 443, however server is starting on port ' + config.get('ENV:port'));
