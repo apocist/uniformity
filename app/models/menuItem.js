@@ -3,6 +3,7 @@ var 	mongoose = require('mongoose'),
 var MenuItemSchema = new Schema({
 	name: { type : String, required : true},
 	url: { type : String},
+	target:  { type : String},
 	parent: {type : Schema.ObjectId, ref: 'MenuItem'},
 	children: [{type : Schema.ObjectId, ref: 'MenuItem'}],
 	priority : { type : Number, default : 0 },

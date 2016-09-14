@@ -13,7 +13,7 @@
             </md-toolbar>
             <md-content layout-padding >
                 <script type="text/ng-template" id="treeMenu">
-                    <md-button href="{{menuItem.url}}" class="md-primary" ng-class="{'md-accent': menuItem.url == currentMenuItem.url}">{{menuItem.name}}</md-button>
+                    <md-button href="{{menuItem.url}}" ng-attr-target="{{menuItem.target || undefined}}" ng-attr-rel="{{menuItem.target == '_blank' ? 'noopener' : undefined}}" class="md-primary" ng-class="{'md-accent': menuItem.url == currentMenuItem.url}">{{menuItem.name}}</md-button>
                     <ul ng-if="(SiteMap | filter:{parent : menuItem._id}).length > 0">
                         <li ng-repeat="menuItem in SiteMap | filter:{parent : menuItem._id} | orderBy: 'priority' track by menuItem._id"  ng-include="'treeMenu'"></li>
                     </ul>
