@@ -13,7 +13,7 @@ requirejs.config({
 		jquery: 'http://code.jquery.com/jquery-2.2.1.min',
 		backbone: 'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.1/backbone-min',
 		async: 'https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min',
-		bootstrap: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min',//v4 alpha
+		//bootstrap: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min',//v4 alpha
 		tether: 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min',
 		angular: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min',
 		angular_sanitize: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-sanitize.min',
@@ -45,7 +45,7 @@ requirejs.config({
 		contentEditor: '/admin/js/contentEditor'
 	},
 	shim: {
-		bootstrap: {'deps' :['jquery','tether']},
+		//bootstrap: {'deps' :['jquery','tether']},
 		angular: {exports: 'angular'},
 		angular_sanitize : {'deps' :['angular']},
 		angular_route : {'deps' :['angular']},

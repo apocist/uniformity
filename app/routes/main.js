@@ -1,5 +1,5 @@
-var 	routing = require('../controllers/route'),
-		index = require('../controllers/site/index'),
+var 	//routing = require('../controllers/route'),
+		//index = require('../controllers/site/index'),
 		express = require('express'),
 		vhost = require('vhost');
 
@@ -9,7 +9,7 @@ module.exports = function(app, callback) {
 
 	//mainRoute.route('*').all(function(res){res.render('site/app.swig');});
 	mainRoute.get('*', function(req, res){
-		res.render('site/app.swig');
+		res.render('app.swig');
 	});
 	/*mainRoute.route('*')
 		.all(routing.routeByURL)//gets a route by friendly url
@@ -18,7 +18,7 @@ module.exports = function(app, callback) {
 	mainRoute.get('/', index.render);*/
 
 	app.use(vhost('*.*',mainRoute));//something.com
-	app.use(routing.error404);//TODO this provides a 404 for admin as well, should it be separate?
+	//app.use(routing.error404);
 
 	callback();
 };

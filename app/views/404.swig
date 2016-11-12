@@ -1,8 +1,0 @@
-{% extends 'base.swig' %}
-
-{% block title %}File not found{% endblock %}
-
-{% block content %}
-<h1>File not found</h1>
-<p>The URL <strong>{{ url }}</strong> couldn't be found anywhere. Do not pass GO, do not collect $200.</p>
-{% endblock %}

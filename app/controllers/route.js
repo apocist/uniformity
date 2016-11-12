@@ -1,3 +1,7 @@
+/*
+TODO is this used anymore?
+ */
+
 var 	mongoose = require('mongoose'),
 		Route = mongoose.model('Route'),
 		PermissionController = require('./auth/permission'),
