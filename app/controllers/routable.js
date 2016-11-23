@@ -166,7 +166,7 @@ exports.getObjById = function(req, res) {//req, res, next, err, route) {
  * @return object
  */
 exports.getRoutableModelSchemas = function() {//TODO make this an api call
-	var uuid = require('node-uuid');
+	var uuid = require('uuid');
 	var standardProperties = mongoose.model('Routable').schema.statics.formschema;
 	var modelSchemas = {};
 	for(var key in mongoose.models) {
