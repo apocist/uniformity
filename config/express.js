@@ -7,7 +7,7 @@ var 	async = require('async'),
 		passport = require('passport'),
 		swig = require('swig-templates'),
 		swigExpressLoader = require('../app/libs/swig/expressLoader'),
-		uuid = require('node-uuid'),
+		uuid = require('uuid'),
 		vhost = require('vhost');//TODO may not use this unless restricting to certain domain names
 
 
