@@ -13,8 +13,7 @@ requirejs.config({
 		jquery: 'http://code.jquery.com/jquery-2.2.1.min',
 		backbone: 'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.1/backbone-min',
 		async: 'https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min',
-		//bootstrap: 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min',//v4 alpha
-		tether: 'https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.2/js/tether.min',
+
 		angular: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min',
 		angular_sanitize: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-sanitize.min',
 		angular_animate: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.min',
@@ -26,11 +25,6 @@ requirejs.config({
 		//https://material.angularjs.org/latest/angular-material.min.js
 		
 		common: '/site/js/common',
-		custombootsteap: '/site/js/customBootstrap',//deprecated
-
-		uniformityController: '/site/js/old/uniformityController',//deprecated
-		flashController: '/site/js/old/flashController',//deprecated
-		authController: '/auth/js/old/authController',//deprecated
 
 		uniformityApp: '/site/js/uniformityApp',
 		routeProvider: '/site/js/provider/routeProvider',
@@ -55,12 +49,10 @@ requirejs.config({
 		angular_material : {'deps' :['angular', 'angular_animate', 'angular_aria', 'angular_messages']}
 	}
 });
-//require(['tether'], function (tether) {
-	//window.Tether = tether;//Tether HAS to be in window before bootstrap loads. might want a prettier method
-	require(['angular', 'uniformityApp', 'routeProvider'], function (angular) {
-		//Start the main controller
-		angular.bootstrap(document, ['uniformityApp']);
 
-	});
+require(['angular', 'uniformityApp', 'routeProvider'], function (angular, uniformityApp) {
+	//Start the main controller
+	window.uniformity = uniformityApp;
+	angular.bootstrap(document, ['uniformityApp']);
 
-//});
+});
