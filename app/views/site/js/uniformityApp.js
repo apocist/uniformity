@@ -10,6 +10,9 @@ define(['angular','angular_material','angular_route','angular_sanitize','control
 			'userToolbarController',
 			'ngRoute'//angular_route
 		])
+		/*.config(function($compileProvider) {
+			$compileProvider.preAssignBindingsEnabled(true);
+		})*/
 		.run(function() {
 			console.log('uniformity loaded');
 		});

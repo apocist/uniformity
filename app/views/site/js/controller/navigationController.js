@@ -46,8 +46,8 @@ define(['angular', 'underscore'], function(angular) {
 
 				},
 				updateSubMenu: function() {
-					var status = (controllerService.navigationController.currentMenuItem && (controllerService.navigationController.currentMenuItem.parent || controllerService.navigationController.currentMenuItem.children.length > 0)) ? true : false;
-					if(this.isSubMenu != status){
+					var status = !!(controllerService.navigationController.currentMenuItem && (controllerService.navigationController.currentMenuItem.parent || controllerService.navigationController.currentMenuItem.children.length > 0));
+					if(this.isSubMenu !== status){
 						this.isSubMenu = status;
 					}
 				},
@@ -67,15 +67,21 @@ define(['angular', 'underscore'], function(angular) {
 				fetchSiteMap: function () {
 					var that = this;
 					that.init = true;
-					that.apiService.getModel('MenuItem').success(function (response) {
-						if (response.success == true && Object.keys(response.data).length) {
-							that.SiteMap = response.data;
-							console.log('SiteMap', that.SiteMap);
-							that.updateCurrentMenuItem();
-						} else {
-							console.error('Cannot retrieve menu!');
-						}
-					});
+					that.apiService.getModel('MenuItem')
+						.then(function (response) {
+							var responseData = response.data;
+							if (responseData.success === true && Object.keys(responseData.data).length) {
+								that.SiteMap = responseData.data;
+								console.log('SiteMap', that.SiteMap);
+								that.updateCurrentMenuItem();
+							} else {
+								console.error('Cannot retrieve menu!');
+								console.error(responseData);
+							}
+						})
+						.catch(function (response) {
+							console.error('nav error', response);
+						});
 				}
 			};
 		}

@@ -14,12 +14,12 @@ requirejs.config({
 		backbone: 'https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.1/backbone-min',
 		async: 'https://cdnjs.cloudflare.com/ajax/libs/async/1.5.2/async.min',
 
-		angular: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min',
-		angular_sanitize: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-sanitize.min',
-		angular_animate: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.min',
-		angular_aria: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-aria.min',
-		angular_messages: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-messages.min',
-		angular_route: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.min',
+		angular: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular.min',
+		angular_sanitize: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-sanitize.min',
+		angular_animate: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-animate.min',
+		angular_aria: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-aria.min',
+		angular_messages: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-messages.min',
+		angular_route: 'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.4/angular-route.min',
 		//angular_material: 'https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.0-rc.5-master-9082e4a/angular-material.min',
 		angular_material: 'https://material.angularjs.org/latest/angular-material.min',//v1.1.0-rc.5 why is this file always different per CDN????
 		//https://material.angularjs.org/latest/angular-material.min.js
@@ -39,7 +39,6 @@ requirejs.config({
 		contentEditor: '/admin/js/contentEditor'
 	},
 	shim: {
-		//bootstrap: {'deps' :['jquery','tether']},
 		angular: {exports: 'angular'},
 		angular_sanitize : {'deps' :['angular']},
 		angular_route : {'deps' :['angular']},
