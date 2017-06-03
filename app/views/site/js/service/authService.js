@@ -22,12 +22,14 @@ define(['angular'], function(angular) {
 				}
 			};
 			//FIXME convert to api
-			apiService.getCustom('/auth/status').then(function (response) {
-				if (response.status && response.status.user && Object.keys(response.status.user).length) {
-					service.setUser(response.status.user);
-					console.log('Already Logged in');
-				}
-			});
+			apiService.getCustom('/auth/status')
+				.then(function (response) {
+					var responseData = response.data;
+					if (responseData.status && responseData.status.user && Object.keys(responseData.status.user).length) {
+						service.setUser(responseData.status.user);
+						console.log('Already Logged in');
+					}
+				});
 
 			window.addEventListener('message', function(ev) {
 				if(ev && ev.data && ev.data.type && ev.data.type === 'auth' && ev.data.user) {
