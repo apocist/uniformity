@@ -31,7 +31,7 @@
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-schema-extend": "0.2.0",
     "nconf": "^0.8.4",
-    "node-dir": "^0.1.16",
+    "node-dir": "0.1.16",
     "passport": "^0.3.2",
     "spdy": "^3.4.4",
     "swig-templates": "^2.0.2",
