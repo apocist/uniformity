@@ -3,10 +3,10 @@ import {
   BelongsToAccessor,
   DefaultCrudRepository,
   juggler,
-  repository
+  repository,
 } from '@loopback/repository';
 import {Todo, TodoList, TodoRelations} from '../models';
-import {TodoListRepository} from "./todo-list.repository";
+import {TodoListRepository} from './todo-list.repository';
 
 export class TodoRepository extends DefaultCrudRepository<
   Todo,
@@ -26,12 +26,10 @@ export class TodoRepository extends DefaultCrudRepository<
     super(Todo, dataSource);
 
     this.todoList = this.createBelongsToAccessorFor(
-        'todoList',
-        todoListRepositoryGetter,
+      'todoList',
+      todoListRepositoryGetter,
     );
 
-// Add this line to register the resolver
     this.registerInclusionResolver('todoList', this.todoList.inclusionResolver);
-
   }
 }
