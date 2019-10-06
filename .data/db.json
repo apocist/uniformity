@@ -1,6 +1,6 @@
 {
   "ids": {
-    "Todo": 6
+    "Todo": 7
   },
   "models": {
     "Todo": {
@@ -8,7 +8,8 @@
       "2": "{\"title\":\"destroy alderaan\",\"desc\":\"Make sure there are no survivors left!\",\"id\":2}",
       "3": "{\"title\":\"play space invaders\",\"desc\":\"Become the very best!\",\"id\":3}",
       "4": "{\"title\":\"crush rebel scum\",\"desc\":\"Every.Last.One.\",\"id\":4}",
-      "5": "{\"title\":\"get the milkd\",\"desc\":\"updated desc\",\"id\":5}"
+      "5": "{\"title\":\"get the milkd\",\"desc\":\"updated desc\",\"id\":5}",
+      "6": "{\"title\":\"test address\",\"remindAtAddress\":\"1046 Mohr Lane APT D, Concord, CA 94518\",\"remindAtGeo\":\"37.94585,-122.04599\",\"id\":6}"
     }
   }
 }

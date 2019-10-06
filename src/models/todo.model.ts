@@ -25,6 +25,16 @@ export class Todo extends Entity {
   })
   isComplete?: boolean;
 
+  @property({
+    type: 'string',
+  })
+  remindAtAddress?: string; // address,city,zipcode
+
+  @property({
+    type: 'string',
+  })
+  remindAtGeo?: string; // latitude,longitude
+
 
   constructor(data?: Partial<Todo>) {
     super(data);
