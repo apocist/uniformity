@@ -23,17 +23,7 @@ coverage
 build/Release
 
 # Dependency directory
-# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 
 # PhpStorm Configuration
 .idea/
-
-# Bower.io
-.bowerrc
-
-#  settings
-config/config.json
-
-# Secure settings
-config/social/twitter.js
