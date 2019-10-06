@@ -17,7 +17,7 @@ export class TodoListRepository extends DefaultCrudRepository<
   constructor(
     //@inject('datasources.db') dataSource: DbDataSource,
     @inject('datasources.db') dataSource: juggler.DataSource, // why juggler.DataSource instead of DbDataSource
-    @repository.getter(TodoRepository)
+    @repository.getter('TodoRepository')
     protected todoRepositoryGetter: Getter<TodoRepository>,
   ) {
     super(TodoList, dataSource);

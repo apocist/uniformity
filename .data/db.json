@@ -1,6 +1,7 @@
 {
   "ids": {
-    "Todo": 7
+    "Todo": 9,
+    "TodoList": 2
   },
   "models": {
     "Todo": {
@@ -9,7 +10,12 @@
       "3": "{\"title\":\"play space invaders\",\"desc\":\"Become the very best!\",\"id\":3}",
       "4": "{\"title\":\"crush rebel scum\",\"desc\":\"Every.Last.One.\",\"id\":4}",
       "5": "{\"title\":\"get the milkd\",\"desc\":\"updated desc\",\"id\":5}",
-      "6": "{\"title\":\"test address\",\"remindAtAddress\":\"1046 Mohr Lane APT D, Concord, CA 94518\",\"remindAtGeo\":\"37.94585,-122.04599\",\"id\":6}"
+      "6": "{\"title\":\"test address\",\"remindAtAddress\":\"1046 Mohr Lane APT D, Concord, CA 94518\",\"remindAtGeo\":\"37.94585,-122.04599\",\"id\":6}",
+      "7": "{\"title\":\"blaaahh\",\"desc\":\"its something\",\"todoListId\":1,\"id\":7}",
+      "8": "{\"title\":\"another\",\"desc\":\"its something 2\",\"todoListId\":1,\"id\":8}"
+    },
+    "TodoList": {
+      "1": "{\"title\":\"grocery list\",\"id\":1}"
     }
   }
 }
