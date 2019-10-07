@@ -1,7 +1,6 @@
 {
-  "name": "uniformity",
+  "name": "@uniformity/cli",
   "version": "0.0.0",
-  "private": true,
   "description": "A test package",
   "keywords": [
     "loopback-application",
@@ -12,9 +11,8 @@
     "node": ">=8.9"
   },
   "scripts": {
-    "build": "concurrently \"node -e \\\"console.log('\\x1b[32m\\x1b[46m%s\\x1b[0m', ' Building All Packages ')\\\"\" \"npm:build:*\"",
-    "build:core": "lb-tsc -p tsconfig.core.json",
-    "build:example": "lb-tsc -p tsconfig.json",
+    "build": "lb-tsc",
+    "build:watch": "lb-tsc --watch",
     "clean": "lb-clean dist *.tsbuildinfo",
     "lint": "npm run prettier:check && npm run eslint",
     "lint:fix": "npm run eslint:fix && npm run prettier:fix",
@@ -60,17 +58,16 @@
   },
   "devDependencies": {
     "@loopback/build": "^2.0.13",
-    "@loopback/eslint-config": "^4.1.1",
+    "source-map-support": "^0.5.13",
     "@loopback/testlab": "^1.9.1",
     "@types/node": "^10.14.19",
-    "@typescript-eslint/eslint-plugin": "^2.3.1",
     "@typescript-eslint/parser": "^2.3.1",
-    "concurrently": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "@loopback/eslint-config": "^4.1.1",
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-eslint-plugin": "^2.1.0",
     "eslint-plugin-mocha": "^6.1.1",
-    "source-map-support": "^0.5.13",
     "typescript": "~3.6.3"
   }
 }

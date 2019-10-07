@@ -2,10 +2,10 @@
   "$schema": "http://json.schemastore.org/tsconfig",
   "extends": "@loopback/build/config/tsconfig.common.json",
   "compilerOptions": {
-    "outDir": "packages/example/dist",
-    "rootDir": "packages/example/src"
+    "outDir": "packages/core/dist",
+    "rootDir": "packages/core/src"
   },
   "include": [
-    "packages/example/src"
+    "packages/core/src"
   ]
 }

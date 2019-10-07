@@ -1,9 +1,10 @@
-// Testing application only Meant to be
-const application = require('./packages/core');
+const application = require('./dist');
+
+module.exports = application;
 
 if (require.main === module) {
-    console.debug('This module should be called upon via another module and not directly ran');
-    /*
+    console.log('application', application);
+    // Run the application
     const config = {
         rest: {
             port: +(process.env.PORT || 3000),
@@ -18,5 +19,4 @@ if (require.main === module) {
         console.error('Cannot start the application.', err);
         process.exit(1);
     });
-    */
 }
