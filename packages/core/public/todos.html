@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Notes</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        h2 {
+            color: #773cff;
+        }
+        th {
+            background-color: #773cff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        th,
+        td {
+            padding: 15px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+<h2>Todos</h2>
+<table id="table">
+    <tr>
+        <th>Title</th>
+        <th>Desc</th>
+    </tr>
+    <tr id="notes"></tr>
+</table>
+
+<script>
+    $.get('http://127.0.0.1:3000/api/todos', function(data, status) {
+        if (status == 'success') {
+            const todos = data;
+            const table = document.getElementById('table');
+            for (var i = 0; i < todos.length; i++) {
+                let row = table.insertRow(i + 1);
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                cell1.innerHTML = todos[i].title;
+                cell2.innerHTML = todos[i].desc || '';
+            }
+        }
+    });
+</script>
+</body>
+</html>
