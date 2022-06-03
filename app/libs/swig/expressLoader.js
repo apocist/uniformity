@@ -2,7 +2,7 @@
  * Swig template loader
  * Reused and Modified code from expressjs
  * For use to allow similar template file path resolving within the swig template engine
- * Modified Matthew 'Apocist' Davis under LGPL-2.1
+ * Modified 'Apocist' under LGPL-2.1
  *
  * express - lib/view.js
  * https://github.com/expressjs/express
