@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "plugin": "node plugin.js",
-    "test": "echo \"Warning: no tests setup yet\" && exit 0"
+    "test": "echo \"Warning: no tests are setup yet\" && exit 0"
   },
   "repository": {
     "type": "git",
